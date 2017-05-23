@@ -11,12 +11,19 @@ class Node(object):
 
 class LinkedList(object):
 
-    def __init__(self, head=None, tail=None):
+    def __init__(self, iterable=None):
         """Initalizes a linked list"""
-        self.head = head
-        # self.tail = head
+        self.head = None
+        self.length = 0
+        if iterable is not None:
+            if type(iterable) in [list, tuple, str]:
+                for val in iterable:
+                    self.push(val)
+            else:
+                raise TypeError(iterable, 'is not iterable')
 
     def push(self, val):
+        self.length += 1
         new_node = Node(val, self.head)
         self.head = new_node
 
@@ -24,27 +31,23 @@ class LinkedList(object):
         try:
             val = self.head.value
             self.head = self.head.next_node
+            self.length -= 1
             return val
         except AttributeError:
             print("Can not pop from empty list.")
             return "Can not pop from empty list."
 
     def size(self):
-        count = 0
-        head = self.head
-        while head is not None:
-            count += 1
-            head = head.next_node
-        return count
+        return self.length
 
     def search(self, val):
         check = self.head
-        while check.value is not None:
+        while check is not None:
             print(check.value)
             if check.value == val:
                 return check
             else:
-                check = self.head.next_node
+                check = check.next_node
         return None
 
     def remove(self, node):
@@ -52,17 +55,27 @@ class LinkedList(object):
         if check == node:
             self.pop()
             return
-        while check.next_node is not node and check.next_node is not None:
+        while check.next_node is not node and hasattr(check, 'next_node'):
             check = check.next_node
         if check.next_node is None:
             raise AttributeError("Can not remove node, not found.")
         else:
             check.next_node = check.next_node.next_node
+            self.length -= 1
 
+    def display(self):
+        string = '('
+        head = self.head
+        while head is not None:
+            string += str(head.value) + ', '
+            head = head.next_node
+        string = string[:-2] + ')'
+        return string
 
-# a_node = Node('testing')
-a_linked_list = LinkedList()
-# print(a_linked_list.head)
-a_linked_list.push(5)
-a_linked_list.push(15)
-print(a_linked_list.search("nope"))
+    def __len__(self):
+        """Returns the length"""
+        self.size()
+
+    def __repr__(self):
+        """Prints it out"""
+        self.display()

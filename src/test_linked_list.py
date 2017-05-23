@@ -3,7 +3,18 @@ from linked_list import LinkedList
 import pytest
 
 
+def test_linked_list_init():
+    """can be Initalized with iterable or nothing only"""
+    test_linked_list = LinkedList([1, 2, 3])
+    assert test_linked_list.head.value == 3
+    assert test_linked_list.head.next_node.value == 2
+    assert test_linked_list.head.next_node.next_node.value == 1
+    with pytest.raises(TypeError):
+        LinkedList(5)
+
+
 def test_push():
+    """Push adds to linked list"""
     test_linked_list = LinkedList()
     test_linked_list.push(5)
     assert test_linked_list.head.value == 5
@@ -64,4 +75,8 @@ def test_remove():
 
 
 def test_display():
-    pass
+    """displays the list as a tuple"""
+    test_linked_list = LinkedList()
+    test_linked_list.push(5)
+    test_linked_list.push(5)
+    assert test_linked_list.display() == '(5, 5)'
