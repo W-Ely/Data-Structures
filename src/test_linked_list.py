@@ -36,6 +36,7 @@ def test_pop_0_1():
 
 
 def test_size():
+    """Gets the length."""
     test_linked_list = LinkedList()
     assert test_linked_list.size() == 0
     test_linked_list.push(5)
@@ -47,6 +48,7 @@ def test_size():
 
 
 def test_search():
+    """Finds a value and returns the node."""
     test_linked_list = LinkedList()
     test_linked_list.push(5)
     test_linked_list.push(5)
@@ -59,6 +61,7 @@ def test_search():
 
 
 def test_remove():
+    """Removes a node and maintains links."""
     test_linked_list = LinkedList()
     test_linked_list.push(5)
     test_linked_list.push(5)
