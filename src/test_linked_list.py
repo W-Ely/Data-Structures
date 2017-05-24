@@ -24,6 +24,8 @@ def test_pop_0_0():
     """pop resets head's value to previous value"""
     test_linked_list = LinkedList()
     test_linked_list.push(5)
+    assert test_linked_list.pop() == 5
+    test_linked_list.push(5)
     test_linked_list.push(10)
     assert test_linked_list.pop() == 10
     assert test_linked_list.head.value == 5

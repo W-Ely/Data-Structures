@@ -52,9 +52,6 @@ class LinkedList(object):
 
     def remove(self, node):
         check = self.head
-        if check == node:
-            self.pop()
-            return
         while check.next_node is not node and hasattr(check, 'next_node'):
             check = check.next_node
         if check.next_node is None:
