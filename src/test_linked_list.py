@@ -4,7 +4,7 @@ import pytest
 
 
 def test_linked_list_init():
-    """can be Initalized with iterable or nothing only"""
+    """Can be Initalized with iterable or nothing only."""
     test_linked_list = LinkedList([1, 2, 3])
     assert test_linked_list.head.value == 3
     assert test_linked_list.head.next_node.value == 2
@@ -14,14 +14,14 @@ def test_linked_list_init():
 
 
 def test_push():
-    """Push adds to linked list"""
+    """Push adds to linked list."""
     test_linked_list = LinkedList()
     test_linked_list.push(5)
     assert test_linked_list.head.value == 5
 
 
 def test_pop_0_0():
-    """pop resets head's value to previous value"""
+    """Pop resets head's value to previous value."""
     test_linked_list = LinkedList()
     test_linked_list.push(5)
     assert test_linked_list.pop() == 5
@@ -32,7 +32,7 @@ def test_pop_0_0():
 
 
 def test_pop_0_1():
-    """pop raises error on empy list"""
+    """Pop raises error on empy list."""
     test_linked_list = LinkedList()
     assert test_linked_list.pop() == "Can not pop from empty list."
 
@@ -80,7 +80,7 @@ def test_remove():
 
 
 def test_display():
-    """displays the list as a tuple"""
+    """Displays the list as a tuple."""
     test_linked_list = LinkedList()
     test_linked_list.push(5)
     test_linked_list.push(5)
