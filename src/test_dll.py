@@ -63,29 +63,17 @@ def test_pop_0_1(dll):
     assert dll.pop() == "Can not pop from empty list."
 
 
-# def test_size():
-#     """Gets the length."""
-#     test_linked_list = LinkedList()
-#     assert test_linked_list.size() == 0
-#     test_linked_list.push(5)
-#     assert test_linked_list.size() == 1
-#     test_linked_list.push(5)
-#     test_linked_list.push(5)
-#     test_linked_list.pop()
-#     assert test_linked_list.size() == 2
-
-
-# def test_search():
-#     """Finds a value and returns the node."""
-#     test_linked_list = LinkedList()
-#     test_linked_list.push(5)
-#     test_linked_list.push(5)
-#     test_linked_list.push(3)
-#     test_linked_list.push(5)
-#     test_linked_list.push(25)
-#     test_linked_list.push(5)
-#     assert test_linked_list.search(25).value == 25
-#     assert test_linked_list.search("wont find this") is None
+def test_len(dll):
+    """Gets the length."""
+    assert dll.__len__() == 0
+    dll.push(5)
+    assert len(dll) == 1
+    dll.push(5)
+    dll.append("potato")
+    assert len(dll) == 3
+    dll.push(5)
+    dll.pop()
+    assert dll.__len__() == 3
 
 
 # def test_remove():
@@ -105,9 +93,10 @@ def test_pop_0_1(dll):
 #         test_linked_list.remove("node")
 
 
-# def test_display():
-#     """displays the list as a tuple"""
-#     test_linked_list = LinkedList()
-#     test_linked_list.push(5)
-#     test_linked_list.push(5)
-#     assert test_linked_list.display() == '(5, 5)'
+def test__repr(dll):
+    """displays the list as a tuple"""
+    dll.push(5)
+    dll.push(10)
+    assert dll.__repr__() == '(10, 5)'
+    dll.append(5)
+    assert dll.__repr__() == '(10, 5, 5)'

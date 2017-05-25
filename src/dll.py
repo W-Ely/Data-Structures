@@ -57,21 +57,6 @@ class Dll(object):
             print("Can not pop from empty list.")
             return "Can not pop from empty list."
 
-    def size(self):
-        """Return the size of the list."""
-        return self.length
-
-    def search(self, val):
-        """Search for the value in the list."""
-        check = self.head
-        while check is not None:
-            print(check.value)
-            if check.value == val:
-                return check
-            else:
-                check = check.next_node
-        return None
-
     def remove(self, node):
         """Remove the specified node."""
         check = self.head
@@ -83,8 +68,8 @@ class Dll(object):
             check.next_node = check.next_node.next_node
             self.length -= 1
 
-    def display(self):
-        """Display the list."""
+    def __repr__(self):
+        """Print the list."""
         string = '('
         head = self.head
         while head is not None:
@@ -94,9 +79,5 @@ class Dll(object):
         return string
 
     def __len__(self):
-        """Return the length."""
-        self.size()
-
-    def __repr__(self):
-        """Print it out."""
-        self.display()
+        """Return the size of the list."""
+        return self.length
