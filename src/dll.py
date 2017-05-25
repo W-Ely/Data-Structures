@@ -25,9 +25,9 @@ class Dll(object):
         self.length += 1
         if self.head is None:
             self.head = Node(val)
+            self.tail = self.head
         else:
-            new_node = Node(val)
-            new_node.next_node = self.head
+            new_node = Node(val, self.head)
             self.head.prev_node = new_node
             self.head = new_node
 
@@ -36,15 +36,21 @@ class Dll(object):
         if self.length == 0:
             self.push(val)
         else:
-            self.tail.next_node = Node(val, self.tail, None )
-            self.tail = self.tail.next_node
+            new_node = Node(val, None, self.tail)
+            self.tail.next_node = new_node
+            self.tail = new_node
             self.length += 1
 
     def pop(self):
         """Pop item from head and return it."""
         try:
             val = self.head.value
-            self.head = self.head.next_node
+            if self.head == self.tail:
+                self.head = None
+                self.tail = None
+            else:
+                self.head = self.head.next_node
+                self.head.prev_node = None
             self.length -= 1
             return val
         except AttributeError:

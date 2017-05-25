@@ -23,30 +23,44 @@ def test_push(dll):
     """Push adds to doubly linked list."""
     dll.push(5)
     assert dll.head.value == 5
+    dll.push(10)
+    assert dll.head.next_node.value == 5
+    dll.push(15)
+    assert dll.head.next_node.next_node.prev_node.value == 10
+    assert dll.tail.value == 5
 
 
 def test_append(dll):
     """Append value to end of doubly linked list."""
     dll.append("potato")
-    assert dll.tail == "potato"
+    assert dll.tail.value == "potato"
+    assert dll.head.value == "potato"
+    dll.append(10)
+    assert dll.tail.prev_node.value == "potato"
+    dll.append(15)
+    assert dll.tail.prev_node.prev_node.next_node.value == 10
+    assert dll.head.value == "potato"
+    assert dll.tail.value == 15
 
 
+def test_pop_0_0(dll):
+    """pop resets head's value to previous value"""
+    dll.push(5)
+    assert dll.pop() == 5
+    assert dll.length == 0
+    assert dll.head is None
+    assert dll.tail is None
+    dll.push(5)
+    dll.push(10)
+    dll.append(15)
+    assert dll.pop() == 10
+    assert dll.head.value == 5
+    assert dll.tail.value == 15
 
-# def test_pop_0_0():
-#     """pop resets head's value to previous value"""
-#     test_linked_list = LinkedList()
-#     test_linked_list.push(5)
-#     assert test_linked_list.pop() == 5
-#     test_linked_list.push(5)
-#     test_linked_list.push(10)
-#     assert test_linked_list.pop() == 10
-#     assert test_linked_list.head.value == 5
 
-
-# def test_pop_0_1():
-#     """pop raises error on empy list"""
-#     test_linked_list = LinkedList()
-#     assert test_linked_list.pop() == "Can not pop from empty list."
+def test_pop_0_1(dll):
+    """pop raises error on empy list"""
+    assert dll.pop() == "Can not pop from empty list."
 
 
 # def test_size():
