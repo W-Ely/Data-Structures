@@ -54,19 +54,36 @@ class Dll(object):
             self.length -= 1
             return val
         except AttributeError:
-            print("Can not pop from empty list.")
-            return "Can not pop from empty list."
+            raise IndexError("Can not pop from empty list.")
 
-    def remove(self, node):
-        """Remove the specified node."""
-        check = self.head
-        while check.next_node is not node and hasattr(check, 'next_node'):
-            check = check.next_node
-        if check.next_node is None:
-            raise AttributeError("Can not remove node, not found.")
-        else:
-            check.next_node = check.next_node.next_node
+    def shift(self):
+        """Removes node from tail of list."""
+        try:
+            val = self.tail.value
+            if self.head == self.tail:
+                self.head = None
+                self.tail = None
+            else:
+                self.tail = self.tail.prev_node
+                self.tail.next_node = None
             self.length -= 1
+            return val
+        except AttributeError:
+            raise IndexError("Can not shift from empty list.")
+
+    def remove(self, value):
+        """Removes the first node with specified value starting from head."""
+        check = self.head
+        if check is None:
+            raise IndexError("List is empty.")
+        while check.value != value and hasattr(check, 'next_node'):
+            if check.next_node is None:
+                raise AttributeError("Can not remove node, not found.")
+            else:
+                check = check.next_node
+        check.next_node.prev_node = check.prev_node
+        self.head = check.next_node
+        self.length -= 1
 
     def __repr__(self):
         """Print the list."""

@@ -44,7 +44,7 @@ def test_append(dll):
 
 
 def test_pop_0_0(dll):
-    """pop resets head's value to previous value"""
+    """Pop resets head's value to previous value."""
     dll.push(5)
     assert dll.pop() == 5
     assert dll.length == 0
@@ -59,8 +59,30 @@ def test_pop_0_0(dll):
 
 
 def test_pop_0_1(dll):
-    """pop raises error on empy list"""
-    assert dll.pop() == "Can not pop from empty list."
+    """Pop raises error on empy list."""
+    with pytest.raises(IndexError):
+        dll.pop()
+
+
+def test_shift_0_0(dll):
+    """Shift resets head's value to previous value."""
+    dll.push(5)
+    assert dll.shift() == 5
+    assert dll.length == 0
+    assert dll.head is None
+    assert dll.tail is None
+    dll.push(5)
+    dll.push(10)
+    dll.append(15)
+    assert dll.shift() == 15
+    assert dll.head.value == 10
+    assert dll.tail.value == 5
+
+
+def test_shift_0_1(dll):
+    """Shift raises error on empy list."""
+    with pytest.raises(IndexError):
+        dll.shift()
 
 
 def test_len(dll):
@@ -76,21 +98,22 @@ def test_len(dll):
     assert dll.__len__() == 3
 
 
-# def test_remove():
-#     """Removes a node and maintains links."""
-#     test_linked_list = LinkedList()
-#     test_linked_list.push(5)
-#     test_linked_list.push(5)
-#     test_linked_list.push(3)
-#     test_linked_list.push(5)
-#     test_linked_list.push("remove me")
-#     test_linked_list.push(25)
-#     remove_this = test_linked_list.search("remove me")
-#     test_linked_list.remove(remove_this)
-#     assert test_linked_list.size() == 5
-#     assert test_linked_list.search(25).value == 25
-#     with pytest.raises(AttributeError):
-#         test_linked_list.remove("node")
+def test_remove(dll):
+    """Removes a node and maintains links."""
+    with pytest.raises(IndexError):
+        dll.remove(5)
+    dll.push(5)
+    dll.push(10)
+    dll.append(3)
+    dll.push(15)
+    dll.push("remove me")
+    dll.append(25)
+    dll.remove("remove me")
+    assert len(dll) == 5
+    assert dll.tail.value == 25
+    assert dll.head.value == 15
+    with pytest.raises(AttributeError):
+        dll.remove("node")
 
 
 def test__repr(dll):
