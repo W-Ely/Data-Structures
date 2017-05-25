@@ -6,20 +6,28 @@ import pytest
 def test_stack_init():
     """Can be Initalized with iterable or nothing only"""
     test_stack = Stack([1, 2, 3])
-    assert test_stack.head.value == 3
-    assert test_stack.head.next_node.value == 2
-    assert test_stack.head.next_node.next_node.value == 1
+    assert test_stack._stack.head.value == 3
+    assert test_stack._stack.head.next_node.value == 2
+    assert test_stack._stack.head.next_node.next_node.value == 1
     with pytest.raises(TypeError):
         Stack(5)
 
 
+def test_push_0_0():
+    """Adds node to stack"""
+    test_stack = Stack()
+    test_stack.push(5)
+    test_stack.push(10)
+    assert test_stack._stack.head.value == 10
+
+
 def test_pop_0_0():
-    """pop resets head's value to previous value"""
+    """pop resets _stack.head's value to previous value"""
     test_stack = Stack()
     test_stack.push(5)
     test_stack.push(10)
     assert test_stack.pop() == 10
-    assert test_stack.head.value == 5
+    assert test_stack._stack.head.value == 5
 
 
 def test_pop_0_1():
