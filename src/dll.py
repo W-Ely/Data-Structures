@@ -1,4 +1,4 @@
-"""Double linked list module."""
+"""Create our double linked list module."""
 
 
 class Node(object):
@@ -57,7 +57,7 @@ class Dll(object):
             raise IndexError("Can not pop from empty list.")
 
     def shift(self):
-        """Removes node from tail of list."""
+        """Remove node from tail of list."""
         try:
             val = self.tail.value
             if self.head == self.tail:
@@ -72,7 +72,7 @@ class Dll(object):
             raise IndexError("Can not shift from empty list.")
 
     def remove(self, value):
-        """Removes the first node with specified value starting from head."""
+        """Remove the first node with specified value starting from head."""
         check = self.head
         if check is None:
             raise IndexError("List is empty.")
@@ -81,8 +81,14 @@ class Dll(object):
                 raise AttributeError("Can not remove node, not found.")
             else:
                 check = check.next_node
-        check.next_node.prev_node = check.prev_node
-        self.head = check.next_node
+        if hasattr(check.next_node, 'prev_node'):
+            check.next_node.prev_node = check.prev_node
+        else:
+            self.tail = check.prev_node
+        if hasattr(check.prev_node, 'next_node'):
+            check.prev_node.next_node = check.next_node
+        else:
+            self.head = check.next_node
         self.length -= 1
 
     def __repr__(self):
@@ -90,7 +96,10 @@ class Dll(object):
         string = '('
         head = self.head
         while head is not None:
-            string += str(head.value) + ', '
+            if type(head.value) is str:
+                string += '"{}", '.format(head.value)
+            else:
+                string += str(head.value) + ', '
             head = head.next_node
         string = string[:-2] + ')'
         return string
