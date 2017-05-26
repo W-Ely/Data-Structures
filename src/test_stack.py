@@ -3,46 +3,63 @@ from stack import Stack
 import pytest
 
 
-def test_stack_init():
-    """Can be Initalized with iterable or nothing only"""
-    test_stack = Stack([1, 2, 3])
-    assert test_stack._stack.head.value == 3
-    assert test_stack._stack.head.next_node.value == 2
-    assert test_stack._stack.head.next_node.next_node.value == 1
+@pytest.fixture
+def stack():
+    """Create a stack fixture."""
+    from stack import Stack
+    stack = Stack()
+    return stack
+
+
+@pytest.fixture
+def stack_of_five_pancakes(stack):
+    """Create a stack with five items."""
+    from stack import Stack
+    stack = Stack(
+        ['plate'] + ['pancake' for pancake in range(3)] + ['strawberry syrup'])
+    return stack
+
+
+def test_stack_init(stack):
+    """Can be Initalized with iterable or nothing only."""
+    assert stack._stack.head is None
+
+
+def test_stack_init_five(stack_of_five_pancakes):
+    """Testing the init method with five pancakes, yumm."""
+    assert stack_of_five_pancakes._stack.head.value == 'strawberry syrup'
+    assert stack_of_five_pancakes._stack.head.next_node.value == 'pancake'
+    a_few_pancakes = stack_of_five_pancakes._stack.head.next_node.next_node
+    assert a_few_pancakes.next_node.next_node.value == 'plate'
+
+
+def test_stack_init_raises_typeerror():
+    """Can't initialize with value."""
     with pytest.raises(TypeError):
         Stack(5)
 
 
-def test_push_0_0():
-    """Adds node to stack"""
-    test_stack = Stack()
-    test_stack.push(5)
-    test_stack.push(10)
-    assert test_stack._stack.head.value == 10
+def test_push_five_pancakes(stack_of_five_pancakes):
+    """Add 5 nodes to stack."""
+    assert stack_of_five_pancakes._stack.head.value == 'strawberry syrup'
 
 
-def test_pop_0_0():
-    """pop resets _stack.head's value to previous value"""
-    test_stack = Stack()
-    test_stack.push(5)
-    test_stack.push(10)
-    assert test_stack.pop() == 10
-    assert test_stack._stack.head.value == 5
+def test_pop_five_pancakes(stack_of_five_pancakes):
+    """Pop resets _stack.head's value to previous value."""
+    assert stack_of_five_pancakes.pop() == 'strawberry syrup'
+    assert stack_of_five_pancakes._stack.head.value == 'pancake'
 
 
-def test_pop_0_1():
-    """pop raises error on empy list"""
-    test_linked_list = Stack()
-    assert test_linked_list.pop() == "Can not pop from empty list."
+def test_pop_from_empty_stack(stack):
+    """Pop raises error on empy list."""
+    assert stack.pop() == "Can not pop from empty list."
 
 
-def test_len():
-    """testing length of stack"""
-    test_stack = Stack()
-    assert len(test_stack) == 0
-    test_stack.push(5)
-    assert len(test_stack) == 1
-    test_stack.push(5)
-    test_stack.push(5)
-    test_stack.pop()
-    assert len(test_stack) == 2
+def test_len_empty_stack(stack):
+    """Testing length of empty stack."""
+    assert len(stack) == 0
+
+
+def test_len_stack_of_five(stack_of_five_pancakes):
+    """Test length of stack with five items."""
+    assert len(stack_of_five_pancakes) == 5
