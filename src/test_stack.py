@@ -40,9 +40,12 @@ def test_stack_init_raises_typeerror():
 
 
 def test_push_five_pancakes(stack_of_five_pancakes):
-    """Add 5 nodes to stack."""
-    assert stack_of_five_pancakes._stack.head.value == 'strawberry syrup'
-
+    """Add 1 to stack of 5 nodes to stack."""
+    stack_of_five_pancakes.push("sprinkles")
+    assert stack_of_five_pancakes._stack.head.value == "sprinkles"
+    pancakes = stack_of_five_pancakes
+    assert pancakes._stack.head.next_node.value == 'strawberry syrup'
+    
 
 def test_pop_five_pancakes(stack_of_five_pancakes):
     """Pop resets _stack.head's value to previous value."""
