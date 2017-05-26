@@ -9,8 +9,8 @@ multiple classic data structure implementations""",
     version='0.1',
     author="Casey and Ely",
     license='MIT',
-    py_modules=['linked_list'],
+    py_modules=['linked_list', 'stack'],
     package_dir={'': 'src'},
     install_requires=[],
-    extras_require={'testing': ['pytest', 'pytest-cov']}
+    extras_require={'testing': ['pytest', 'pytest-cov', 'tox']}
 )
