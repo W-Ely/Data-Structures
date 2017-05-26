@@ -63,16 +63,16 @@ def test_enqueue_three_items(queue_one_item):
 def test_dequeue_one_value(queue_one_item):
     """Dequeue resets head's value to previous value."""
     assert queue_one_item.dequeue() == 5
-    assert queue_one_item.length == 0
+    assert queue_one_item.size() == 0
     assert queue_one_item._que.head is None
     assert queue_one_item._que.tail is None
 
 
 def test_shif_5_values(queue_five_items):
     """Test dequeue with 5 values in the queue and check it equals value."""
-    assert queue_five_items.dequeue() == "apple"
-    assert queue_five_items._que.head.value == "potato"
-    assert queue_five_items._que.tail.value == "car"
+    assert queue_five_items.dequeue() == "potato"
+    assert queue_five_items._que.head.value == "apple"
+    assert queue_five_items._que.tail.value == 5
 
 
 def test_dequeue_with_empty_list(queue):
@@ -81,16 +81,31 @@ def test_dequeue_with_empty_list(queue):
         queue.dequeue()
 
 
-def test_len_empty_list(queue):
+def test_peek_with_empty_queue(queue):
+    """Peek returns None on empty queue."""
+    assert queue.peek() is None
+
+
+def test_peek_with_five_in_queue(queue_five_items):
+    """Peek returns end on queue of five."""
+    assert queue_five_items.peek() == "potato"
+
+
+def test_peek_with_one_in_queue(queue_one_item):
+    """Peek returnsfirst on queue of one item."""
+    assert queue_one_item.peek() == 5
+
+
+def test_size_empty_list(queue):
     """Get the length of the queue."""
-    assert len(queue) == 0
+    assert queue.size() == 0
 
 
-def test_len_one_value(queue_one_item):
+def test_size_one_value(queue_one_item):
     """Test the length with one value in the queue."""
-    assert len(queue_one_item) == 1
+    assert queue_one_item.size() == 1
 
 
-def test_len_five_values(queue_five_items):
+def test_size_five_values(queue_five_items):
     """Test the length with five values in the queue."""
-    assert len(queue_five_items) == 5
+    assert queue_five_items.size() == 5

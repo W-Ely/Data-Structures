@@ -79,6 +79,17 @@ def test_remove():
         test_linked_list.remove("node")
 
 
+def test_remove_node_from_list():
+    """Remove item not in list raises AttributeError."""
+    test_linked_list = LinkedList()
+    test_linked_list.push(5)
+    test_linked_list.push(5)
+    test_linked_list.push(3)
+    test_linked_list.push(5)
+    with pytest.raises(AttributeError):
+        test_linked_list.remove("node")
+
+
 def test_display():
     """Displays the list as a tuple."""
     test_linked_list = LinkedList()

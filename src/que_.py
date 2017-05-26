@@ -17,6 +17,12 @@ class Queue(object):
         """Remove item from queue."""
         return self._que.shift()
 
-    def __len__(self):
+    def peek(self):
+        """Returns next value in queue without dequeueing it."""
+        if self._que.tail is not None:
+            return self._que.tail.value
+        return None
+
+    def size(self):
         """Get length of queue."""
         return self._que.__len__()
