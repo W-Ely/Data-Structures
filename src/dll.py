@@ -78,7 +78,7 @@ class Dll(object):
             raise IndexError("List is empty.")
         while check.value != value and hasattr(check, 'next_node'):
             if check.next_node is None:
-                raise AttributeError("Can not remove node, not found.")
+                raise ValueError("Can not remove node, not found.")
             else:
                 check = check.next_node
         if hasattr(check.next_node, 'prev_node'):
