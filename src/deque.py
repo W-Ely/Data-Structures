@@ -27,14 +27,14 @@ class Deque(object):
 
     def peek(self):
         """Return next value in deque without dequeueing it."""
-        if self._que.tail is not None:
-            return self._que.tail.value
+        if self._que.head is not None:
+            return self._que.head.value
         return None
 
     def peekleft(self):
         """Return value of popleft but leaves value in deque."""
-        if self._que.head is not None:
-            return self._que.head.value
+        if self._que.tail is not None:
+            return self._que.tail.value
         return None
 
     def size(self):
