@@ -45,7 +45,7 @@ def test_push_five_pancakes(stack_of_five_pancakes):
     assert stack_of_five_pancakes._stack.head.value == "sprinkles"
     pancakes = stack_of_five_pancakes
     assert pancakes._stack.head.next_node.value == 'strawberry syrup'
-    
+
 
 def test_pop_five_pancakes(stack_of_five_pancakes):
     """Pop resets _stack.head's value to previous value."""

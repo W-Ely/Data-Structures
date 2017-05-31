@@ -162,7 +162,7 @@ def test_remove_5_items_middle_item(dll_five_items):
 
 def test_remove_node_from_list(dll_five_items):
     """Remove item not in list raises AttributeError."""
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         dll_five_items.remove("node")
 
 
