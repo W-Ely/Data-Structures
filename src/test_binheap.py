@@ -17,7 +17,7 @@ import pytest
 def binheap_empty():
     """Create a binary heap."""
     from binheap import Binheap
-    return Benheap()
+    return Binheap()
 
 
 @pytest.fixture
@@ -32,3 +32,28 @@ def binheap_five_rand_num():
     """Create a binary heap 5 random numbers."""
     from binheap import Binheap
     return Binheap([5, 4, 1, 3, 2])
+
+
+def test_pop_removes_smallest_num(binheap_five_rand_num):
+    """Return lowest."""
+    assert binheap_five_rand_num.pop() == 1
+    assert binheap_five_rand_num.pop() == 2
+    assert binheap_five_rand_num.pop() == 3
+    assert binheap_five_rand_num.pop() == 4
+    assert binheap_five_rand_num.pop() == 5
+
+
+def test_pop_empty_heap_returns_None(binheap_empty):
+    """Pop returns None on empty heap."""
+    assert binheap_empty.pop() is None
+
+
+def test_push_to_empty_heap_increases_heap_length(binheap_empty):
+    """."""
+    assert len(binheap_empty.push(1)) == 1
+
+
+def test_push_smaller_num_to_heap_changes_order_of_heap(binheap_five_rand_num):
+    """."""
+    binheap_five_rand_num.push(0)
+    assert binheap_five_rand_num.pop() == 0
