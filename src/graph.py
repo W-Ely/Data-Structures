@@ -5,7 +5,7 @@ class Graph(dict):
     """Create a graph data strcture modeled off a dictionary."""
 
     def __init__(self):
-        """Inialize probably wont need."""
+        """Inialize probably wont need anthing."""
         pass
 
     def nodes(self):
@@ -21,14 +21,14 @@ class Graph(dict):
         return edges
 
     def add_node(self, val):
-        """Add a new node with value ‘val’ to the graph."""
+        """Add a new node with value 'val' to the graph."""
         if val not in self:
             self.setdefault(val, [])
 
     def add_edge(self, val1, val2):
         """Adds a new edge to the graph.
 
-         connecting the node containing ‘val1’ and the node containing ‘val2’.
+         connecting the node containing 'val1' and the node containing 'val2'.
          If either val1 or val2 are not already present in the graph,
          they should be added. If an edge already exists, overwrite it.
          """
@@ -38,26 +38,32 @@ class Graph(dict):
             self[val1].append(val2)
 
     def del_node(self, val):
-        """Deletes the node containing ‘val’ from the graph;
+        """Deletes the node containing 'val' from the graph;
 
          raises an error if no such node exists.
          """
-        pass
+        try:
+            del self[val]
+        except KeyError:
+            raise ValueError('Value not in graph')
 
     def del_edge(self, val1, val2):
-        """Deletes the edge connecting ‘val1’ and ‘val2’ from the graph;
+        """Deletes the edge connecting 'val1' and 'val2' from the graph;
 
         raises an error if no such edge exists.
         """
-        pass
+        try:
+            self[val1].remove(val2)
+        except ValueError:
+            raise ValueError('No such edge.')
 
     def has_node(self, val):
-        """True if node containing ‘val’ is in the graph, False if not."""
+        """True if node containing 'val' is in the graph, False if not."""
         return val in self
 
     def neighbors(self, val):
         """Returns the list of all nodes connected to the node containing
-        ‘val’ by edges; raises an error if val is not in the graph."""
+        'val' by edges; raises an error if val is not in the graph."""
         if val in self:
             return self[val]
         else:
@@ -68,12 +74,3 @@ class Graph(dict):
         False if not; raises an error if either of the supplied
         values are not in g."""
         pass
-
-
-test_graph = Graph()
-test_graph.add_node(5)
-test_graph.add_node(5)
-test_graph.add_edge(5, 4)
-print(test_graph.nodes())
-print(test_graph.neighbors(5))
-print(test_graph.neighbors(10))
