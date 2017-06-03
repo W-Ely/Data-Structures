@@ -1,5 +1,5 @@
 """Module implements binary heap data structure."""
-from random import randint
+
 
 class Binheap(list):
     """Create binary heap."""
@@ -12,7 +12,7 @@ class Binheap(list):
                 for num in iterable:
                     self.push(num)
         else:
-            raise ValueError('Must be iterable and all numbers.')
+            raise TypeError('Must be iterable and all numbers.')
 
     def push(self, val):
         """."""
@@ -33,24 +33,24 @@ class Binheap(list):
     def bubble_up(self, i):
         """."""
         while True:
-            print('bubbling up while i is: ', i, 'and self is: ', self)
-            print('comparing', self[(i - 1) // 2], 'and', self[i])
+            # print('bubbling up while i is: ', i, 'and self is: ', self)
+            # print('comparing', self[(i - 1) // 2], 'and', self[i])
             if self[i] < self[(i - 1) // 2]:
                 temp = self[i]
                 self[i], self[(i - 1) // 2] = self[(i - 1) // 2], temp
-                print('swapping, new order', self)
+                # print('swapping, new order', self)
             i = (i - 1) // 2
             if i < 1:
-                print('ending')
+                # print('ending')
                 break
 
     def bubbule_down(self):
         """."""
         i = 0
-        while i * 2 + 1 < len(self) - 1:
-            print('bubbling down', self)
+        while i * 2 + 1 <= len(self) - 1:
+            # print('bubbling down', self)
             i_smallest_child = self.get_smallest_childs_index(i)
-            print('smallest_index', i_smallest_child)
+            # print('smallest_index', i_smallest_child)
             if self[i] > self[i_smallest_child]:
                 temp = self[i]
                 self[i], self[i_smallest_child] = self[i_smallest_child], temp

@@ -27,7 +27,7 @@ def binheap_five_rand_num():
 def binheap_100_rand():
     from binheap import Binheap
     from random import randint
-    heap = Binheap([randint(1, 1000) for _ in range(15)])
+    heap = Binheap([randint(1, 1000) for _ in range(100)])
     return heap
 
 
@@ -73,3 +73,19 @@ def test_heap_rand_100_removes_in_order(binheap_100_rand):
     for _ in range(len(binheap_100_rand) - 1):
         assert temp_a < temp_b
         temp_a, temp_b = temp_b, binheap_100_rand.pop()
+
+
+def test_heap_handles_push_pops_with_correct_ordering():
+    """."""
+    from binheap import Binheap
+    heap = Binheap([3, 5, 6, 2, 7, 8, 1, 0, 0, 10])
+    assert heap.__repr__() == '[0, 1, 2, 3, 7, 8, 6, 5, 10]'
+    assert heap.pop() == 0
+    assert heap.__repr__() == '[1, 3, 2, 5, 7, 8, 6, 10]'
+
+
+def test_initalizing_with_non_iterable_or_not_numbers_raises_ValueError():
+    """."""
+    from binheap import Binheap
+    with pytest.raises(TypeError):
+        Binheap("dfsdfadgasdg")

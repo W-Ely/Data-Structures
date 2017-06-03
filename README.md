@@ -24,3 +24,8 @@ This will hold sample code for a number of classic data structures implemented i
 - pop() will pop the first value off the head of the list and return it. Raises an exception with an appropriate message if there are no values to return.
 - shift() will remove the last value from the tail of the list and return it. Raises an exception with an appropriate message if there are no values to return.
 - remove(val) will remove the first instance of val found in the list, starting from the head. If val is not present, it will raise an appropriate Python exception.
+
+## Binary heap
+
+- push(val): puts a new value into the heap, maintaining the heap property.
+- pop(): removes the “top” value in the heap, maintaining the heap property.
