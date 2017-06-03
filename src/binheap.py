@@ -1,5 +1,5 @@
 """Module implements binary heap data structure."""
-
+from random import randint
 
 class Binheap(list):
     """Create binary heap."""
@@ -32,18 +32,23 @@ class Binheap(list):
 
     def bubble_up(self, i):
         """."""
-        while i // 2 >= 0:
-            if self[i] < self[i // 2]:
-                temp = self[i // 2]
-                self[i // 2], self[i] = self[i], temp
-            if i == 0:
+        while True:
+            print('bubbling up while i is: ', i, 'and self is: ', self)
+            print('comparing', self[(i - 1) // 2], 'and', self[i])
+            if self[i] < self[(i - 1) // 2]:
+                temp = self[i]
+                self[i], self[(i - 1) // 2] = self[(i - 1) // 2], temp
+                print('swapping, new order', self)
+            i = (i - 1) // 2
+            if i < 1:
+                print('ending')
                 break
-            i = i // 2
 
     def bubbule_down(self):
         """."""
         i = 0
         while i * 2 + 1 < len(self) - 1:
+            print('bubbling down', self)
             i_smallest_child = self.get_smallest_childs_index(i)
             print('smallest_index', i_smallest_child)
             if self[i] > self[i_smallest_child]:

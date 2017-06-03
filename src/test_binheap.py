@@ -66,10 +66,10 @@ def test_heap_rand_100_placed_in_order(binheap_100_rand):
             assert num < binheap_100_rand[index * 2 + 2]
 
 
-# def test_heap_rand_100_removes_in_order(binheap_100_rand):
-#     """."""
-#     temp_a = binheap_100_rand.pop()
-#     for _ in range(len(binheap_100_rand)):
-#         temp_b = binheap_100_rand.pop()
-#         assert temp_a < temp_b
-#         temp_a, temp_b = temp_b, binheap_100_rand.pop()
+def test_heap_rand_100_removes_in_order(binheap_100_rand):
+    """."""
+    temp_a = binheap_100_rand.pop()
+    temp_b = binheap_100_rand.pop()
+    for _ in range(len(binheap_100_rand) - 1):
+        assert temp_a < temp_b
+        temp_a, temp_b = temp_b, binheap_100_rand.pop()
