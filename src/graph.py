@@ -16,8 +16,9 @@ class Graph(dict):
         """Return a list of all edges in the graph."""
         edges = []
         for key in self:
-            print(key)
-            edges.append(key)
+            if key:
+                for edge in self[key]:
+                    edges.append((key, edge))
         return edges
 
     def add_node(self, val):
@@ -73,4 +74,8 @@ class Graph(dict):
         """Returns True if there is an edge connecting val1 and val2,
         False if not; raises an error if either of the supplied
         values are not in g."""
-        pass
+        if val1 not in self or val2 not in self:
+            raise ValueError('Node not found.')
+        if val2 in self[val1]:
+            return True
+        return False

@@ -32,10 +32,10 @@ def test_nodes_returns_list_of_all_nodes(tri_graph):
     assert tri_graph.nodes() == [1, 2, 3]
 
 
-# def test_edges_returns_list_of_all_edges(tri_graph):
-#     """Return a list of all edges in the graph."""
-#     tri_graph.add_edge(3, 2)
-#     assert tri_graph.edges() == issomething.
+def test_edges_returns_list_of_all_edges(tri_graph):
+    """Return a list of all edges in the graph."""
+    tri_graph.add_edge(3, 2)
+    assert tri_graph.edges() == [(1, 2), (2, 3), (3, 1), (3, 2)]
 
 
 def test_add_node_adds_node(empty_graph):
