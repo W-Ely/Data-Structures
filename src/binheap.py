@@ -6,7 +6,9 @@ class Binheap(list):
 
     def __init__(self,  iterable=None):
         """Initalize with or without iterable."""
-        if iterable and self.check_iterable(iterable):
+        if not iterable:
+            pass
+        elif iterable and self.check_iterable(iterable):
                 for num in iterable:
                     self.push(num)
         else:
@@ -14,23 +16,23 @@ class Binheap(list):
 
     def push(self, val):
         """."""
-        list.append(self, val)
-        self.bubble_up(len(self))
+        if val not in self:
+            list.append(self, val)
+            self.bubble_up(len(self) - 1)
 
     def pop(self):
         """."""
-        temp = self[0]
-        self[0], self[-1] = self[-1], temp
-        temp = list.pop(self, -1)
-        self.bubbule_down()
-        return temp
+        if len(self) > 0:
+            temp = self[0]
+            self[0], self[-1] = self[-1], temp
+            temp = list.pop(self, -1)
+            self.bubbule_down()
+            return temp
+        return None
 
-    def bubble_up(self, index_plus_one):
+    def bubble_up(self, i):
         """."""
-        print('bubbling')
-        i = index_plus_one - 1
         while i // 2 >= 0:
-            print('bubbling while ')
             if self[i] < self[i // 2]:
                 temp = self[i // 2]
                 self[i // 2], self[i] = self[i], temp
@@ -41,8 +43,9 @@ class Binheap(list):
     def bubbule_down(self):
         """."""
         i = 0
-        while i * 2 <= len(self) - 1:
+        while i * 2 + 1 < len(self) - 1:
             i_smallest_child = self.get_smallest_childs_index(i)
+            print('smallest_index', i_smallest_child)
             if self[i] > self[i_smallest_child]:
                 temp = self[i]
                 self[i], self[i_smallest_child] = self[i_smallest_child], temp

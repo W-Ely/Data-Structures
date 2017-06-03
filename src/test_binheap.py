@@ -1,15 +1,4 @@
 """Module tests binheap."""
-
-# formula i * 2 + 1 = left child, i * 2 + 2 = right child
-# i is the index in the list
-# [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-# 0 left --> 1    0 right --> 2
-# 2 left --> 5    2 right --> 6
-#
-# [2, 4, 6, 8, 10, 12, 14, 16, 18]
-# 2.left is 4   and 2.right is 6
-# 8.left is 16  and 8.right is 18
-#
 import pytest
 
 
@@ -34,6 +23,14 @@ def binheap_five_rand_num():
     return Binheap([5, 4, 1, 3, 2])
 
 
+@pytest.fixture
+def binheap_100_rand():
+    from binheap import Binheap
+    from random import randint
+    heap = Binheap([randint(1, 1000) for _ in range(15)])
+    return heap
+
+
 def test_pop_removes_smallest_num(binheap_five_rand_num):
     """Return lowest."""
     assert binheap_five_rand_num.pop() == 1
@@ -50,10 +47,29 @@ def test_pop_empty_heap_returns_None(binheap_empty):
 
 def test_push_to_empty_heap_increases_heap_length(binheap_empty):
     """."""
-    assert len(binheap_empty.push(1)) == 1
+    binheap_empty.push(1)
+    assert len(binheap_empty) == 1
 
 
 def test_push_smaller_num_to_heap_changes_order_of_heap(binheap_five_rand_num):
     """."""
     binheap_five_rand_num.push(0)
     assert binheap_five_rand_num.pop() == 0
+
+
+def test_heap_rand_100_placed_in_order(binheap_100_rand):
+    """."""
+    for index, num in enumerate(binheap_100_rand):
+        if index * 2 + 1 <= len(binheap_100_rand) - 1:
+            assert num < binheap_100_rand[index * 2 + 1]
+        if index * 2 + 2 <= len(binheap_100_rand) - 1:
+            assert num < binheap_100_rand[index * 2 + 2]
+
+
+# def test_heap_rand_100_removes_in_order(binheap_100_rand):
+#     """."""
+#     temp_a = binheap_100_rand.pop()
+#     for _ in range(len(binheap_100_rand)):
+#         temp_b = binheap_100_rand.pop()
+#         assert temp_a < temp_b
+#         temp_a, temp_b = temp_b, binheap_100_rand.pop()
