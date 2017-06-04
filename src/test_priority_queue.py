@@ -36,7 +36,10 @@ def test_priority_queue_insert_default_priority(empty_priority_queue):
 
 def test_pop_empty(empty_priority_queue):
     """Test pop on empty priority queue raises IndexError."""
-    with pytest.raises(IndexError, message="Cannot pop from an empty priority queue."):
+    with pytest.raises(
+            IndexError,
+            message="Cannot pop from an empty priority queue."
+            ):
         empty_priority_queue.pop()
 
 

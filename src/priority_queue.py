@@ -2,7 +2,7 @@
 
 
 class PriorityQueue(object):
-    """Our Priority queue."""
+    """Create Priority queue."""
 
     def __init__(self, iterable=None):
         """Initialize the Priority queue."""
