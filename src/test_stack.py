@@ -55,7 +55,8 @@ def test_pop_five_pancakes(stack_of_five_pancakes):
 
 def test_pop_from_empty_stack(stack):
     """Pop raises error on empy list."""
-    assert stack.pop() == "Can not pop from empty list."
+    with pytest.raises(ValueError):
+        stack.pop()
 
 
 def test_len_empty_stack(stack):
