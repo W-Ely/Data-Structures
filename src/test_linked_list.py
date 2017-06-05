@@ -56,7 +56,6 @@ def test_size_is_correct_through_multiple_pops():
     test_linked_list.push(5)
     test_linked_list.push(5)
     test_linked_list.push(5)
-    test_linked_list = LinkedList()
     assert test_linked_list.size() == 3
     test_linked_list.pop()
     assert test_linked_list.size() == 2
