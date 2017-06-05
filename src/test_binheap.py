@@ -10,13 +10,6 @@ def binheap_empty():
 
 
 @pytest.fixture
-def binheap_five_seq_num():
-    """Create a binary heap with 5 sequential numbers."""
-    from binheap import Binheap
-    return Binheap([0, 1, 2, 3, 4])
-
-
-@pytest.fixture
 def binheap_five_rand_num():
     """Create a binary heap 5 random numbers."""
     from binheap import Binheap

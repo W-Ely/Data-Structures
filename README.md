@@ -30,6 +30,11 @@ This will hold sample code for a number of classic data structures implemented i
 - push(val): puts a new value into the heap, maintaining the heap property.
 - pop(): removes the “top” value in the heap, maintaining the heap property.
 
+## Priority Queue
+- insert(data, priority=0): Inserts value into the pqueue.
+- pop(): Will pop the first priority value from the pqueue and return it, will raise an index
+error if there is no values in the pqueue.
+- peek(): Will take a look at the highest priority value in the pqueue but will not return it.
 
 ## Graph
 
