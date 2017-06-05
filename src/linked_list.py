@@ -2,6 +2,7 @@
 
 
 class Node(object):
+    """Node data structure."""
 
     def __init__(self, value=None, next_node=None):
         """Initalizes a node."""
@@ -10,6 +11,7 @@ class Node(object):
 
 
 class LinkedList(object):
+    """Linked list data Structure."""
 
     def __init__(self, iterable=None):
         """Initalizes a linked list"""
@@ -23,24 +25,27 @@ class LinkedList(object):
                 raise TypeError(iterable, 'is not iterable')
 
     def push(self, val):
+        """Add item to linked list."""
         self.length += 1
         new_node = Node(val, self.head)
         self.head = new_node
 
     def pop(self):
+        """Remove item from head and return value."""
         try:
             val = self.head.value
             self.head = self.head.next_node
             self.length -= 1
             return val
         except AttributeError:
-            print("Can not pop from empty list.")
-            return "Can not pop from empty list."
+            raise ValueError('Can not pop from empty list')
 
     def size(self):
+        """Return length."""
         return self.length
 
     def search(self, val):
+        """Find value in list and return node."""
         check = self.head
         while check is not None:
             print(check.value)
@@ -51,6 +56,7 @@ class LinkedList(object):
         return None
 
     def remove(self, node):
+        """Remove node from list."""
         check = self.head
         while check.next_node is not node and hasattr(check, 'next_node'):
             check = check.next_node
@@ -61,6 +67,7 @@ class LinkedList(object):
             self.length -= 1
 
     def display(self):
+        """Return to list appearing string."""
         string = '('
         head = self.head
         while head is not None:
