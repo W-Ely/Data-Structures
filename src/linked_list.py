@@ -58,13 +58,15 @@ class LinkedList(object):
     def remove(self, node):
         """Remove node from list."""
         check = self.head
-        while check.next_node is not node and hasattr(check, 'next_node'):
+        while hasattr(check, 'next_node') and check.next_node is not node:
             check = check.next_node
-        if check.next_node is None:
-            raise AttributeError("Can not remove node, not found.")
-        else:
+            if not hasattr(check, 'next_node'):
+                raise ValueError("Can not remove node, not found.")
+        try:
             check.next_node = check.next_node.next_node
             self.length -= 1
+        except AttributeError:
+            raise ValueError("Can not remove node, not found.")
 
     def display(self):
         """Return to list appearing string."""
