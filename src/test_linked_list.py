@@ -119,34 +119,69 @@ def test_remove_maintains_linked_list_actually_removes_item():
 def test_remove_raises_AttributeError_when_node_not_found():
     """Removes a node and maintains links."""
     test_linked_list = LinkedList()
-    test_linked_list.push(5)
-    test_linked_list.push(5)
-    test_linked_list.push(3)
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         test_linked_list.remove("node")
 
 
-def test_remove_raises_AttributeError_when_node_not_found_2():
-    """Raise AttributeError when node not found."""
+def test_remove_removes_nodes():
+    """Removes a node."""
+    test_linked_list = LinkedList([1, 2, 3, 4, 5])
+    removed = test_linked_list.search(2)
+    test_linked_list.remove(removed)
+    assert test_linked_list.__repr__() == '(5, 4, 3, 1)'
+
+
+def test_remove_raises_ValueError_when_node_not_found_1():
+    """Removes a node and maintains links."""
+    test_linked_list = LinkedList()
+    test_linked_list.push(5)
+    test_linked_list.push(5)
+    test_linked_list.push(3)
+    with pytest.raises(ValueError):
+        test_linked_list.remove("node")
+
+
+def test_remove_raises_ValueError_when_node_not_found_2():
+    """Raise ValueError when node not found."""
     test_linked_list = LinkedList()
     test_linked_list.push(5)
     test_linked_list.push("remove me")
     test_linked_list.push(25)
     remove_this = test_linked_list.search("remove me")
     test_linked_list.remove(remove_this)
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         test_linked_list.remove(remove_this)
 
 
 def test_remove_node_from_list():
-    """Remove item not in list raises AttributeError."""
+    """Remove item not in list raises ValueError."""
     test_linked_list = LinkedList()
     test_linked_list.push(5)
     test_linked_list.push(5)
     test_linked_list.push(3)
     test_linked_list.push(5)
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         test_linked_list.remove("node")
+
+
+def test_remove_last_node_from_list():
+    """Remove item not in list raises ValueError."""
+    test_linked_list = LinkedList()
+    test_linked_list.push(5)
+    test_linked_list.push(5)
+    test_linked_list.push(3)
+    test_linked_list.push(5)
+    with pytest.raises(ValueError):
+        test_linked_list.remove("node")
+
+
+def test_remove_first_node_from_list():
+    """Remove item not in list raises ValueError."""
+    test_linked_list = LinkedList([5, 4, 3, 2, 1])
+    removed = test_linked_list.search(5)
+    test_linked_list.remove(removed)
+    assert test_linked_list.__repr__() == '(1, 2, 3, 4)'
+
 
 
 def test_display():
