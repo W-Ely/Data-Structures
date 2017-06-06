@@ -114,8 +114,6 @@ def test_remove_maintains_linked_list_actually_removes_item():
     remove_this = test_linked_list.search("remove me")
     test_linked_list.remove(remove_this)
     assert test_linked_list.search("remove me") is None
-    with pytest.raises(AttributeError):
-        test_linked_list.remove("node")
 
 
 def test_remove_raises_AttributeError_when_node_not_found():
@@ -126,6 +124,18 @@ def test_remove_raises_AttributeError_when_node_not_found():
     test_linked_list.push(3)
     with pytest.raises(AttributeError):
         test_linked_list.remove("node")
+
+
+def test_remove_raises_AttributeError_when_node_not_found_2():
+    """Raise AttributeError when node not found."""
+    test_linked_list = LinkedList()
+    test_linked_list.push(5)
+    test_linked_list.push("remove me")
+    test_linked_list.push(25)
+    remove_this = test_linked_list.search("remove me")
+    test_linked_list.remove(remove_this)
+    with pytest.raises(AttributeError):
+        test_linked_list.remove(remove_this)
 
 
 def test_remove_node_from_list():
@@ -145,3 +155,18 @@ def test_display():
     test_linked_list.push(5)
     test_linked_list.push(5)
     assert test_linked_list.display() == '(5, 5)'
+
+
+def test_len_method():
+    """Test __len__."""
+    test_linked_list = LinkedList()
+    test_linked_list.push(5)
+    assert test_linked_list.__len__() == 1
+
+
+def test_repr_method():
+    """Test __repr__ returns a string."""
+    test_linked_list = LinkedList()
+    test_linked_list.push(5)
+    test_linked_list.push(5)
+    assert test_linked_list.__repr__() == '(5, 5)'

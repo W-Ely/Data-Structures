@@ -78,8 +78,8 @@ class LinkedList(object):
 
     def __len__(self):
         """Returns the length"""
-        self.size()
+        return self.size()
 
     def __repr__(self):
         """Prints it out"""
-        self.display()
+        return self.display()
