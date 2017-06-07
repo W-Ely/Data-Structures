@@ -3,43 +3,49 @@ import pytest
 
 
 @pytest.fixture
-def traverse(empty_graph):
+def traverse():
     """."""
-    empty_graph.add_edge(1, 2)
-    empty_graph.add_edge(1, 3)
-    empty_graph.add_edge(2, 4)
-    empty_graph.add_edge(2, 5)
-    empty_graph.add_edge(2, 6)
-    return empty_graph
+    from graph import Graph
+    trans_graph = Graph()
+    trans_graph.add_edge(1, 2)
+    trans_graph.add_edge(1, 3)
+    trans_graph.add_edge(2, 4)
+    trans_graph.add_edge(2, 5)
+    trans_graph.add_edge(2, 6)
+    return trans_graph
 
 
 @pytest.fixture
-def loop(empty_graph):
+def loop():
     """."""
-    empty_graph.add_edge(1, 2)
-    empty_graph.add_edge(1, 3)
-    empty_graph.add_edge(2, 4)
-    empty_graph.add_edge(2, 5)
-    empty_graph.add_edge(2, 6)
-    empty_graph.add_edge(6, 1)
-    return empty_graph
+    from graph import Graph
+    loop_graph = Graph()
+    loop_graph.add_edge(1, 2)
+    loop_graph.add_edge(1, 3)
+    loop_graph.add_edge(2, 4)
+    loop_graph.add_edge(2, 5)
+    loop_graph.add_edge(2, 6)
+    loop_graph.add_edge(6, 1)
+    return loop_graph
 
 
 @pytest.fixture
-def more_complex(empty_graph):
+def more_complex():
     """."""
-    empty_graph.add_edge(1, 2)
-    empty_graph.add_edge(1, 3)
-    empty_graph.add_edge(1, 4)
-    empty_graph.add_edge(1, 3)
-    empty_graph.add_edge(2, 4)
-    empty_graph.add_edge(2, 5)
-    empty_graph.add_edge(2, 6)
-    empty_graph.add_edge(3, 7)
-    empty_graph.add_edge(6, 1)
-    empty_graph.add_edge(4, 12)
-    empty_graph.add_edge(10, 13)
-    return empty_graph
+    from graph import Graph
+    new_graph = Graph()
+    new_graph.add_edge(1, 2)
+    new_graph.add_edge(1, 3)
+    new_graph.add_edge(1, 4)
+    new_graph.add_edge(1, 3)
+    new_graph.add_edge(2, 4)
+    new_graph.add_edge(2, 5)
+    new_graph.add_edge(2, 6)
+    new_graph.add_edge(3, 7)
+    new_graph.add_edge(6, 1)
+    new_graph.add_edge(4, 12)
+    new_graph.add_edge(10, 13)
+    return new_graph
 
 
 @pytest.fixture
@@ -160,13 +166,14 @@ def test_depth_first_transversal(traverse):
 def test_depth_first_transversal_more_complex(more_complex):
     """."""
     assert more_complex.depth_first_traversal(1) == [
-        1, 2, 4, 12, 5, 6, 3, 7, 4, 12
+        1, 2, 4, 12, 5, 6, 3, 7
     ]
 
 
-# def test_depth_first_transversal_start_value_not_in_graph():
-#     """."""
-#     assert True is False
+def test_depth_first_transversal_start_value_not_in_graph(traverse):
+    """."""
+    with pytest.raises(ValueError):
+        traverse.depth_first_traversal(25)
 
 
 def test_depth_first_traversal_with_loop(loop):
@@ -186,10 +193,10 @@ def test_breadth_first_transversal_more_complex(more_complex):
     ]
 
 #
-# def test_breath_first_transversal_start_value_not_in_graph():
-#     """."""
-#     assert True is False
-
+def test_breath_first_transversal_start_value_not_in_graph(more_complex):
+    """."""
+    with pytest.raises(ValueError):
+        more_complex.breadth_first_traversal(25)
 
 
 def test_breadth_first_traversal_with_loop(loop):
