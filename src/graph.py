@@ -111,7 +111,7 @@ class Graph(dict):
         return path
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     """Shows how the two methods of traversal compare to each."""
     graph = Graph()
     graph.add_edge(1, 2)
