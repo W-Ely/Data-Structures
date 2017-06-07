@@ -26,6 +26,23 @@ def loop(empty_graph):
 
 
 @pytest.fixture
+def more_complex(empty_graph):
+    """."""
+    empty_graph.add_edge(1, 2)
+    empty_graph.add_edge(1, 3)
+    empty_graph.add_edge(1, 4)
+    empty_graph.add_edge(1, 3)
+    empty_graph.add_edge(2, 4)
+    empty_graph.add_edge(2, 5)
+    empty_graph.add_edge(2, 6)
+    empty_graph.add_edge(3, 7)
+    empty_graph.add_edge(6, 1)
+    empty_graph.add_edge(4, 12)
+    empty_graph.add_edge(10, 13)
+    return empty_graph
+
+
+@pytest.fixture
 def empty_graph():
     """Create an empty graph."""
     from graph_1 import Graph
@@ -140,6 +157,18 @@ def test_depth_first_transversal(traverse):
     assert traverse.depth_first_traversal(1) == [1, 2, 4, 5, 6, 3]
 
 
+def test_depth_first_transversal_more_complex(more_complex):
+    """."""
+    assert more_complex.depth_first_traversal(1) == [
+        1, 2, 4, 12, 5, 6, 3, 7, 4, 12
+    ]
+
+
+# def test_depth_first_transversal_start_value_not_in_graph():
+#     """."""
+#     assert True is False
+
+
 def test_depth_first_traversal_with_loop(loop):
     """."""
     assert loop.depth_first_traversal(1) == [1, 2, 4, 5, 6, 3]
@@ -148,3 +177,21 @@ def test_depth_first_traversal_with_loop(loop):
 def test_breadth_first_traversal(traverse):
     """."""
     assert traverse.breadth_first_traversal(1) == [1, 2, 3, 4, 5, 6]
+
+
+def test_breadth_first_transversal_more_complex(more_complex):
+    """."""
+    assert more_complex.breadth_first_traversal(1) == [
+        1, 2, 3, 4, 5, 6, 7, 12
+    ]
+
+#
+# def test_breath_first_transversal_start_value_not_in_graph():
+#     """."""
+#     assert True is False
+
+
+
+def test_breadth_first_traversal_with_loop(loop):
+    """."""
+    assert loop.breadth_first_traversal(1) == [1, 2, 3, 4, 5, 6]
