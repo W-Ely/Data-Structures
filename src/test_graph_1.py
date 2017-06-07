@@ -3,6 +3,29 @@ import pytest
 
 
 @pytest.fixture
+def traverse(empty_graph):
+    """."""
+    empty_graph.add_edge(1, 2)
+    empty_graph.add_edge(1, 3)
+    empty_graph.add_edge(2, 4)
+    empty_graph.add_edge(2, 5)
+    empty_graph.add_edge(2, 6)
+    return empty_graph
+
+
+@pytest.fixture
+def loop(empty_graph):
+    """."""
+    empty_graph.add_edge(1, 2)
+    empty_graph.add_edge(1, 3)
+    empty_graph.add_edge(2, 4)
+    empty_graph.add_edge(2, 5)
+    empty_graph.add_edge(2, 6)
+    empty_graph.add_edge(6, 1)
+    return empty_graph
+
+
+@pytest.fixture
 def empty_graph():
     """Create an empty graph."""
     from graph_1 import Graph
@@ -110,3 +133,18 @@ def test_adjacent_raises_ValueError_if_either_are_not_in_graph(tri_graph):
         tri_graph.adjacent(1, 4)
     with pytest.raises(ValueError):
         tri_graph.adjacent(4, 1)
+
+
+def test_depth_first_transversal(traverse):
+    """."""
+    assert traverse.depth_first_traversal(1) == [1, 2, 4, 5, 6, 3]
+
+
+def test_depth_first_traversal_with_loop(loop):
+    """."""
+    assert loop.depth_first_traversal(1) == [1, 2, 4, 5, 6, 3]
+
+
+def test_breadth_first_traversal(traverse):
+    """."""
+    assert traverse.breadth_first_traversal(1) == [1, 2, 3, 4, 5, 6]
