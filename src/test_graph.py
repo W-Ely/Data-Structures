@@ -51,7 +51,7 @@ def more_complex():
 @pytest.fixture
 def empty_graph():
     """Create an empty graph."""
-    from graph_1 import Graph
+    from graph import Graph
     return Graph()
 
 

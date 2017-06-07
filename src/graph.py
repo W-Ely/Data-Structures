@@ -87,8 +87,10 @@ class Graph(dict):
             return True
         return False
 
-    def depth_first_traversal(self, start_val, path=[]):
+    def depth_first_traversal(self, start_val, path=None):
         """Return the path with depth transversal."""
+        if path is None:
+            path = []
         if start_val not in self.keys():
             raise ValueError('No such starting value')
         if start_val not in path:
