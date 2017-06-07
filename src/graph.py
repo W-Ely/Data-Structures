@@ -86,3 +86,24 @@ class Graph(dict):
         if val2 in self[val1]:
             return True
         return False
+
+    def depth_first_traversal(self, start_val, path=[]):
+        """Return the path with depth transversal."""
+        if start_val not in self.keys():
+            raise ValueError('No such starting value')
+        if start_val not in path:
+            path.append(start_val)
+            for val in self.neighbors(start_val):
+                self.depth_first_traversal(val, path)
+        return path
+
+    def breadth_first_traversal(self, start_val):
+        """Return the path with breadth transversal."""
+        if start_val not in self.keys():
+            raise ValueError('No such starting value')
+        path = [start_val]
+        for node in path:
+            for val in self[node]:
+                if val not in path:
+                    path.append(val)
+        return path

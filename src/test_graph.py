@@ -3,6 +3,52 @@ import pytest
 
 
 @pytest.fixture
+def traverse():
+    """."""
+    from graph import Graph
+    trans_graph = Graph()
+    trans_graph.add_edge(1, 2)
+    trans_graph.add_edge(1, 3)
+    trans_graph.add_edge(2, 4)
+    trans_graph.add_edge(2, 5)
+    trans_graph.add_edge(2, 6)
+    return trans_graph
+
+
+@pytest.fixture
+def loop():
+    """."""
+    from graph import Graph
+    loop_graph = Graph()
+    loop_graph.add_edge(1, 2)
+    loop_graph.add_edge(1, 3)
+    loop_graph.add_edge(2, 4)
+    loop_graph.add_edge(2, 5)
+    loop_graph.add_edge(2, 6)
+    loop_graph.add_edge(6, 1)
+    return loop_graph
+
+
+@pytest.fixture
+def more_complex():
+    """."""
+    from graph import Graph
+    new_graph = Graph()
+    new_graph.add_edge(1, 2)
+    new_graph.add_edge(1, 3)
+    new_graph.add_edge(1, 4)
+    new_graph.add_edge(1, 3)
+    new_graph.add_edge(2, 4)
+    new_graph.add_edge(2, 5)
+    new_graph.add_edge(2, 6)
+    new_graph.add_edge(3, 7)
+    new_graph.add_edge(6, 1)
+    new_graph.add_edge(4, 12)
+    new_graph.add_edge(10, 13)
+    return new_graph
+
+
+@pytest.fixture
 def empty_graph():
     """Create an empty graph."""
     from graph_1 import Graph
@@ -110,3 +156,49 @@ def test_adjacent_raises_ValueError_if_either_are_not_in_graph(tri_graph):
         tri_graph.adjacent(1, 4)
     with pytest.raises(ValueError):
         tri_graph.adjacent(4, 1)
+
+
+def test_depth_first_transversal(traverse):
+    """."""
+    assert traverse.depth_first_traversal(1) == [1, 2, 4, 5, 6, 3]
+
+
+def test_depth_first_transversal_more_complex(more_complex):
+    """."""
+    assert more_complex.depth_first_traversal(1) == [
+        1, 2, 4, 12, 5, 6, 3, 7
+    ]
+
+
+def test_depth_first_transversal_start_value_not_in_graph(traverse):
+    """."""
+    with pytest.raises(ValueError):
+        traverse.depth_first_traversal(25)
+
+
+def test_depth_first_traversal_with_loop(loop):
+    """."""
+    assert loop.depth_first_traversal(1) == [1, 2, 4, 5, 6, 3]
+
+
+def test_breadth_first_traversal(traverse):
+    """."""
+    assert traverse.breadth_first_traversal(1) == [1, 2, 3, 4, 5, 6]
+
+
+def test_breadth_first_transversal_more_complex(more_complex):
+    """."""
+    assert more_complex.breadth_first_traversal(1) == [
+        1, 2, 3, 4, 5, 6, 7, 12
+    ]
+
+#
+def test_breath_first_transversal_start_value_not_in_graph(more_complex):
+    """."""
+    with pytest.raises(ValueError):
+        more_complex.breadth_first_traversal(25)
+
+
+def test_breadth_first_traversal_with_loop(loop):
+    """."""
+    assert loop.breadth_first_traversal(1) == [1, 2, 3, 4, 5, 6]
