@@ -3,74 +3,67 @@ import pytest
 
 
 @pytest.fixture
-def traverse():
+def graph():
+    """Init a graph from wgraph."""
+    from weighted_graph import WeightedGraph
+    return WeightedGraph()
+
+
+@pytest.fixture
+def traverse(graph):
     """."""
-    from graph import Graph
-    trans_graph = Graph()
-    trans_graph.add_edge(1, 2)
-    trans_graph.add_edge(1, 3)
-    trans_graph.add_edge(2, 4)
-    trans_graph.add_edge(2, 5)
-    trans_graph.add_edge(2, 6)
-    return trans_graph
+    graph.add_edge(1, 2)
+    graph.add_edge(1, 3)
+    graph.add_edge(2, 4)
+    graph.add_edge(2, 5)
+    graph.add_edge(2, 6)
+    return graph
 
 
 @pytest.fixture
-def loop():
+def loop(graph):
     """."""
-    from graph import Graph
-    loop_graph = Graph()
-    loop_graph.add_edge(1, 2)
-    loop_graph.add_edge(1, 3)
-    loop_graph.add_edge(2, 4)
-    loop_graph.add_edge(2, 5)
-    loop_graph.add_edge(2, 6)
-    loop_graph.add_edge(6, 1)
-    return loop_graph
+    graph.add_edge(1, 2)
+    graph.add_edge(1, 3)
+    graph.add_edge(2, 4)
+    graph.add_edge(2, 5)
+    graph.add_edge(2, 6)
+    graph.add_edge(6, 1)
+    return graph
 
 
 @pytest.fixture
-def more_complex():
+def more_complex(graph):
     """."""
-    from graph import Graph
-    new_graph = Graph()
-    new_graph.add_edge(1, 2)
-    new_graph.add_edge(1, 3)
-    new_graph.add_edge(1, 4)
-    new_graph.add_edge(1, 3)
-    new_graph.add_edge(2, 4)
-    new_graph.add_edge(2, 5)
-    new_graph.add_edge(2, 6)
-    new_graph.add_edge(3, 7)
-    new_graph.add_edge(6, 1)
-    new_graph.add_edge(4, 12)
-    new_graph.add_edge(10, 13)
-    return new_graph
+    graph.add_edge(1, 2)
+    graph.add_edge(1, 3)
+    graph.add_edge(1, 4)
+    graph.add_edge(1, 3)
+    graph.add_edge(2, 4)
+    graph.add_edge(2, 5)
+    graph.add_edge(2, 6)
+    graph.add_edge(3, 7)
+    graph.add_edge(6, 1)
+    graph.add_edge(4, 12)
+    graph.add_edge(10, 13)
+    return graph
 
 
 @pytest.fixture
-def empty_graph():
-    """Create an empty graph."""
-    from graph_1 import Graph
-    return Graph()
-
-
-@pytest.fixture
-def tri_graph(empty_graph):
+def tri_graph(graph):
     """Create a graph with 3 nodes one pointing to next in circle."""
-    new_graph = empty_graph
-    empty_graph.add_node(1)
-    empty_graph.add_node(2)
-    empty_graph.add_node(3)
-    empty_graph.add_edge(1, 2)
-    empty_graph.add_edge(2, 3)
-    empty_graph.add_edge(3, 1)
-    return new_graph
+    graph.add_node(1)
+    graph.add_node(2)
+    graph.add_node(3)
+    graph.add_edge(1, 2)
+    graph.add_edge(2, 3)
+    graph.add_edge(3, 1)
+    return graph
 
 
-def test_init_creates_empty_graph(empty_graph):
+def test_init_creates_graph(graph):
         """Initialize and empty graph."""
-        assert empty_graph.nodes() == []
+        assert graph.nodes() == []
 
 
 def test_nodes_returns_list_of_all_nodes(tri_graph):
@@ -81,13 +74,13 @@ def test_nodes_returns_list_of_all_nodes(tri_graph):
 def test_edges_returns_list_of_all_edges(tri_graph):
     """Return a list of all edges in the graph."""
     tri_graph.add_edge(3, 2)
-    assert tri_graph.edges() == [(1, 2), (2, 3), (3, 1), (3, 2)]
+    assert tri_graph.edges() == [(1, 2, 0), (2, 3, 0), (3, 1, 0), (3, 2, 0)]
 
 
-def test_add_node_adds_node(empty_graph):
+def test_add_node_adds_node(graph):
     """Add a new node with value 'val' to the graph."""
-    empty_graph.add_node('test')
-    assert empty_graph.nodes() == ['test']
+    graph.add_node('test')
+    assert graph.nodes() == ['test']
 
 
 def test_add_edge_adds_an_edge(tri_graph):
@@ -192,7 +185,7 @@ def test_breadth_first_transversal_more_complex(more_complex):
         1, 2, 3, 4, 5, 6, 7, 12
     ]
 
-#
+
 def test_breath_first_transversal_start_value_not_in_graph(more_complex):
     """."""
     with pytest.raises(ValueError):

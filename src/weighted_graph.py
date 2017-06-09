@@ -18,25 +18,25 @@ class WeightedGraph(dict):
         for key in self:
             if key:
                 for edge in self[key]:
-                    edges.append((key, edge.keys()[0], edge.values()[0]))
+                    edges.append((key, edge, self[key][edge]))
         return edges
 
     def add_node(self, val):
         """Add a new node with value 'val' to the graph."""
         if val not in self:
-            self.setdefault(val, [])
+            self.setdefault(val, {})
 
-    def add_edge(self, val1, val2, weight):
+    def add_edge(self, val1, val2, weight=0):
         """Add a new edge to the graph.
 
         connecting the node containing 'val1' and the node containing 'val2'.
         If either val1 or val2 are not already present in the graph,
         they should be added. If an edge already exists, overwrite it.
         """
-        self.setdefault(val1, [])
-        self.setdefault(val2, [])
+        self.setdefault(val1, {})
+        self.setdefault(val2, {})
         if val2 not in self[val1]:
-            self[val1].append({val2: weight})
+            self[val1][val2] = weight
 
     def del_node(self, val):
         """Delete the node containing 'val' from the graph.
@@ -47,7 +47,7 @@ class WeightedGraph(dict):
             del self[val]
             for key in self:
                 if val in self[key]:
-                    self[key].remove(val)
+                    del self[key][val]
         except KeyError:
             raise ValueError('Value not in graph')
 
@@ -57,8 +57,8 @@ class WeightedGraph(dict):
         Raises an error if no such edge exists.
         """
         try:
-            self[val1].remove(val2)
-        except ValueError:
+            del self[val1][val2]
+        except KeyError:
             raise ValueError('No such edge.')
 
     def has_node(self, val):
@@ -71,7 +71,7 @@ class WeightedGraph(dict):
         'Val' by edges; raises an error if val is not in the graph.
         """
         if val in self:
-            return self[val]
+            return list(self[val].keys())
         else:
             raise ValueError('Value not in graph')
 
@@ -87,8 +87,10 @@ class WeightedGraph(dict):
             return True
         return False
 
-    def depth_first_traversal(self, start_val, path=[]):
+    def depth_first_traversal(self, start_val, path=None):
         """Return the path with depth transversal."""
+        if not path:
+            path = []
         if start_val not in self.keys():
             raise ValueError('No such starting value')
         if start_val not in path:
