@@ -109,3 +109,22 @@ class WeightedGraph(dict):
                 if val not in path:
                     path.append(val)
         return path
+
+
+if __name__ == '__main__':  # pragma: no cover
+    """Shows how the two methods of traversal compare to each."""
+    graph = WeightedGraph()
+    graph.add_edge(1, 2)
+    graph.add_edge(1, 3)
+    graph.add_edge(1, 4)
+    graph.add_edge(1, 3)
+    graph.add_edge(2, 4)
+    graph.add_edge(2, 5)
+    graph.add_edge(2, 6)
+    graph.add_edge(3, 7)
+    graph.add_edge(6, 1)
+    graph.add_edge(4, 12)
+    graph.add_edge(10, 13)
+    print('Depth and Breadth transversal compared.')
+    print('Breadth: {}'.format(graph.breadth_first_traversal(1)))
+    print('Depth: {}'.format(graph.depth_first_traversal(1))
