@@ -127,4 +127,4 @@ if __name__ == '__main__':  # pragma: no cover
     graph.add_edge(10, 13)
     print('Depth and Breadth transversal compared.')
     print('Breadth: {}'.format(graph.breadth_first_traversal(1)))
-    print('Depth: {}'.format(graph.depth_first_traversal(1))
+    print('Depth: {}'.format(graph.depth_first_traversal(1)))

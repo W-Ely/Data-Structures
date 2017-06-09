@@ -1,4 +1,4 @@
-# data-structures
+# data-structures [![Build Status](https://travis-ci.org/W-Ely/Data-Structures-Fork.svg?branch=master)](https://travis-ci.org/W-Ely/Data-Structures-Fork)
 This will hold sample code for a number of classic data structures implemented in Python.
 
 ## linked_list
@@ -38,12 +38,21 @@ error if there is no values in the pqueue.
 
 ## Graph
 
-- g.nodes(): return a list of all nodes in the graph
-- g.edges(): return a list of all edges in the graph
-- g.add_node(val): adds a new node with value ‘n’ to the graph
-- g.add_edge(val1, val2): adds a new edge to the graph connecting the node containing ‘val1’ and the node containing ‘val2’. If either val1 or val2 are not already present in the graph, they should be added. If an edge already exists, overwrite it.
-- g.del_node(val): deletes the node containing ‘val’ from the graph; raises an error if no such node exists
-- g.del_edge(val1, val2): deletes the edge connecting ‘val1’ and ‘val2’ from the graph; raises an error if no such edge exists
-- g.has_node(val): True if node containing ‘val’ is contained in the graph, False if not.
-- g.neighbors(val): returns the list of all nodes connected to the node containing ‘val’ by edges; raises an error if val is not in g
-- g.adjacent(val1, val2): returns True if there is an edge connecting val1 and val2, False if not; raises an error if either of the supplied values are not in g
+- nodes(): return a list of all nodes in the graph
+- edges(): return a list of all edges in the graph
+- add_node(val): adds a new node with value ‘n’ to the graph
+- add_edge(val1, val2): adds a new edge to the graph connecting the node containing ‘val1’ and the node containing ‘val2’. If either val1 or val2 are not already present in the graph, they should be added. If an edge already exists, overwrite it.
+- del_node(val): deletes the node containing ‘val’ from the graph; raises an error if no such node exists
+- del_edge(val1, val2): deletes the edge connecting ‘val1’ and ‘val2’ from the graph; raises an error if no such edge exists
+- has_node(val): True if node containing ‘val’ is contained in the graph, False if not.
+- neighbors(val): returns the list of all nodes connected to the node containing ‘val’ by edges; raises an error if val is not in g
+- adjacent(val1, val2): returns True if there is an edge connecting val1 and val2, False if not; raises an error if either of the supplied values are not in g
+- depth_first_traversal(start_val): Perform a full depth-first traversal of the graph beginning at start_val. Return the full visited path when traversal is complete.
+- breadth_first_traversal(start_val): Perform a full breadth-first traversal of the graph, beginning at start_val. Return the full visited path when traversal is complete.
+
+```python graph.py ```
+Should return examples of both depth and breadth transversal
+
+## Weighted Graph
+
+- adds weights to each route of the graph.

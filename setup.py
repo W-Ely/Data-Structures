@@ -9,7 +9,7 @@ multiple classic data structure implementations""",
     version='0.1',
     author="Casey and Ely",
     license='MIT',
-    py_modules=['linked_list', 'stack'],
+    py_modules=['binheap', 'deque', 'dll', 'graph', 'linked_list', 'priority_queue', 'que_', 'stack', 'weighted_graph'],
     package_dir={'': 'src'},
     install_requires=[],
     extras_require={'testing': ['pytest', 'pytest-cov', 'tox']}
