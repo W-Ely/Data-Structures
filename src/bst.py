@@ -1,16 +1,6 @@
 """Implements Binary Search Tree data structure."""
 
 
-class Node(object):
-    """Node data structure."""
-
-    def __init__(self, value):
-        """Init a node."""
-        self.value = value
-        self.left = None
-        self.right = None
-
-
 class Bst(object):
     """Create a binay search tree data structure."""
 
@@ -18,8 +8,8 @@ class Bst(object):
         """Init with or without iterable but only nums."""
         if not iterable:
             pass
-        elif iterable and self.check_iterable(iterable):
-            self.head = None
+        elif iterable and self.check_value(iterable):
+            self.root = None
             self.length = 0
             self.depth = 0
             for num in iterable:
@@ -27,7 +17,7 @@ class Bst(object):
         else:
             raise TypeError('Must be iterable and all numbers.')
 
-    def check_iterable(self, iterable):
+    def check_value(self, iterable):
         """Check iterable for all numeric values."""
         allnumeric = True
         for item in iterable:
@@ -40,9 +30,13 @@ class Bst(object):
 
         If val is already present, it will be ignored.
         """
-        if self.check_iterable([val]):
-
-            pass
+        if self.check_value([val]):
+            self.length += 1
+            if not self.root:
+                self.root.value = val
+            has_next = True
+            while True:
+                break
         else:
             raise TypeError('Must be a number.')
 
