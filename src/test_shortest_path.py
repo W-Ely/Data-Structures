@@ -1,11 +1,11 @@
-"""Module tests the graph datastructure."""
+"""Testing module for shortest path graph class."""
 import pytest
 
 
 @pytest.fixture
 def graph():
     """Init a graph from wgraph."""
-    from weighted_graph import WeightedGraph
+    from shortest_path import WeightedGraph
     return WeightedGraph()
 
 
@@ -195,13 +195,15 @@ def test_breath_first_transversal_start_value_not_in_graph(more_complex):
 def test_breadth_first_traversal_with_loop(loop):
     """."""
     assert loop.breadth_first_traversal(1) == [1, 2, 3, 4, 5, 6]
+
+
 SIMPLE_WGRAPH = [("A", "B", 3), ("A", "D", 4), ("B", "C", 2), ("B", "E", 5), ("C", "D" , 1), ("C", "G", 6), ("D", "E", 3), ("D", "B", 4), ("E", "G", 5), ("E", "C", 2), ("E", "F", 5), ("F", "G", 2)]
 
 
 @pytest.fixture
 def simple_wgraph():
     """Return a simple weighted graph with edges."""
-    from weighted_graph import WeightedGraph
+    from shortest_path import WeightedGraph
     wg = WeightedGraph()
     for edge in SIMPLE_WGRAPH:
         wg.add_edge(edge[0], edge[1], edge[2])

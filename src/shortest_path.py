@@ -1,4 +1,4 @@
-"""Module implements a weighted graph data strcture."""
+"""Module that implements the shortest path algorithms."""
 
 
 class WeightedGraph(dict):
@@ -154,7 +154,7 @@ class WeightedGraph(dict):
 
         return self.floyd_warshall_path(start, end, next_node)
 
-    def floyd_warshall_path(self, start, end, next_node):  # pragma no cover
+    def floyd_warshall_path(self, start, end, next_node):
         """Path for the floyd_warshall algorithm."""
         if next_node[start][end] is None:
             return []
@@ -163,21 +163,3 @@ class WeightedGraph(dict):
             start = next_node[start][end]
             path.append(start)
         return path
-
-if __name__ == '__main__':  # pragma: no cover
-    """Shows how the two methods of traversal compare to each."""
-    graph = WeightedGraph()
-    graph.add_edge(1, 2)
-    graph.add_edge(1, 3)
-    graph.add_edge(1, 4)
-    graph.add_edge(1, 3)
-    graph.add_edge(2, 4)
-    graph.add_edge(2, 5)
-    graph.add_edge(2, 6)
-    graph.add_edge(3, 7)
-    graph.add_edge(6, 1)
-    graph.add_edge(4, 12)
-    graph.add_edge(10, 13)
-    print('Depth and Breadth transversal compared.')
-    print('Breadth: {}'.format(graph.breadth_first_traversal(1)))
-    print('Depth: {}'.format(graph.depth_first_traversal(1)))
