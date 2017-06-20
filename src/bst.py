@@ -1,6 +1,16 @@
 """Implements Binary Search Tree data structure."""
 
 
+class Node(object):
+    """."""
+
+    def __init__(self, val, left=None, right=None):
+        """."""
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class Bst(object):
     """Create a binay search tree data structure."""
 
@@ -9,9 +19,9 @@ class Bst(object):
         if not iterable:
             pass
         elif iterable and self.check_value(iterable):
-            self.root = None
-            self.length = 0
-            self.depth = 0
+            self._root = None
+            self._length = 0
+            self._depth = 0
             for num in iterable:
                 self.insert(num)
         else:
@@ -31,18 +41,50 @@ class Bst(object):
         If val is already present, it will be ignored.
         """
         if self.check_value([val]):
-            self.length += 1
-            if not self.root:
-                self.root.value = val
-            has_next = True
-            while True:
-                break
+            check_depth = 0
+            if not self._root:
+                self._root = Node(val)
+            else:
+                current_node = self._root
+                while current_node:
+                    if val > current_node.val:
+                        if current_node.right:
+                            current_node = current_node.right
+                            continue
+                        else:
+                            current_node.right = Node(val)
+                            self._length += 1
+                    elif val < current_node.val:
+                        if current_node.left:
+                            current_node = current_node.left
+                            continue
+                        else:
+                            current_node.left = Node(val)
+                            self._length += 1
+                    else:
+                        return
         else:
             raise TypeError('Must be a number.')
 
     def search(self, val):
         """Return the node containing that value, else None."""
-        pass
+        current_node = self._root
+        while current_node:
+            if val > current_node.val:
+                if current_node.right:
+                    current_node = current_node.right
+                    continue
+                else:
+                    return
+            elif val < current_node.val:
+                if current_node.left:
+                    current_node = current_node.left
+                    continue
+                else:
+                    return
+            else:
+                return current_node
+        return
 
     def size(self):
         """Rreturn the integer size of the BST.
