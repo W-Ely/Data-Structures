@@ -16,12 +16,12 @@ class Bst(object):
 
     def __init__(self,  iterable=None):
         """Init with or without iterable but only nums."""
+        self._root = None
+        self._length = 0
+        self._depth = {'r': 0, 'l': 0}
         if not iterable:
             pass
         elif iterable and self.check_value(iterable):
-            self._root = None
-            self._length = 0
-            self._depth = 0
             for num in iterable:
                 self.insert(num)
         else:
@@ -41,12 +41,19 @@ class Bst(object):
         If val is already present, it will be ignored.
         """
         if self.check_value([val]):
-            check_depth = 0
             if not self._root:
                 self._root = Node(val)
+                self._length += 1
+                self._depth = {'r': 1, 'l': 1}
             else:
+                count_depth = 1
                 current_node = self._root
+                if val > current_node.val:
+                    side = 'r'
+                if val < current_node.val:
+                    side = 'l'
                 while current_node:
+                    count_depth += 1
                     if val > current_node.val:
                         if current_node.right:
                             current_node = current_node.right
@@ -54,6 +61,7 @@ class Bst(object):
                         else:
                             current_node.right = Node(val)
                             self._length += 1
+                            self._depth[side] = count_depth
                     elif val < current_node.val:
                         if current_node.left:
                             current_node = current_node.left
@@ -61,6 +69,7 @@ class Bst(object):
                         else:
                             current_node.left = Node(val)
                             self._length += 1
+                            self._depth[side] = count_depth
                     else:
                         return
         else:
@@ -92,7 +101,7 @@ class Bst(object):
         (equal to the total number of values stored in the tree).
         It will return 0 if the tree is empty.
         """
-        pass
+        return self._length
 
     def depth(self):
         """Return an integer representing the total number of levels in tree.
@@ -100,11 +109,13 @@ class Bst(object):
         If there are no values, depth is 0, if one value the depth should be 1,
         if two values it will be 2, if three values it may be 2 or 3.
         """
-        pass
+        return max([depth for side, depth in self._depth.items()])
 
     def contains(self, val):
         """Return True if val is in the BST, False if not."""
-        pass
+        if self.search(val):
+            return True
+        return False
 
     def balance(self):
         """Return an integer, positive, negative or zero.
@@ -115,14 +126,31 @@ class Bst(object):
         should return a negative value. An ideally-balanced tree should
         return 0.
         """
-        pass
+        if self._depth['r'] > self._depth['l']:
+            return -1
+        elif self._depth['r'] < self._depth['l']:
+            return 1
+        else:
+            return 0
 
     def __len__(self):
         """Return the length."""
         return self.size()
 
 
-if __name__ == '__main__':
-    # import timeit
-    # print(timeit.timeit("test()", setup="from __main__ import test"))
-    pass
+def test(search_val):  # pragma: no cover
+    """Test searchs."""
+    tree = Bst([num for num in range(100)][::-1])
+    tree.search(search_val)
+
+
+if __name__ == '__main__':  # pragma: no cover
+    from timeit import Timer
+    best = Timer('test(100)', "from __main__ import test")
+    worse = Timer('test(1)', "from __main__ import test")
+    print("#================= best case search 1000x ==============#")
+    print(best.timeit(number=1000))
+    print('')
+    print("#================= worse case search 1000x==============#")
+    print(worse.timeit(number=1000))
+    print('')
