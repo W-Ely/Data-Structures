@@ -1,4 +1,4 @@
-# data-structures [![Build Status](https://travis-ci.org/W-Ely/Data-Structures-Fork.svg?branch=master)](https://travis-ci.org/W-Ely/Data-Structures-Fork)
+# data-structures [![Build Status](https://travis-ci.org/Casey0Kane/data-structures.svg?branch=master)](https://travis-ci.org/Casey0Kane/data-structures)
 This will hold sample code for a number of classic data structures implemented in Python.
 
 ## linked_list
