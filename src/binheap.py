@@ -9,8 +9,8 @@ class Binheap(list):
         if not iterable:
             pass
         elif iterable and self.check_iterable(iterable):
-                for num in iterable:
-                    self.push(num)
+            for num in iterable:
+                self.push(num)
         else:
             raise TypeError('Must be iterable and all numbers.')
 
