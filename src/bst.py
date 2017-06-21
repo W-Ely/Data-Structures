@@ -133,6 +133,34 @@ class Bst(object):
         else:
             return 0
 
+    def in_order(self):
+        """Return a generator that will return the values in the tree.
+
+         using in-order traversal, one at a time.
+         """
+        pass
+
+    def pre_order(self):
+        """Return a generator that will return the values in the tree.
+
+         using pre-order traversal, one at a time.
+         """
+        pass
+
+    def post_order(self):
+        """Return a generator that will return the values in the tree.
+
+        using post_order traversal, one at a time.
+        """
+        pass
+
+    def breadth_first(self):
+        """Return a generator that will return the values in the tree.
+
+        using breadth-first traversal, one at a time.
+        """
+        pass
+
     def __len__(self):
         """Return the length."""
         return self.size()

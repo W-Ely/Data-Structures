@@ -25,6 +25,11 @@ def bst_left_balance():
                 2
     depth: 5
     balance: 1
+    === Search Transversals ===
+    in_order: (1, 2, 3, 4, 5)
+    pre_order: (5, 4, 1, 3, 2)
+    breadth_first: (5, 4, 1, 3, 2)
+    post_order: (1, 2, 3, 4, 5)
     """
     from bst import Bst
     return Bst([5, 4, 1, 3, 2])
@@ -41,6 +46,11 @@ def bst_balanced():
                 1   3     7
     depth: 3
     balance: 0
+    === Search Transversals ===
+    in_order: (1, 2, 3, 5, 6, 7)
+    pre_order: (5, 2, 1, 3, 6, 7)
+    breadth_first: (5, 2, 6, 1, 3, 7)
+    post_order: (1, 3, 2, 7, 6, 5)
     """
     from bst import Bst
     return Bst([5, 6, 2, 3, 1, 7])
@@ -59,6 +69,11 @@ def bst_right_balance():
                         7
     depth: 4
     balance: -1
+    === Search Transversals ===
+    in_order: (2, 5, 6, 7, 8, 9)
+    pre_order: (5, 2, 8, 6, 7, 9)
+    breadth_first: (5, 2, 8, 6, 9, 7)
+    post_order: (2, 7, 6, 9, 8, 5)
     """
     from bst import Bst
     return Bst([5, 8, 6, 9, 2, 7])
@@ -211,3 +226,129 @@ def test_balance_balanced_tree(bst_balanced):
 def test_balance_empty_tree(bst_empty):
     """Tree balanced right returns 0."""
     assert bst_empty.balance() == 0
+
+# =================== Transversal Tests ================== #
+
+
+@pytest.fixture
+def bst_wiki():
+    r"""Wikipedia's example tree structure.
+
+                      6
+                   /     \
+                  2       7
+                /   \      \
+               1     4      9
+                    /  \    /
+                   3    5  8
+    depth: 4
+    balance: 0
+    === Search Transversals ===
+    in_order: (1, 2, 3, 4, 5, 6, 7, 8, 9)
+    pre_order: (6, 2, 1, 4, 3, 5, 7, 9, 8)
+    breadth_first: (6, 2, 7, 1, 4, 9, 3, 5, 8)
+    post_order: (1, 3, 5, 4, 2, 8, 9, 7, 6)
+    """
+    from bst import Bst
+    tree = Bst([6, 7, 9, 8, 2, 1, 4, 3, 5])
+    return tree
+
+
+def in_order_0_0(bst_empty):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_empty.in_order()) == ()
+
+
+def in_order_0_1(bst_balanced):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_balanced.in_order()) == (1, 2, 3, 5, 6, 7)
+
+
+def in_order_0_2(bst_left_balance):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_left_balance.in_order()) == (1, 2, 3, 4, 5)
+
+
+def in_order_0_3(bst_right_balance):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_right_balance.in_order()) == (2, 5, 6, 7, 8, 9)
+
+
+def in_order_0_4(bst_wiki):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_wiki.in_order()) == (1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+
+def pre_order_0_0(bst_empty):
+    """Test pre order Transversal with various tress."""
+    assert tuple(bst_empty.pre_order()) == ()
+
+
+def pre_order_0_1(bst_balanced):
+    """Test pre order Transversal with various tress."""
+    assert tuple(bst_balanced.pre_order()) == (5, 2, 1, 3, 6, 7)
+
+
+def pre_order_0_2(bst_left_balance):
+    """Test pre order Transversal with various tress."""
+    assert tuple(bst_left_balance.pre_order()) == (5, 4, 1, 3, 2)
+
+
+def pre_order_0_3(bst_right_balance):
+    """Test pre order Transversal with various tress."""
+    assert tuple(bst_right_balance.pre_order()) == (5, 2, 8, 6, 7, 9)
+
+
+def pre_order_0_4(bst_wiki):
+    """Test pre order Transversal with various tress."""
+    assert tuple(bst_wiki.pre_order()) == (6, 2, 1, 4, 3, 5, 7, 9, 8)
+
+
+def post_order_0_0(bst_empty):
+    """Test post_order Transversal with various tress."""
+    assert tuple(bst_empty.port_order()) == ()
+
+
+def post_order_0_1(bst_balanced):
+    """Test post_order Transversal with various tress."""
+    assert tuple(bst_balanced.post_order()) == (1, 3, 2, 7, 6, 5)
+
+
+def post_order_0_2(bst_left_balance):
+    """Test post_order Transversal with various tress."""
+    assert tuple(bst_left_balance.post_order()) == (1, 2, 3, 4, 5)
+
+
+def post_order_0_3(bst_right_balance):
+    """Test post_order Transversal with various tress."""
+    assert tuple(bst_right_balance.post_order()) == (2, 7, 6, 9, 8, 5)
+
+
+def post_order_0_4(bst_wiki):
+    """Test post_order Transversal with various tress."""
+    assert tuple(bst_wiki.post_order()) == (1, 3, 5, 4, 2, 8, 9, 7, 6)
+
+
+def breadth_first_0_0(bst_empty):
+    """Test breadth_first Transversal with various tress."""
+    assert tuple(bst_empty.breadth_first()) == ()
+
+
+def breadth_first_0_1(bst_balanced):
+    """Test breadth_first Transversal with various tress."""
+    assert tuple(bst_balanced.breadth_first()) == (5, 2, 6, 1, 3, 7)
+
+
+def breadth_first_0_2(bst_left_balance):
+    """Test breadth_first Transversal with various tress."""
+    assert tuple(bst_left_balance.breadth_first()) == (5, 4, 1, 3, 2)
+
+
+def breadth_first_0_3(bst_right_balance):
+    """Test breadth_first Transversal with various tress."""
+    assert tuple(bst_right_balance.breadth_first()) == (5, 2, 8, 6, 9, 7)
+
+
+def breadth_first_0_4(bst_wiki):
+    """Test breadth_first Transversal with various tress."""
+    assert tuple(bst_wiki.breadth_first()) == (6, 2, 7, 1, 4, 9, 3, 5, 8)
