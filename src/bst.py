@@ -182,10 +182,10 @@ def test(search_val):  # pragma: no cover
 if __name__ == '__main__':  # pragma: no cover
     from timeit import Timer
     best = Timer('test(100)', "from __main__ import test")
-    worse = Timer('test(1)', "from __main__ import test")
+    worst = Timer('test(1)', "from __main__ import test")
     print("#================= best case search 1000x ==============#")
     print(best.timeit(number=1000))
     print('')
     print("#================= worse case search 1000x==============#")
-    print(worse.timeit(number=1000))
+    print(worst.timeit(number=1000))
     print('')
