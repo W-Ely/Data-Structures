@@ -254,24 +254,24 @@ def bst_wiki():
     return tree
 
 
-# def test_in_order_0_0(bst_empty):
-#     """Test in order Transversal with various tress."""
-#     assert tuple(bst_empty.in_order()) == ()
-#
-#
-# def test_in_order_0_1(bst_balanced):
-#     """Test in order Transversal with various tress."""
-#     assert tuple(bst_balanced.in_order()) == (1, 2, 3, 5, 6, 7)
-#
-#
-# def test_in_order_0_2(bst_left_balance):
-#     """Test in order Transversal with various tress."""
-#     assert tuple(bst_left_balance.in_order()) == (1, 2, 3, 4, 5)
-#
-#
-# def test_in_order_0_3(bst_right_balance):
-#     """Test in order Transversal with various tress."""
-#     assert tuple(bst_right_balance.in_order()) == (2, 5, 6, 7, 8, 9)
+def test_in_order_0_0(bst_empty):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_empty.in_order()) == ()
+
+
+def test_in_order_0_1(bst_balanced):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_balanced.in_order()) == (1, 2, 3, 5, 6, 7)
+
+
+def test_in_order_0_2(bst_left_balance):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_left_balance.in_order()) == (1, 2, 3, 4, 5)
+
+
+def test_in_order_0_3(bst_right_balance):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_right_balance.in_order()) == (2, 5, 6, 7, 8, 9)
 
 
 def testin_order_0_4(bst_wiki):

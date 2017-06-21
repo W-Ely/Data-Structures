@@ -141,9 +141,11 @@ class Bst(object):
         if start:
             node = self._root
         if node:
-            self.in_order(node.left, False)
+            for val in self.in_order(node.left, False):
+                yield val
             yield node.val
-            self.in_order(node.right, False)
+            for val in self.in_order(node.right, False):
+                yield val
 
     def pre_order(self):
         """Return a generator that will return the values in the tree.
