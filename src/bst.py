@@ -14,7 +14,7 @@ class Node(object):
 class Bst(object):
     """Create a binay search tree data structure."""
 
-    def __init__(self,  iterable=None):
+    def __init__(self, iterable=None):
         """Init with or without iterable but only nums."""
         self._root = None
         self._length = 0
@@ -147,26 +147,54 @@ class Bst(object):
             for val in self.in_order(node.right, False):
                 yield val
 
-    def pre_order(self):
+    def pre_order(self, node=None, start=True):
         """Return a generator that will return the values in the tree.
 
-         using pre-order traversal, one at a time.
-         """
-        pass
+        using pre-order traversal, one at a time.
+        """
+        if start:
+            node = self._root
+        if node:
+            yield node.val
+            for val in self.pre_order(node.left, False):
+                yield val
+            for val in self.pre_order(node.right, False):
+                yield val
 
-    def post_order(self):
+    def post_order(self, node=None, start=True):
         """Return a generator that will return the values in the tree.
 
         using post_order traversal, one at a time.
         """
-        pass
+        if start:
+            node = self._root
+        if node:
+            for val in self.post_order(node.left, False):
+                yield val
+            for val in self.post_order(node.right, False):
+                yield val
+            yield node.val
 
     def breadth_first(self):
         """Return a generator that will return the values in the tree.
 
         using breadth-first traversal, one at a time.
         """
-        pass
+        if self._root:
+            nodes = [self._root]
+            for node in nodes:
+                try:
+                    nodes.append(node.left)
+                except(AttributeError):
+                    pass
+                try:
+                    nodes.append(node.right)
+                except(AttributeError):
+                    pass
+                try:
+                    yield node.val
+                except(AttributeError):
+                    pass
 
     def __len__(self):
         """Return the length."""
