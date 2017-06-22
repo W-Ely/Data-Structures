@@ -110,6 +110,59 @@ class WeightedGraph(dict):
                     path.append(val)
         return path
 
+    def dijkstra(self, start, end):
+        """Dijkstra algorithm for finding the shortest path."""
+        distance = {}
+        path_weights = {start: (None, 0)}
+        for key in self:
+            distance[key] = float('inf')
+        distance[start] = 0
+        while distance:
+            current = min(distance, key=distance.get)
+            for neighbor in self[current]:
+                temp_dist = distance[current] + self[current][neighbor]
+                if neighbor in distance and temp_dist < distance[neighbor]:
+                    distance[neighbor] = temp_dist
+                    path_weights[neighbor] = (current, temp_dist)
+            del distance[current]
+        path = []
+        prev = end
+        while prev is not None:
+            path.append(prev)
+            prev = path_weights[prev][0]
+        return list(reversed(path))
+
+    def floyd_warshall(self, start, end):
+        """Find shortest distance with floyd_warshall algorithm."""
+        distance = {}
+        next_node = {}
+        nodes = self.keys()
+        for edge in self.edges():
+            distance.setdefault(edge[0], {})[edge[1]] = edge[2]
+            next_node.setdefault(edge[0], {})[edge[1]] = edge[1]
+
+        for node in nodes:
+            for neighbor in nodes:
+                if neighbor not in self[node]:
+                    distance.setdefault(node, {})[neighbor] = float('inf')
+        for k in nodes:
+            for i in nodes:
+                for j in nodes:
+                    if distance[i][j] > distance[i][k] + distance[k][j]:
+                        distance[i][j] = distance[i][k] + distance[k][j]
+                        next_node[i][j] = next_node[i][k]
+
+        return self.floyd_warshall_path(start, end, next_node)
+
+    def floyd_warshall_path(self, start, end, next_node):  # pragma no cover
+        """Path for the floyd_warshall algorithm."""
+        if next_node[start][end] is None:
+            return []
+        path = [start]
+        while start is not end:
+            start = next_node[start][end]
+            path.append(start)
+        return path
 
 if __name__ == '__main__':  # pragma: no cover
     """Shows how the two methods of traversal compare to each."""
