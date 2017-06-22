@@ -120,7 +120,6 @@ def test_floyd_warshall_shortest_path_e_to_d(simple_wgraph):
 
 # =================== Large Graph ========================== #
 
-
 # LARGE_WGRAPH = [
 #     ("A", "B", 3), ("A", "D", 4), ("B", "C", 2), ("B", "E", 5), ("C", "D", 1),
 #     ("C", "G", 6), ("D", "E", 3), ("D", "B", 4), ("E", "G", 5), ("E", "C", 2),
@@ -143,7 +142,6 @@ def test_floyd_warshall_shortest_path_e_to_d(simple_wgraph):
 #
 
 # ================  Graph Tests ============================ #
-
 
 @pytest.fixture
 def graph():
