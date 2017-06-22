@@ -201,8 +201,27 @@ class Bst(object):
 
         Return None if not present.
         """
+        # current_node = self._root
+        # prev_node = None
+        # direction = None
+        # while current_node:
+        #     if val > current_node.val:
+        #         if current_node.right:
+        #             prev_node, current_node = current_node, current_node.right
+        #             direction = 'right'
+        #             continue
+        #         return
+        #     elif val < current_node.val:
+        #         if current_node.left:
+        #             prev_node, current_node = current_node, current_node.left
+        #             direction = 'left'
+        #             continue
+        #         return
+        #     else:
+        #         delete current_node
+        # return
         pass
-
+        
     def __len__(self):
         """Return the length."""
         return self.size()
