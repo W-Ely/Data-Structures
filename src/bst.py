@@ -126,12 +126,13 @@ class Bst(object):
         should return a negative value. An ideally-balanced tree should
         return 0.
         """
-        if self._depth['r'] > self._depth['l']:
-            return -1
-        elif self._depth['r'] < self._depth['l']:
-            return 1
-        else:
-            return 0
+        return self._depth['l'] - self._depth['r']
+        # if self._depth['r'] > self._depth['l']:
+        #     return -1
+        # elif self._depth['r'] < self._depth['l']:
+        #     return 1
+        # else:
+        #     return 0
 
     def in_order(self, node=None, start=True):
         """Return a generator that will return the values in the tree.
@@ -221,7 +222,7 @@ class Bst(object):
         #         delete current_node
         # return
         pass
-        
+
     def __len__(self):
         """Return the length."""
         return self.size()
