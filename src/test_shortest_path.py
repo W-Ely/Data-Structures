@@ -2,6 +2,149 @@
 import pytest
 
 
+SIMPLE_WGRAPH = [
+    ("A", "B", 3), ("A", "D", 4), ("B", "C", 2), ("B", "E", 5), ("C", "D", 1),
+    ("C", "G", 6), ("D", "E", 3), ("D", "B", 4), ("E", "G", 5), ("E", "C", 2),
+    ("E", "F", 5), ("F", "G", 2)
+]
+
+
+@pytest.fixture
+def simple_wgraph():
+    """Return a simple weighted graph with edges."""
+    from shortest_path import WeightedGraph
+    wg = WeightedGraph()
+    for edge in SIMPLE_WGRAPH:
+        wg.add_edge(edge[0], edge[1], edge[2])
+    return wg
+
+
+def test_dijkstra_shortest_path_a_to_d_with_no_edge(simple_wgraph):
+    """Test the floyd Warshall shortest path for simple graph, A to G."""
+    simple_wgraph.del_edge("A", "D")
+    simple_wgraph.del_edge("C", "D")
+    assert simple_wgraph.dijkstra("A", "D") == []
+
+
+def test_dijkstra_shortest_path(simple_wgraph):
+    """Test dijkstra shortest path."""
+    assert simple_wgraph.dijkstra("A", "G") == ["A", "B", "C", "G"]
+
+
+def test_dijkstra_shortest_path_a_to_g(simple_wgraph):
+    """Test the Dijkstra shortest path for simple graph, A to G."""
+    assert simple_wgraph.dijkstra("A", "G") == ["A", "B", "C", "G"]
+
+
+def test_dijkstra_shortest_path_b_to_d(simple_wgraph):
+    """Test the Dijkstra shortest path for simple graph, B to D."""
+    assert simple_wgraph.dijkstra("B", "D") == ["B", "C", "D"]
+
+
+def test_dijkstra_shortest_path_a_to_f(simple_wgraph):
+    """Test the Dijkstra shortest path for simple graph, A to F."""
+    assert simple_wgraph.dijkstra("A", "F") == ["A", "D", "E", "F"]
+
+
+def test_dijkstra_shortest_path_d_to_c(simple_wgraph):
+    """Test the Dijkstra shortest path for simple graph, D to C."""
+    assert simple_wgraph.dijkstra("D", "C") == ["D", "E", "C"]
+
+
+def test_dijkstra_shortest_path_d_to_g(simple_wgraph):
+    """Test the Dijkstra shortest path for simple graph, D to G."""
+    assert simple_wgraph.dijkstra("D", "G") == ["D", "E", "G"]
+
+
+def test_dijkstra_shortest_path_d_to_f(simple_wgraph):
+    """Test the Dijkstra shortest path for simple graph, D to F."""
+    assert simple_wgraph.dijkstra("D", "F") == ["D", "E", "F"]
+
+
+def test_dijkstra_shortest_path_e_to_b(simple_wgraph):
+    """Test the Dijkstra shortest path for simple graph, E to B."""
+    assert simple_wgraph.dijkstra("E", "B") == ["E", "C", "D", "B"]
+
+
+def test_dijkstra_shortest_path_e_to_d(simple_wgraph):
+    """Test the Dijkstra shortest path for simple graph, E to D."""
+    assert simple_wgraph.dijkstra("E", "D") == ["E", "C", "D"]
+
+
+def test_floyd_warshall_shortest_path_a_to_d_with_no_edge(simple_wgraph):
+    """Test the floyd Warshall shortest path for simple graph, A to G."""
+    simple_wgraph.del_edge("A", "D")
+    simple_wgraph.del_edge("C", "D")
+    assert simple_wgraph.floyd_warshall("A", "D") == []
+
+
+def test_floyd_warshall_shortest_path_a_to_g(simple_wgraph):
+    """Test the floyd Warshall shortest path for simple graph, A to G."""
+    assert simple_wgraph.floyd_warshall("A", "G") == ["A", "B", "C", "G"]
+
+
+def test_floyd_warshall_shortest_path_b_to_d(simple_wgraph):
+    """Test the floyd Warshall shortest path for simple graph, B to D."""
+    assert simple_wgraph.floyd_warshall("B", "D") == ["B", "C", "D"]
+
+
+def test_floyd_warshall_shortest_path_a_to_f(simple_wgraph):
+    """Test the floyd Warshall shortest path for simple graph, A to F."""
+    assert simple_wgraph.floyd_warshall("A", "F") == ["A", "D", "E", "F"]
+
+
+def test_floyd_warshall_shortest_path_d_to_c(simple_wgraph):
+    """Test the floyd Warshall shortest path for simple graph, D to C."""
+    assert simple_wgraph.floyd_warshall("D", "C") == ["D", "E", "C"]
+
+
+def test_floyd_warshall_shortest_path_d_to_g(simple_wgraph):
+    """Test the floyd Warshall shortest path for simple graph, D to G."""
+    assert simple_wgraph.floyd_warshall("D", "G") == ["D", "E", "G"]
+
+
+def test_floyd_warshall_shortest_path_d_to_f(simple_wgraph):
+    """Test the floyd Warshall shortest path for simple graph, D to F."""
+    assert simple_wgraph.floyd_warshall("D", "F") == ["D", "E", "F"]
+
+
+def test_floyd_warshall_shortest_path_e_to_b(simple_wgraph):
+    """Test the floyd Warshall shortest path for simple graph, E to B."""
+    assert simple_wgraph.floyd_warshall("E", "B") == ["E", "C", "D", "B"]
+
+
+def test_floyd_warshall_shortest_path_e_to_d(simple_wgraph):
+    """Test the floyd Warshall shortest path for simple graph, E to D."""
+    assert simple_wgraph.floyd_warshall("E", "D") == ["E", "C", "D"]
+
+
+# =================== Large Graph ========================== #
+
+
+LARGE_WGRAPH = [
+    ("A", "B", 3), ("A", "D", 4), ("B", "C", 2), ("B", "E", 5), ("C", "D", 1),
+    ("C", "G", 6), ("D", "E", 3), ("D", "B", 4), ("E", "G", 5), ("E", "C", 2),
+    ("E", "F", 5), ("F", "G", 2)
+]
+
+
+@pytest.fixture
+def large():
+    """Large graph to test more depth.
+
+    A --1--> B --1--> C --1--> D --1--> E --1--> F
+    
+    """
+    from shortest_path import WeightedGraph
+    graph = WeightedGraph()
+
+
+
+
+
+# ================  Graph Tests ============================ #
+
+
 @pytest.fixture
 def graph():
     """Init a graph from wgraph."""
@@ -195,101 +338,3 @@ def test_breath_first_transversal_start_value_not_in_graph(more_complex):
 def test_breadth_first_traversal_with_loop(loop):
     """."""
     assert loop.breadth_first_traversal(1) == [1, 2, 3, 4, 5, 6]
-
-
-SIMPLE_WGRAPH = [("A", "B", 3), ("A", "D", 4), ("B", "C", 2), ("B", "E", 5), ("C", "D" , 1), ("C", "G", 6), ("D", "E", 3), ("D", "B", 4), ("E", "G", 5), ("E", "C", 2), ("E", "F", 5), ("F", "G", 2)]
-
-
-@pytest.fixture
-def simple_wgraph():
-    """Return a simple weighted graph with edges."""
-    from shortest_path import WeightedGraph
-    wg = WeightedGraph()
-    for edge in SIMPLE_WGRAPH:
-        wg.add_edge(edge[0], edge[1], edge[2])
-    return wg
-
-
-def test_dijkstra_shortest_path(simple_wgraph):
-    """Test dijkstra shortest path."""
-    assert simple_wgraph.dijkstra("A", "G") == ["A", "B", "C", "G"]
-
-
-def test_dijkstra_shortest_path_a_to_g(simple_wgraph):
-    """Test the Dijkstra shortest path for simple graph, A to G."""
-    assert simple_wgraph.dijkstra("A", "G") == ["A", "B", "C", "G"]
-
-
-def test_dijkstra_shortest_path_b_to_d(simple_wgraph):
-    """Test the Dijkstra shortest path for simple graph, B to D."""
-    assert simple_wgraph.dijkstra("B", "D") == ["B", "C", "D"]
-
-
-def test_dijkstra_shortest_path_a_to_f(simple_wgraph):
-    """Test the Dijkstra shortest path for simple graph, A to F."""
-    assert simple_wgraph.dijkstra("A", "F") == ["A", "D", "E", "F"]
-
-
-def test_dijkstra_shortest_path_d_to_c(simple_wgraph):
-    """Test the Dijkstra shortest path for simple graph, D to C."""
-    assert simple_wgraph.dijkstra("D", "C") == ["D", "E", "C"]
-
-
-def test_dijkstra_shortest_path_d_to_g(simple_wgraph):
-    """Test the Dijkstra shortest path for simple graph, D to G."""
-    assert simple_wgraph.dijkstra("D", "G") == ["D", "E", "G"]
-
-
-def test_dijkstra_shortest_path_d_to_f(simple_wgraph):
-    """Test the Dijkstra shortest path for simple graph, D to F."""
-    assert simple_wgraph.dijkstra("D", "F") == ["D", "E", "F"]
-
-
-def test_dijkstra_shortest_path_e_to_b(simple_wgraph):
-    """Test the Dijkstra shortest path for simple graph, E to B."""
-    assert simple_wgraph.dijkstra("E", "B") == ["E", "C", "D", "B"]
-
-
-def test_dijkstra_shortest_path_e_to_d(simple_wgraph):
-    """Test the Dijkstra shortest path for simple graph, E to D."""
-    assert simple_wgraph.dijkstra("E", "D") == ["E", "C", "D"]
-
-
-def test_floyd_warshall_shortest_path_a_to_g(simple_wgraph):
-    """Test the floyd Warshall shortest path for simple graph, A to G."""
-    assert simple_wgraph.floyd_warshall("A", "G") == ["A", "B", "C", "G"]
-
-
-def test_floyd_warshall_shortest_path_b_to_d(simple_wgraph):
-    """Test the floyd Warshall shortest path for simple graph, B to D."""
-    assert simple_wgraph.floyd_warshall("B", "D") == ["B", "C", "D"]
-
-
-def test_floyd_warshall_shortest_path_a_to_f(simple_wgraph):
-    """Test the floyd Warshall shortest path for simple graph, A to F."""
-    assert simple_wgraph.floyd_warshall("A", "F") == ["A", "D", "E", "F"]
-
-
-def test_floyd_warshall_shortest_path_d_to_c(simple_wgraph):
-    """Test the floyd Warshall shortest path for simple graph, D to C."""
-    assert simple_wgraph.floyd_warshall("D", "C") == ["D", "E", "C"]
-
-
-def test_floyd_warshall_shortest_path_d_to_g(simple_wgraph):
-    """Test the floyd Warshall shortest path for simple graph, D to G."""
-    assert simple_wgraph.floyd_warshall("D", "G") == ["D", "E", "G"]
-
-
-def test_floyd_warshall_shortest_path_d_to_f(simple_wgraph):
-    """Test the floyd Warshall shortest path for simple graph, D to F."""
-    assert simple_wgraph.floyd_warshall("D", "F") == ["D", "E", "F"]
-
-
-def test_floyd_warshall_shortest_path_e_to_b(simple_wgraph):
-    """Test the floyd Warshall shortest path for simple graph, E to B."""
-    assert simple_wgraph.floyd_warshall("E", "B") == ["E", "C", "D", "B"]
-
-
-def test_floyd_warshall_shortest_path_e_to_d(simple_wgraph):
-    """Test the floyd Warshall shortest path for simple graph, E to D."""
-    assert simple_wgraph.floyd_warshall("E", "D") == ["E", "C", "D"]
