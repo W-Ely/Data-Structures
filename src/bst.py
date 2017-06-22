@@ -196,6 +196,13 @@ class Bst(object):
                 except(AttributeError):
                     pass
 
+    def delete(self, val):
+        """Remove value from the tree if present.
+
+        Return None if not present.
+        """
+        pass
+
     def __len__(self):
         """Return the length."""
         return self.size()
