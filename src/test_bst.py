@@ -354,7 +354,7 @@ def test_breadth_first_0_4(bst_wiki):
     assert tuple(bst_wiki.breadth_first()) == (6, 2, 7, 1, 4, 9, 3, 5, 8)
 
 
-#=Delete Tests
+# ===================  Delete Tests ===================== #
 
 
 @pytest.fixture
@@ -367,10 +367,69 @@ def three():
 
 @pytest.fixture
 def comp():
-    """Basic three item tree."""
+    r"""Large binary tree.
+
+                          10
+                      /        \
+                    6           13
+                  /   \        /  \
+                4      8     11    14
+                      / \     \     \
+                     7   9    12    15
+    """
     from bst import Bst
-    tree = Bst([10, 6, 4, 8, 7, 9, 13, 11, 14, 12, 15])
-    return tree
+    return Bst([10, 6, 4, 8, 7, 9, 13, 11, 14, 12, 15])
+
+
+def test_delete_retains_depth(comp):
+    """Depth correnctly retained through series of deletions."""
+    assert comp.depth() == 4
+    comp.delete(7)
+    comp.delete(9)
+    assert comp.depth() == 4
+    comp.delete(12)
+    comp.delete(15)
+    assert comp.depth() == 3
+    comp.delete(11)
+    comp.delete(14)
+    assert comp.depth() == 3
+    comp.delete(4)
+    comp.delete(8)
+    assert comp.depth() == 2
+    comp.delete(6)
+    assert comp.depth() == 2
+    comp.delete(10)
+    assert comp.depth() == 1
+    comp.delete(13)
+    assert comp.depth() == 0
+    comp.delete(666)
+    assert comp.depth() == 0
+
+
+def test_balance_value(comp):
+    """Balance value correnctly tracked through series of deletions."""
+    assert comp.balance() == 0
+    comp.delete(7)
+    comp.delete(9)
+    assert comp.balance() == -1
+    comp.delete(12)
+    comp.delete(15)
+    assert comp.balance() == 0
+    comp.delete(11)
+    assert comp.balance() == 0
+    comp.delete(14)
+    assert comp.balance() == 1
+    comp.delete(4)
+    comp.delete(8)
+    assert comp.balance() == 0
+    comp.delete(6)
+    assert comp.balance() == -1
+    comp.delete(10)
+    assert comp.balance() == -1
+    comp.delete(13)
+    assert comp.balance() == 0
+    comp.delete(666)
+    assert comp.balance() == 0
 
 
 def test_delete_node_empty_returns_none(bst_empty):
