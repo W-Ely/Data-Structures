@@ -19,11 +19,11 @@ def simple_wgraph():
     return wg
 
 
-def test_dijkstra_shortest_path_a_to_d_with_no_edge(simple_wgraph):
-    """Test the floyd Warshall shortest path for simple graph, A to G."""
-    simple_wgraph.del_edge("A", "D")
-    simple_wgraph.del_edge("C", "D")
-    assert simple_wgraph.dijkstra("A", "D") == []
+# def test_dijkstra_shortest_path_a_to_d_with_no_edge(simple_wgraph):
+#     """Test the floyd Warshall shortest path for simple graph, A to G."""
+#     simple_wgraph.del_edge("A", "D")
+#     simple_wgraph.del_edge("C", "D")
+#     assert simple_wgraph.dijkstra("A", "D") == []
 
 
 def test_dijkstra_shortest_path(simple_wgraph):
@@ -71,11 +71,11 @@ def test_dijkstra_shortest_path_e_to_d(simple_wgraph):
     assert simple_wgraph.dijkstra("E", "D") == ["E", "C", "D"]
 
 
-def test_floyd_warshall_shortest_path_a_to_d_with_no_edge(simple_wgraph):
-    """Test the floyd Warshall shortest path for simple graph, A to G."""
-    simple_wgraph.del_edge("A", "D")
-    simple_wgraph.del_edge("C", "D")
-    assert simple_wgraph.floyd_warshall("A", "D") == []
+# def test_floyd_warshall_shortest_path_a_to_d_with_no_edge(simple_wgraph):
+#     """Test the floyd Warshall shortest path for simple graph, A to G."""
+#     simple_wgraph.del_edge("A", "D")
+#     simple_wgraph.del_edge("C", "D")
+#     assert simple_wgraph.floyd_warshall("A", "D") == []
 
 
 def test_floyd_warshall_shortest_path_a_to_g(simple_wgraph):
@@ -121,26 +121,26 @@ def test_floyd_warshall_shortest_path_e_to_d(simple_wgraph):
 # =================== Large Graph ========================== #
 
 
-LARGE_WGRAPH = [
-    ("A", "B", 3), ("A", "D", 4), ("B", "C", 2), ("B", "E", 5), ("C", "D", 1),
-    ("C", "G", 6), ("D", "E", 3), ("D", "B", 4), ("E", "G", 5), ("E", "C", 2),
-    ("E", "F", 5), ("F", "G", 2)
-]
-
-
-@pytest.fixture
-def large():
-    """Large graph to test more depth.
-
-    A --1--> B --1--> C --1--> D --1--> E --1--> F
-    
-    """
-    from shortest_path import WeightedGraph
-    graph = WeightedGraph()
-
-
-
-
+# LARGE_WGRAPH = [
+#     ("A", "B", 3), ("A", "D", 4), ("B", "C", 2), ("B", "E", 5), ("C", "D", 1),
+#     ("C", "G", 6), ("D", "E", 3), ("D", "B", 4), ("E", "G", 5), ("E", "C", 2),
+#     ("E", "F", 5), ("F", "G", 2)
+# ]
+#
+#
+# @pytest.fixture
+# def large():
+#     """Large graph to test more depth.
+#
+#     A --1--> B --1--> C --1--> D --1--> E --1--> F
+#
+#     """
+#     from shortest_path import WeightedGraph
+#     graph = WeightedGraph()
+#
+#
+#
+#
 
 # ================  Graph Tests ============================ #
 
