@@ -127,12 +127,6 @@ class Bst(object):
         return 0.
         """
         return self._depth['l'] - self._depth['r']
-        # if self._depth['r'] > self._depth['l']:
-        #     return -1
-        # elif self._depth['r'] < self._depth['l']:
-        #     return 1
-        # else:
-        #     return 0
 
     def in_order(self, node=None, start=True):
         """Return a generator that will return the values in the tree.
