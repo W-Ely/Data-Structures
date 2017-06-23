@@ -468,15 +468,22 @@ def comp():
 #     assert bst_empty._root.left is None
 #
 #
-# def test_delete_two_node_left_balanced_tree_02(bst_empty):
-#     """Delete last node leaves one node tree."""
-#     bst_empty.insert(2)
-#     bst_empty.insert(1)
-#     bst_empty.delete(1)
-#     assert bst_empty._root.val == 2
-#     assert bst_empty._root.right is None
-#     assert bst_empty._root.left is None
-#     assert len(bst_empty) == 1
+def test_delete_two_node_left_balanced_tree_02(bst_empty):
+    """Delete last node leaves one node tree."""
+    bst_empty.insert(2)
+    bst_empty.insert(1)
+    bst_empty.delete(1)
+    assert bst_empty._root.val == 2
+    assert bst_empty._root.right is None
+    assert bst_empty._root.left is None
+    # assert len(bst_empty) == 1
+
+
+def test_delete_left_tree_single_child(bst_left_balance):
+    """One child deletion test."""
+    bst_left_balance.delete(4)
+    assert bst_left_balance.search(3).val == 3
+    assert bst_left_balance.search(4) is None
 #
 #
 # def test_delete_two_node_right_balanced_tree_01(bst_empty):
@@ -547,11 +554,11 @@ def comp():
 #     assert tuple(comp.breadth_first()) == (9, 6, 13, 4, 8, 11, 14, 7, 12)
 #
 #
-# def test_delete_complex_tree_04(comp):
-#     """Delete mid right 13."""
-#     comp.delete(13)
-#     assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 11, 12, 14, 15)
-#     assert tuple(comp.breadth_first()) == (10, 6, 12, 4, 8, 11, 14, 7, 9, 15)
+def test_delete_complex_tree_04(comp):
+    """Delete mid right 13."""
+    comp.delete(13)
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 11, 12, 14, 15)
+    assert tuple(comp.breadth_first()) == (10, 6, 12, 4, 8, 11, 14, 7, 9, 15)
 #
 #
 # def test_delete_complex_tree_05(comp):

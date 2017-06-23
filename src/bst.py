@@ -196,26 +196,43 @@ class Bst(object):
 
         Return None if not present.
         """
-        # current_node = self._root
-        # prev_node = None
-        # direction = None
-        # while current_node:
-        #     if val > current_node.val:
-        #         if current_node.right:
-        #             prev_node, current_node = current_node, current_node.right
-        #             direction = 'right'
-        #             continue
-        #         return
-        #     elif val < current_node.val:
-        #         if current_node.left:
-        #             prev_node, current_node = current_node, current_node.left
-        #             direction = 'left'
-        #             continue
-        #         return
-        #     else:
-        #         delete current_node
-        # return
-        pass
+        current_node = self._root
+        prev_node = None
+        direction = None
+        while current_node:
+            if val < current_node.val:
+                if current_node.left:
+                    prev_node, current_node = current_node, current_node.left
+                    direction = 'left'
+                    continue
+                return
+            elif val > current_node.val:
+                if current_node.right:
+                    prev_node, current_node = current_node, current_node.right
+                    direction = 'right'
+                    continue
+                return
+            else:
+        #First Case
+                if not current_node.left and not current_node.right:
+                    setattr(prev_node, direction, None)
+                    return
+                elif not current_node.left or not current_node.right:
+                    if current_node.right:
+                        setattr(prev_node, direction, current_node.right)
+                    if current_node.left:
+                        setattr(prev_node, direction, current_node.left)
+                    return
+                else:
+                    succ = current_node.right
+                    prev_succ = current_node.right
+                    while succ.left:
+                        prev_succ, succ = succ, succ.left
+                    succ.left = current_node.left
+                    succ.right = current_node.right
+                    setattr(prev_node, direction, succ)
+                    prev_succ.left = None
+                    return
 
     def __len__(self):
         """Return the length."""
