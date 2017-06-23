@@ -213,7 +213,6 @@ class Bst(object):
                     continue
                 return
             else:
-        #First Case
                 if not current_node.left and not current_node.right:
                     setattr(prev_node, direction, None)
                     return
@@ -229,9 +228,13 @@ class Bst(object):
                     while succ.left:
                         prev_succ, succ = succ, succ.left
                     succ.left = current_node.left
-                    succ.right = current_node.right
+                    if succ is not current_node.right:
+                        prev_succ.left = succ.right
+                        succ.right = current_node.right
+                    else:
+                        pass
                     setattr(prev_node, direction, succ)
-                    prev_succ.left = None
+                    # import pdb; pdb.set_trace()
                     return
 
     def __len__(self):

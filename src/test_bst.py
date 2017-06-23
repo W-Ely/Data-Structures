@@ -364,7 +364,7 @@ def test_breadth_first_0_4(bst_wiki):
 
 @pytest.fixture
 def three():
-    """Basic three item tree."""
+    """Create three item tree."""
     from bst import Bst
     tree = Bst([2, 1, 3])
     return tree
@@ -372,7 +372,7 @@ def three():
 
 @pytest.fixture
 def comp():
-    r"""Large binary tree.
+    r"""Create Large binary tree.
 
                           10
                       /        \
@@ -385,6 +385,39 @@ def comp():
     from bst import Bst
     return Bst([10, 6, 4, 8, 7, 9, 13, 11, 14, 12, 15])
 
+
+@pytest.fixture
+def right_left_most_has_rigtt_child():
+    r"""Large binary tree.
+
+                     1
+                      \
+                       5
+                     /  \
+                    3    10
+                        / \
+                       8   20
+                      /
+                     6
+                      \
+                       7
+    """
+    from bst import Bst
+    return Bst([1, 5, 3, 10, 8, 6, 20, 7])
+
+
+def test_delete_right_left_most_has_right_child(right_left_most_has_right_child):
+    """Delete one child deletion test."""
+    right_left_most_has_right_child.delete(5)
+    assert tuple(right_left_most_has_right_child.in_order()) == (
+        1, 3, 6, 7, 8, 10, 20
+    )
+
+
+def test_handle_root_deletion(rigth_left_most_has_right_child):
+    """Remove root retains tree."""
+    right_left_most_has_right_child.delete(1)
+    pass
 
 # def test_delete_retains_depth(comp):
 #     """Depth correnctly retained through series of deletions."""
@@ -552,15 +585,15 @@ def test_delete_left_tree_single_child(bst_left_balance):
 #     comp.delete(15)
 #     assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 11, 12, 13, 14)
 #     assert tuple(comp.breadth_first()) == (9, 6, 13, 4, 8, 11, 14, 7, 12)
-#
-#
+
+
 def test_delete_complex_tree_04(comp):
     """Delete mid right 13."""
     comp.delete(13)
-    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 11, 12, 14, 15)
-    assert tuple(comp.breadth_first()) == (10, 6, 12, 4, 8, 11, 14, 7, 9, 15)
-#
-#
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 11, 12, 14, 15)
+    assert tuple(comp.breadth_first()) == (10, 6, 14, 4, 8, 11, 15, 7, 9, 12)
+
+
 # def test_delete_complex_tree_05(comp):
 #     """Delete mid left 8."""
 #     comp.delete(8)
