@@ -387,7 +387,7 @@ def comp():
 
 
 @pytest.fixture
-def right_left_most_has_rigtt_child():
+def right_left_most_has_right_child():
     r"""Large binary tree.
 
                      1
@@ -414,7 +414,7 @@ def test_delete_right_left_most_has_right_child(right_left_most_has_right_child)
     )
 
 
-def test_handle_root_deletion(rigth_left_most_has_right_child):
+def test_handle_root_deletion(right_left_most_has_right_child):
     """Remove root retains tree."""
     right_left_most_has_right_child.delete(1)
     pass
