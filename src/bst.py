@@ -18,7 +18,6 @@ class Bst(object):
         """Init with or without iterable but only nums."""
         self._root = None
         self._length = 0
-        self._depth = {'r': 0, 'l': 0}
         if not iterable:
             pass
         elif iterable and self.check_value(iterable):
@@ -44,16 +43,9 @@ class Bst(object):
             if not self._root:
                 self._root = Node(val)
                 self._length += 1
-                self._depth = {'r': 1, 'l': 1}
             else:
-                count_depth = 1
                 current_node = self._root
-                if val > current_node.val:
-                    side = 'r'
-                if val < current_node.val:
-                    side = 'l'
                 while current_node:
-                    count_depth += 1
                     if val > current_node.val:
                         if current_node.right:
                             current_node = current_node.right
@@ -61,7 +53,6 @@ class Bst(object):
                         else:
                             current_node.right = Node(val)
                             self._length += 1
-                            self._depth[side] = count_depth
                     elif val < current_node.val:
                         if current_node.left:
                             current_node = current_node.left
@@ -69,29 +60,31 @@ class Bst(object):
                         else:
                             current_node.left = Node(val)
                             self._length += 1
-                            self._depth[side] = count_depth
                     else:
                         return
         else:
             raise TypeError('Must be a number.')
 
-    def search(self, val):
+    def search(self, val, prev=False):
         """Return the node containing that value, else None."""
         current_node = self._root
+        parent = None
         while current_node:
             if val > current_node.val:
                 if current_node.right:
-                    current_node = current_node.right
+                    parent, current_node = current_node, current_node.right
                     continue
                 else:
                     return
             elif val < current_node.val:
                 if current_node.left:
-                    current_node = current_node.left
+                    parent, current_node = current_node, current_node.left
                     continue
                 else:
                     return
             else:
+                if prev:
+                    return current_node, parent
                 return current_node
         return
 
@@ -109,7 +102,16 @@ class Bst(object):
         If there are no values, depth is 0, if one value the depth should be 1,
         if two values it will be 2, if three values it may be 2 or 3.
         """
-        return max([depth for side, depth in self._depth.items()])
+        return self._depth(self._root)
+
+    def _depth(self, node):
+        if node is None:
+            return 0
+        left_depth = self._depth(node.left)
+        right_depth = self._depth(node.right)
+        if (left_depth > right_depth):
+            return left_depth + 1
+        return right_depth + 1
 
     def contains(self, val):
         """Return True if val is in the BST, False if not."""
@@ -117,7 +119,7 @@ class Bst(object):
             return True
         return False
 
-    def balance(self):
+    def balance(self, node=None):
         """Return an integer, positive, negative or zero.
 
         that represents how well balanced the tree is.
@@ -126,7 +128,11 @@ class Bst(object):
         should return a negative value. An ideally-balanced tree should
         return 0.
         """
-        return self._depth['l'] - self._depth['r']
+        if self._length == 0:
+            return 0
+        if not node:
+            node = self._root
+        return self._depth(node.right) - self._depth(node.left)
 
     def in_order(self, node=None, start=True):
         """Return a generator that will return the values in the tree.
@@ -196,46 +202,7 @@ class Bst(object):
 
         Return None if not present.
         """
-        current_node = self._root
-        prev_node = None
-        direction = None
-        while current_node:
-            if val < current_node.val:
-                if current_node.left:
-                    prev_node, current_node = current_node, current_node.left
-                    direction = 'left'
-                    continue
-                return
-            elif val > current_node.val:
-                if current_node.right:
-                    prev_node, current_node = current_node, current_node.right
-                    direction = 'right'
-                    continue
-                return
-            else:
-                if not current_node.left and not current_node.right:
-                    setattr(prev_node, direction, None)
-                    return
-                elif not current_node.left or not current_node.right:
-                    if current_node.right:
-                        setattr(prev_node, direction, current_node.right)
-                    if current_node.left:
-                        setattr(prev_node, direction, current_node.left)
-                    return
-                else:
-                    succ = current_node.right
-                    prev_succ = current_node.right
-                    while succ.left:
-                        prev_succ, succ = succ, succ.left
-                    succ.left = current_node.left
-                    if succ is not current_node.right:
-                        prev_succ.left = succ.right
-                        succ.right = current_node.right
-                    else:
-                        pass
-                    setattr(prev_node, direction, succ)
-                    # import pdb; pdb.set_trace()
-                    return
+        return
 
     def __len__(self):
         """Return the length."""
