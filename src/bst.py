@@ -200,9 +200,18 @@ class Bst(object):
     def delete(self, val):
         """Remove value from the tree if present.
 
-        Return None if not present.
+        Return None always.
         """
+        current_node, prev_node = self.search(val, True)
+        succ, prev_succ = self._find_succ(current_node)
         return
+
+    def _find_succ(node):
+        balance = self.balance(node)
+        direction = 'left'
+        if balance >= 0:
+            direction = 'right'
+        while hasattr(current_node, direction):
 
     def __len__(self):
         """Return the length."""
