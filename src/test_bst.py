@@ -406,12 +406,12 @@ def right_left_most_has_right_child():
     return Bst([1, 5, 3, 10, 8, 6, 20, 7])
 
 
-# def test_delete_right_left_most_has_right_child(right_left_most_has_right_child):
-#     """Delete one child deletion test."""
-#     right_left_most_has_right_child.delete(5)
-#     assert tuple(right_left_most_has_right_child.in_order()) == (
-#         1, 3, 6, 7, 8, 10, 20
-#     )
+def test_del_right_left_most_has_right_child(right_left_most_has_right_child):
+    """Delete one child deletion test."""
+    right_left_most_has_right_child.delete(5)
+    assert tuple(right_left_most_has_right_child.in_order()) == (
+        1, 3, 6, 7, 8, 10, 20
+    )
 
 
 # def test_handle_root_deletion(right_left_most_has_right_child):
