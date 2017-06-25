@@ -381,6 +381,7 @@ def comp():
                 4      8     11    14
                       / \     \     \
                      7   9    12    15
+    in_order (4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
     """
     from bst import Bst
     return Bst([10, 6, 4, 8, 7, 9, 13, 11, 14, 12, 15])
@@ -414,36 +415,39 @@ def test_del_right_left_most_has_right_child(right_left_most_has_right_child):
     )
 
 
-# def test_handle_root_deletion(right_left_most_has_right_child):
-#     """Remove root retains tree."""
-#     right_left_most_has_right_child.delete(1)
-#     assert tuple(right_left_most_has_right_child.in_order()) == (
-#         3, 5, 6, 7, 8, 10, 20
-#     )
+def test_handle_root_deletion(right_left_most_has_right_child):
+    """Remove root retains tree."""
+    right_left_most_has_right_child.delete(1)
+    assert tuple(right_left_most_has_right_child.in_order()) == (
+        3, 5, 6, 7, 8, 10, 20
+    )
 
-# def test_delete_retains_depth(comp):
-#     """Depth correnctly retained through series of deletions."""
-#     assert comp.depth() == 4
-#     comp.delete(7)
-#     comp.delete(9)
-#     assert comp.depth() == 4
-#     comp.delete(12)
-#     comp.delete(15)
-#     assert comp.depth() == 3
-#     comp.delete(11)
-#     comp.delete(14)
-#     assert comp.depth() == 3
-#     comp.delete(4)
-#     comp.delete(8)
-#     assert comp.depth() == 2
-#     comp.delete(6)
-#     assert comp.depth() == 2
-#     comp.delete(10)
-#     assert comp.depth() == 1
-#     comp.delete(13)
-#     assert comp.depth() == 0
-#     comp.delete(666)
-#     assert comp.depth() == 0
+
+def test_delete_retains_depth(comp):
+    """Depth correnctly retained through series of deletions."""
+    assert comp.depth() == 4
+    comp.delete(7)
+    assert tuple(comp.in_order()) == (4, 6, 8, 9, 10, 11, 12, 13, 14, 15)
+    comp.delete(9)
+    assert comp.depth() == 4
+    comp.delete(12)
+    comp.delete(15)
+    assert comp.depth() == 3
+    comp.delete(11)
+    comp.delete(14)
+    assert comp.depth() == 3
+    comp.delete(4)
+    comp.delete(8)
+    assert comp.depth() == 2
+    comp.delete(6)
+    assert comp.depth() == 2
+    comp.delete(10)
+    # assert tuple(comp.in_order()) == (13)
+    # assert comp.depth() == 1
+    # comp.delete(13)
+    # assert comp.depth() == 0
+    # comp.delete(666)
+    # assert comp.depth() == 0
 
 #
 # def test_balance_value(comp):
