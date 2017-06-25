@@ -209,7 +209,7 @@ class Bst(object):
         if not current_node:
             return
         succ, prev_succ, balance, direct = self._find_succ(current_node)
-        # The successor gets the non relative child of node to remove.
+        # The successor gets the non-relative child of node to remove.
         setattr(
             succ,
             direct[balance * -1],
@@ -228,12 +228,13 @@ class Bst(object):
             getattr(current_node, direct[balance])
         )
         # The node before the deleted node now connects to successor
-        if prev_node.val > current_node.val:
+        if prev_node.val < current_node.val:
             prev_node.right = succ
-        prev_node.left = succ
+            # import pdb; pdb.set_trace()
+        else:
+            prev_node.left = succ
         return
 
-        # import pdb; pdb.set_trace()
 
 
     def _find_succ(self, node):
