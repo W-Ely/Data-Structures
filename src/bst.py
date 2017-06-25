@@ -86,10 +86,10 @@ class Bst(object):
                 else:
                     return
             else:
-                if prev:
-                    return current_node, parent, direction
-                return current_node
-        return
+                break
+        if prev:
+            return current_node, parent, direction
+        return current_node
 
     def size(self):
         """Rreturn the integer size of the BST.
@@ -208,11 +208,13 @@ class Bst(object):
         current_node, prev_node, par_to_chi_dir = self.search(val, True)
         if not current_node:
             return
-        # import pdb; pdb.set_trace()
         succ, prev_succ, balance, direct = self._find_succ(current_node)
         # The successor gets the non-relative child of node to remove.
         if not succ:
-            setattr(prev_node, par_to_chi_dir, None)
+            if not par_to_chi_dir:
+                self._root = None
+            else:
+                setattr(prev_node, par_to_chi_dir, None)
         else:
             setattr(
                 succ,
@@ -226,35 +228,36 @@ class Bst(object):
                 getattr(succ, direct[balance])
             )
             # The successor's child becomes the current nodes other child
-            setattr(
-                succ,
-                direct[balance],
-                getattr(current_node, direct[balance])
-            )
+            if getattr(current_node, direct[balance]) is not succ:
+                setattr(
+                    succ,
+                    direct[balance],
+                    getattr(current_node, direct[balance])
+                )
             # The node before the deleted node now connects to successor
             if prev_node is None:
                 self._root = succ
             elif prev_node.val < current_node.val:
                 prev_node.right = succ
-                # import pdb; pdb.set_trace()
             else:
                 prev_node.left = succ
-            return
+            # import pdb; pdb.set_trace()
+        self._length -= 1
+        return
 
     def _find_succ(self, node):
         """Find the successor node of the node to delete."""
         balance = self.balance(node)
         if balance < 0:
             balance = -1
-        if balance > 0:
+        if balance >= 0:
             balance = 1
-        direct = {1: 'right', 0: 'right', -1: 'left'}
+        direct = {1: 'right', -1: 'left'}
         succ = getattr(node, direct[balance])
         prev_succ = getattr(node, direct[balance])
         if hasattr(succ, direct[balance * -1]):
             while getattr(succ, direct[balance * -1]):
                 prev_succ, succ = succ, getattr(succ, direct[balance * -1])
-        # import pdb; pdb.set_trace()
         return succ, prev_succ, balance, direct
 
     def __len__(self):
