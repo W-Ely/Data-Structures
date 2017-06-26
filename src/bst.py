@@ -14,7 +14,7 @@ class Node(object):
 class Bst(object):
     """Create a binay search tree data structure."""
 
-    def __init__(self,  iterable=None):
+    def __init__(self, iterable=None):
         """Init with or without iterable but only nums."""
         self._root = None
         self._length = 0
@@ -126,12 +126,96 @@ class Bst(object):
         should return a negative value. An ideally-balanced tree should
         return 0.
         """
-        if self._depth['r'] > self._depth['l']:
-            return -1
-        elif self._depth['r'] < self._depth['l']:
-            return 1
-        else:
-            return 0
+        return self._depth['l'] - self._depth['r']
+
+    def in_order(self, node=None, start=True):
+        """Return a generator that will return the values in the tree.
+
+        using in-order traversal, one at a time.
+        """
+        if start:
+            node = self._root
+        if node:
+            for val in self.in_order(node.left, False):
+                yield val
+            yield node.val
+            for val in self.in_order(node.right, False):
+                yield val
+
+    def pre_order(self, node=None, start=True):
+        """Return a generator that will return the values in the tree.
+
+        using pre-order traversal, one at a time.
+        """
+        if start:
+            node = self._root
+        if node:
+            yield node.val
+            for val in self.pre_order(node.left, False):
+                yield val
+            for val in self.pre_order(node.right, False):
+                yield val
+
+    def post_order(self, node=None, start=True):
+        """Return a generator that will return the values in the tree.
+
+        using post_order traversal, one at a time.
+        """
+        if start:
+            node = self._root
+        if node:
+            for val in self.post_order(node.left, False):
+                yield val
+            for val in self.post_order(node.right, False):
+                yield val
+            yield node.val
+
+    def breadth_first(self):
+        """Return a generator that will return the values in the tree.
+
+        using breadth-first traversal, one at a time.
+        """
+        if self._root:
+            nodes = [self._root]
+            for node in nodes:
+                try:
+                    nodes.append(node.left)
+                except(AttributeError):
+                    pass
+                try:
+                    nodes.append(node.right)
+                except(AttributeError):
+                    pass
+                try:
+                    yield node.val
+                except(AttributeError):
+                    pass
+
+    def delete(self, val):
+        """Remove value from the tree if present.
+
+        Return None if not present.
+        """
+        # current_node = self._root
+        # prev_node = None
+        # direction = None
+        # while current_node:
+        #     if val > current_node.val:
+        #         if current_node.right:
+        #             prev_node, current_node = current_node, current_node.right
+        #             direction = 'right'
+        #             continue
+        #         return
+        #     elif val < current_node.val:
+        #         if current_node.left:
+        #             prev_node, current_node = current_node, current_node.left
+        #             direction = 'left'
+        #             continue
+        #         return
+        #     else:
+        #         delete current_node
+        # return
+        pass
 
     def __len__(self):
         """Return the length."""
@@ -147,10 +231,10 @@ def test(search_val):  # pragma: no cover
 if __name__ == '__main__':  # pragma: no cover
     from timeit import Timer
     best = Timer('test(100)', "from __main__ import test")
-    worse = Timer('test(1)', "from __main__ import test")
+    worst = Timer('test(1)', "from __main__ import test")
     print("#================= best case search 1000x ==============#")
     print(best.timeit(number=1000))
     print('')
     print("#================= worse case search 1000x==============#")
-    print(worse.timeit(number=1000))
+    print(worst.timeit(number=1000))
     print('')
