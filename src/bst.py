@@ -55,8 +55,18 @@ class Bst(object):
             if current_node.right:
                 current_node = current_node.right
                 self._insert(val, current_node)
-                print(self.balance(current_node))
-                print(node.val)
+                if self.balance(current_node) not in range(-1, 1):
+                    print(
+                        "parent node:",
+                        node.val,
+                        "current node:",
+                        current_node.val,
+                        "current node balance:",
+                        self.balance(current_node),
+                        "breadth first:",
+                        tuple(self.breadth_first())
+                    )
+                    # self._rotate(current_node, node)
             else:
                 current_node.right = Node(val)
                 self._length += 1
@@ -65,13 +75,48 @@ class Bst(object):
             if current_node.left:
                 current_node = current_node.left
                 self._insert(val, current_node)
-                print(self.balance(current_node))
-                print(node.val)
+                if self.balance(current_node) not in range(-1, 1):
+                    print(
+                        "parent node:",
+                        node.val,
+                        "current node:",
+                        current_node.val,
+                        "current node balance:",
+                        self.balance(current_node),
+                        "breadth first:",
+                        tuple(self.breadth_first())
+                    )
+                    # self._rotate(current_node, node)
             else:
                 current_node.left = Node(val)
                 self._length += 1
         else:
             return
+
+    def _rotate(self, node, par_node):
+        """."""
+        # case 1 node.right.right
+        if node.right.right:
+            node.right.left = node
+            if par_node.val < node.val:
+                par_node.right = node.right
+            else:
+                par_node.left = node.right
+            node.right = None
+        # case 2 node.left.left
+        if node.left.left:
+            node.left.right = node
+            if par_node.val < node.val:
+                par_node.right = node.right
+            else:
+                par_node.left = node.left
+            node.left = None
+        # # case 3 node.right.left
+        # if node.right.left:
+        #     pass
+        # # case 4 node.left.right
+        # if node.left.right:
+        #     pass
 
     def search(self, val, prev=False):
         """Return the node containing that value, else None."""
@@ -290,7 +335,28 @@ def test(search_val):  # pragma: no cover
 #     print(worst.timeit(number=1000))
 #     print('')
 
-tree = Bst([10, 5, 15, 9, 8, 7])
-print("# =========== #")
-tree.insert(6)
-print(tuple(tree.in_order()))
+# ===============================
+#            10
+#           /  \
+#          5    15
+#           \
+#           7
+#            \
+#             9
+# tree = Bst([10, 5, 15, 7])
+# print("# =========== #")
+# tree.insert(9)
+# print(tuple(tree.in_order()))
+
+# ===============================
+#            10
+#           /  \
+#          5    15
+#         /
+#        4
+#       /
+#      3
+# tree = Bst([10, 5, 15, 4])
+# print("# =========== #")
+# tree.insert(3)
+# print(tuple(tree.in_order()))
