@@ -91,20 +91,18 @@ def bst_wiki():
 
                       7
                    /     \
-                  2       9
-                /  \       /
-               1    4     8
-                    / \
-                   3   6
-                       /
-                      5
+                  4       9
+                /   \    /
+              2      6   8
+            /  \    /
+           1    3  5
     depth: 4
-    balance: 0
+    balance: -1
     === Search Transversals ===
     in_order: (1, 2, 3, 4, 5, 6, 7, 8, 9)
-    pre_order: (6, 2, 1, 4, 3, 5, 7, 9, 8)
-    breadth_first: (6, 2, 7, 1, 4, 9, 3, 5, 8)
-    post_order: (1, 3, 5, 4, 2, 8, 9, 7, 6)
+    pre_order: (7, 4, 2, 1, 3, 6, 5, 9, 8)
+    breadth_first: (7, 4, 9, 2, 6, 8, 1, 3, 5)
+    post_order: (1, 3, 2, 5, 6, 4, 8, 9, 7)
     """
     from bbst import Bst
     tree = Bst([6, 7, 9, 8, 2, 1, 4, 3, 5])
@@ -123,14 +121,17 @@ def three():
 def comp():
     r"""Create Large binary tree.
 
-                          10
+                          11
                       /        \
-                    6           13
+                    8           13
                   /   \        /  \
-                4      8     11    14
-                      / \     \     \
-                     7   9    12    15
+                6     10     12    14
+               / \    /              \
+              4   7  9                15
     in_order (4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
+    pre_order: (11, 8, 6, 4, 7, 10, 9, 13, 12, 14, 15)
+    breadth_first: (11,8, 13, 6, 10, 12, 14, 4, 7, 9, 15)
+    post_order: (4, 7, 6, 9, 10, 8, 12, 15, 14, 13, 11)
     """
     from bbst import Bst
     return Bst([10, 6, 4, 8, 7, 9, 13, 11, 14, 12, 15])
@@ -140,17 +141,18 @@ def comp():
 def right_left_most_has_right_child():
     r"""Large binary tree.
 
-                     1
-                      \
-                       5
-                     /  \
-                    3    10
-                        / \
-                       8   20
-                      /
-                     6
-                      \
-                       7
+                     5
+                    /  \
+                   3    8
+                  /    /  \
+                 1    6    10
+                       \     \
+                       7     20
+
+    in_order (1, 3, 5, 6, 7, 8, 10, 20)
+    pre_order: (5, 3, 1, 8, 6, 7, 10, 20)
+    breadth_first: (5, 3, 8, 1, 6, 10, 7, 20)
+    post_order: (1, 3, 7, 6, 20, 10, 8, 5)
     """
     from bbst import Bst
     return Bst([1, 5, 3, 10, 8, 6, 20, 7])
@@ -160,19 +162,16 @@ def right_left_most_has_right_child():
 def robust():
     r"""More robust tree.
 
-                   10
-                /      \
-             2           18
-           /   \        /  \
-          1     9      11   19
-               /        \
-              4          16
-            /  \        /  \
-           3    8      12   17
-               /        \
-              6          14
-            /  \        /  \
-           5    7     13   15
+                     8
+                /        \
+             4            13
+           /   \        /    \
+         2      6      11     16
+        / \     /\     /\    /   \
+       1   3   5  7  10 12   14   18
+                     /        \   / \
+                    9         15 17  19
+                    
     """
     from bbst import Bst
     return Bst([
