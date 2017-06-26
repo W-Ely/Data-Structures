@@ -216,7 +216,6 @@ class Bst(object):
             else:
                 setattr(prev_node, par_to_chi_dir, None)
         else:
-            # import pdb; pdb.set_trace()
             setattr(
                 succ,
                 direct[balance * -1],
@@ -243,7 +242,6 @@ class Bst(object):
                 prev_node.right = succ
             else:
                 prev_node.left = succ
-            # import pdb; pdb.set_trace()
         self._length -= 1
         return
 
