@@ -55,6 +55,18 @@ class Bst(object):
             if current_node.right:
                 current_node = current_node.right
                 self._insert(val, current_node)
+                if self.balance(current_node) not in range(-1, 1):
+                    print(
+                        "parent node:",
+                        node.val,
+                        "current node:",
+                        current_node.val,
+                        "current node balance:",
+                        self.balance(current_node),
+                        "breadth first:",
+                        tuple(self.breadth_first())
+                    )
+                    # self._rotate(current_node, node)
             else:
                 current_node.right = Node(val)
                 self._length += 1
@@ -63,11 +75,48 @@ class Bst(object):
             if current_node.left:
                 current_node = current_node.left
                 self._insert(val, current_node)
+                if self.balance(current_node) not in range(-1, 1):
+                    print(
+                        "parent node:",
+                        node.val,
+                        "current node:",
+                        current_node.val,
+                        "current node balance:",
+                        self.balance(current_node),
+                        "breadth first:",
+                        tuple(self.breadth_first())
+                    )
+                    # self._rotate(current_node, node)
             else:
                 current_node.left = Node(val)
                 self._length += 1
         else:
             return
+
+    def _rotate(self, node, par_node):
+        """."""
+        # case 1 node.right.right
+        if node.right.right:
+            node.right.left = node
+            if par_node.val < node.val:
+                par_node.right = node.right
+            else:
+                par_node.left = node.right
+            node.right = None
+        # case 2 node.left.left
+        if node.left.left:
+            node.left.right = node
+            if par_node.val < node.val:
+                par_node.right = node.right
+            else:
+                par_node.left = node.left
+            node.left = None
+        # # case 3 node.right.left
+        # if node.right.left:
+        #     pass
+        # # case 4 node.left.right
+        # if node.left.right:
+        #     pass
 
     def search(self, val, prev=False):
         """Return the node containing that value, else None."""
@@ -213,7 +262,8 @@ class Bst(object):
         if not current_node:
             return
         succ, prev_succ, balance, direct = self._find_succ(current_node)
-        if not succ:  # Successor gets non-relative child of node to remove
+        # The successor gets the non-relative child of node to remove.
+        if not succ:
             if not par_to_chi_dir:
                 self._root = None
             else:
@@ -224,20 +274,22 @@ class Bst(object):
                 direct[balance * -1],
                 getattr(current_node, direct[balance * -1])
             )
-            if succ is not prev_succ:  # Successor parent gets successor child
+            # The node bofore the successor gets successor's child
+            if succ is not prev_succ:
                 setattr(
                     prev_succ,
                     direct[balance * -1],
                     getattr(succ, direct[balance])
                 )
-            # Successor child becomes the current nodes other child
+            # The successor's child becomes the current nodes other child
             if getattr(current_node, direct[balance]) is not succ:
                 setattr(
                     succ,
                     direct[balance],
                     getattr(current_node, direct[balance])
                 )
-            if prev_node is None:  # Parent deleted node connects to successor
+            # The node before the deleted node now connects to successor
+            if prev_node is None:
                 self._root = succ
             elif prev_node.val < current_node.val:
                 prev_node.right = succ
@@ -272,13 +324,39 @@ def test(search_val):  # pragma: no cover
     tree.search(search_val)
 
 
-if __name__ == '__main__':  # pragma: no cover
-    from timeit import Timer
-    best = Timer('test(100)', "from __main__ import test")
-    worst = Timer('test(1)', "from __main__ import test")
-    print("#================= best case search 1000x ==============#")
-    print(best.timeit(number=1000))
-    print('')
-    print("#================= worse case search 1000x==============#")
-    print(worst.timeit(number=1000))
-    print('')
+# if __name__ == '__main__':  # pragma: no cover
+#     from timeit import Timer
+#     best = Timer('test(100)', "from __main__ import test")
+#     worst = Timer('test(1)', "from __main__ import test")
+#     print("#================= best case search 1000x ==============#")
+#     print(best.timeit(number=1000))
+#     print('')
+#     print("#================= worse case search 1000x==============#")
+#     print(worst.timeit(number=1000))
+#     print('')
+
+# ===============================
+#            10
+#           /  \
+#          5    15
+#           \
+#           7
+#            \
+#             9
+# tree = Bst([10, 5, 15, 7])
+# print("# =========== #")
+# tree.insert(9)
+# print(tuple(tree.in_order()))
+
+# ===============================
+#            10
+#           /  \
+#          5    15
+#         /
+#        4
+#       /
+#      3
+# tree = Bst([10, 5, 15, 4])
+# print("# =========== #")
+# tree.insert(3)
+# print(tuple(tree.in_order()))
