@@ -44,26 +44,79 @@ class Bst(object):
                 self._root = Node(val)
                 self._length += 1
             else:
-                current_node = self._root
-                while current_node:
-                    if val > current_node.val:
-                        if current_node.right:
-                            current_node = current_node.right
-                            continue
-                        else:
-                            current_node.right = Node(val)
-                            self._length += 1
-                    elif val < current_node.val:
-                        if current_node.left:
-                            current_node = current_node.left
-                            continue
-                        else:
-                            current_node.left = Node(val)
-                            self._length += 1
-                    else:
-                        return
+                return self._insert(val, self._root)
         else:
             raise TypeError('Must be a number.')
+
+    def _insert(self, val, node):
+        """Handle insert recursivly. Re-balance at each level."""
+        current_node = node
+        if val > current_node.val:
+            if current_node.right:
+                current_node = current_node.right
+                self._insert(val, current_node)
+                if self.balance(current_node) not in range(-1, 1):
+                    print(
+                        "parent node:",
+                        node.val,
+                        "current node:",
+                        current_node.val,
+                        "current node balance:",
+                        self.balance(current_node),
+                        "breadth first:",
+                        tuple(self.breadth_first())
+                    )
+                    # self._rotate(current_node, node)
+            else:
+                current_node.right = Node(val)
+                self._length += 1
+                # print(node.val)
+        elif val < current_node.val:
+            if current_node.left:
+                current_node = current_node.left
+                self._insert(val, current_node)
+                if self.balance(current_node) not in range(-1, 1):
+                    print(
+                        "parent node:",
+                        node.val,
+                        "current node:",
+                        current_node.val,
+                        "current node balance:",
+                        self.balance(current_node),
+                        "breadth first:",
+                        tuple(self.breadth_first())
+                    )
+                    # self._rotate(current_node, node)
+            else:
+                current_node.left = Node(val)
+                self._length += 1
+        else:
+            return
+
+    def _rotate(self, node, par_node):
+        """."""
+        # case 1 node.right.right
+        if node.right.right:
+            node.right.left = node
+            if par_node.val < node.val:
+                par_node.right = node.right
+            else:
+                par_node.left = node.right
+            node.right = None
+        # case 2 node.left.left
+        if node.left.left:
+            node.left.right = node
+            if par_node.val < node.val:
+                par_node.right = node.right
+            else:
+                par_node.left = node.left
+            node.left = None
+        # # case 3 node.right.left
+        # if node.right.left:
+        #     pass
+        # # case 4 node.left.right
+        # if node.left.right:
+        #     pass
 
     def search(self, val, prev=False):
         """Return the node containing that value, else None."""
@@ -271,13 +324,39 @@ def test(search_val):  # pragma: no cover
     tree.search(search_val)
 
 
-if __name__ == '__main__':  # pragma: no cover
-    from timeit import Timer
-    best = Timer('test(100)', "from __main__ import test")
-    worst = Timer('test(1)', "from __main__ import test")
-    print("#================= best case search 1000x ==============#")
-    print(best.timeit(number=1000))
-    print('')
-    print("#================= worse case search 1000x==============#")
-    print(worst.timeit(number=1000))
-    print('')
+# if __name__ == '__main__':  # pragma: no cover
+#     from timeit import Timer
+#     best = Timer('test(100)', "from __main__ import test")
+#     worst = Timer('test(1)', "from __main__ import test")
+#     print("#================= best case search 1000x ==============#")
+#     print(best.timeit(number=1000))
+#     print('')
+#     print("#================= worse case search 1000x==============#")
+#     print(worst.timeit(number=1000))
+#     print('')
+
+# ===============================
+#            10
+#           /  \
+#          5    15
+#           \
+#           7
+#            \
+#             9
+# tree = Bst([10, 5, 15, 7])
+# print("# =========== #")
+# tree.insert(9)
+# print(tuple(tree.in_order()))
+
+# ===============================
+#            10
+#           /  \
+#          5    15
+#         /
+#        4
+#       /
+#      3
+# tree = Bst([10, 5, 15, 4])
+# print("# =========== #")
+# tree.insert(3)
+# print(tuple(tree.in_order()))
