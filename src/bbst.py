@@ -336,27 +336,27 @@ def test(search_val):  # pragma: no cover
 #     print('')
 
 # ===============================
-#            10
-#           /  \
-#          5    15
-#           \
-#           7
-#            \
-#             9
-# tree = Bst([10, 5, 15, 7])
-# print("# =========== #")
-# tree.insert(9)
-# print(tuple(tree.in_order()))
+#    10
+#   /  \
+#  5    15
+#   \
+#   7
+#    \
+#     9
+tree = Bst([10, 5, 15, 7])
+print("# =========== #")
+tree.insert(9)
+print(tuple(tree.in_order()))
 
 # ===============================
-#            10
-#           /  \
-#          5    15
-#         /
-#        4
-#       /
-#      3
-# tree = Bst([10, 5, 15, 4])
-# print("# =========== #")
-# tree.insert(3)
-# print(tuple(tree.in_order()))
+#        10
+#       /  \
+#      5    15
+#     /
+#    4
+#   /
+#  3
+tree = Bst([10, 5, 15, 4])
+print("# =========== #")
+tree.insert(3)
+print(tuple(tree.in_order()))
