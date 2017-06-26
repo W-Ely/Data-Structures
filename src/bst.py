@@ -216,17 +216,19 @@ class Bst(object):
             else:
                 setattr(prev_node, par_to_chi_dir, None)
         else:
+            # import pdb; pdb.set_trace()
             setattr(
                 succ,
                 direct[balance * -1],
                 getattr(current_node, direct[balance * -1])
             )
             # The node bofore the successor gets successor's child
-            setattr(
-                prev_succ,
-                direct[balance * -1],
-                getattr(succ, direct[balance])
-            )
+            if succ is not prev_succ:
+                setattr(
+                    prev_succ,
+                    direct[balance * -1],
+                    getattr(succ, direct[balance])
+                )
             # The successor's child becomes the current nodes other child
             if getattr(current_node, direct[balance]) is not succ:
                 setattr(

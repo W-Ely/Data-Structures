@@ -552,10 +552,9 @@ def test_delete_three_node_tree_01(three):
     """Delete route node leaves tree in correct order."""
     three.delete(2)
     assert three._root.val == 3
-    # import pdb; pdb.set_trace()
     assert three._root.right is None
-    # assert three._root.left.val == 1
-    # assert tuple(three.in_order()) == (1, 3)
+    assert three._root.left.val == 1
+    assert tuple(three.in_order()) == (1, 3)
 
 
 def test_delete_three_node_tree_02(three):
@@ -576,103 +575,104 @@ def test_delete_three_node_tree_03(three):
     assert tuple(three.in_order()) == (1, 2)
 
 
-# def test_delete_complex_tree_01(comp):
-#     """Delete route 10."""
-#     comp.delete(10)
-#     assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 11, 12, 13, 14, 15)
-#     assert tuple(comp.breadth_first()) == (9, 6, 13, 4, 8, 11, 14, 7, 12, 15)
+def test_delete_complex_tree_01(comp):
+    """Delete route 10."""
+    comp.delete(10)
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 11, 12, 13, 14, 15)
+    assert tuple(comp.breadth_first()) == (11, 6, 13, 4, 8, 12, 14, 7, 9, 15)
 
 
-# def test_delete_complex_tree_02(comp):
-#     """Delete left most 4."""
-#     comp.delete(4)
-#     assert tuple(comp.in_order()) == (6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
-#     assert tuple(comp.breadth_first()) == (10, 6, 13, 8, 11, 14, 7, 9, 12, 15)
-#
-#
-# def test_delete_complex_tree_03(comp):
-#     """Delete right most 15."""
-#     comp.delete(15)
-#     assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 11, 12, 13, 14)
-#     assert tuple(comp.breadth_first()) == (9, 6, 13, 4, 8, 11, 14, 7, 12)
-
-#
-# def test_delete_complex_tree_04(comp):
-#     """Delete mid right 13."""
-#     comp.delete(13)
-#     assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 11, 12, 14, 15)
-#     assert tuple(comp.breadth_first()) == (10, 6, 14, 4, 8, 11, 15, 7, 9, 12)
+def test_delete_complex_tree_02(comp):
+    """Delete left most 4."""
+    comp.delete(4)
+    assert tuple(comp.in_order()) == (6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
+    assert tuple(comp.breadth_first()) == (10, 6, 13, 8, 11, 14, 7, 9, 12, 15)
 
 
-# def test_delete_complex_tree_05(comp):
-#     """Delete mid left 8."""
-#     comp.delete(8)
-#     assert tuple(comp.in_order()) == (4, 6, 7, 9, 10, 11, 12, 13, 14, 15)
-#     assert tuple(comp.breadth_first()) == (10, 6, 13, 4, 7, 11, 14, 9, 12, 15)
-#
-#
-# def test_delete_complex_tree_06(comp):
-#     """Delete bottom left 9."""
-#     comp.delete(9)
-#     assert tuple(comp.in_order()) == (4, 6, 7, 8, 10, 11, 12, 13, 14, 15)
-#     assert tuple(comp.breadth_first()) == (10, 6, 13, 4, 8, 11, 14, 7, 12, 15)
-#
-#
-# def test_delete_complex_tree_07(comp):
-#     """Delete bottom right 12."""
-#     comp.delete(12)
-#     assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 11, 13, 14, 15)
-#     assert tuple(comp.breadth_first()) == (10, 6, 13, 4, 8, 11, 14, 7, 9, 15)
-#
-#
-# def test_delete_complex_tree_08(comp):
-#     """Delete mid bottom right 11."""
-#     comp.delete(11)
-#     assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 12, 13, 14, 15)
-#     assert tuple(comp.breadth_first()) == (10, 6, 13, 4, 8, 12, 14, 7, 9, 15)
-#
-#
-# @pytest.fixture
-# def robust():
-#     r"""More robust tree.
-#
-#                    10
-#                 /      \
-#              2           18
-#            /   \        /  \
-#           1     9      11   19
-#                /        \
-#               4          16
-#             /  \        /  \
-#            3    8      12   17
-#                /        \
-#               6          14
-#             /  \        /  \
-#            5    7     13   15
-#     """
-#     from bst import Bst
-#     return Bst([
-#         10, 2, 1, 9, 4, 3, 8, 6, 5, 7, 18, 11, 19, 16, 12, 17, 14, 13, 15
-#     ])
-#
-#
-# def test_del_handles_multiple_place_changes(robust):
-#     """Delete a node that requires multiple changes to correct."""
-#     robust.delete(9)
-#     assert tuple(robust.in_order()) == (
-#         1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
-#     )
-#     robust.delete(10)
-#     assert tuple(robust.in_order()) == (
-#         1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19
-#     )
-#     assert robust.balance() == -1
-#     assert robust.depth() == 7
-#     robust.delete(19)
-#     robust.delete(11)
-#     robust.delete(12)
-#     assert tuple(robust.in_order()) == (
-#         1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18
-#     )
-#     assert robust.balance() == 0
-#     assert robust.depth() == 6
+def test_delete_complex_tree_03(comp):
+    """Delete right most 15."""
+    comp.delete(15)
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+    assert tuple(comp.breadth_first()) == (10, 6, 13, 4, 8, 11, 14, 7, 9, 12)
+
+
+def test_delete_complex_tree_04(comp):
+    """Delete mid right 13."""
+    comp.delete(13)
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 11, 12, 14, 15)
+    assert tuple(comp.breadth_first()) == (10, 6, 14, 4, 8, 11, 15, 7, 9, 12)
+
+
+def test_delete_complex_tree_05(comp):
+    """Delete mid left 8."""
+    comp.delete(8)
+    assert tuple(comp.in_order()) == (4, 6, 7, 9, 10, 11, 12, 13, 14, 15)
+    assert tuple(comp.breadth_first()) == (10, 6, 13, 4, 9, 11, 14, 7, 12, 15)
+
+
+def test_delete_complex_tree_06(comp):
+    """Delete bottom left 9."""
+    comp.delete(9)
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 10, 11, 12, 13, 14, 15)
+    assert tuple(comp.breadth_first()) == (10, 6, 13, 4, 8, 11, 14, 7, 12, 15)
+
+
+def test_delete_complex_tree_07(comp):
+    """Delete bottom right 12."""
+    comp.delete(12)
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 11, 13, 14, 15)
+    assert tuple(comp.breadth_first()) == (10, 6, 13, 4, 8, 11, 14, 7, 9, 15)
+
+
+def test_delete_complex_tree_08(comp):
+    """Delete mid bottom right 11."""
+    comp.delete(11)
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 12, 13, 14, 15)
+    assert tuple(comp.breadth_first()) == (10, 6, 13, 4, 8, 12, 14, 7, 9, 15)
+
+
+@pytest.fixture
+def robust():
+    r"""More robust tree.
+
+                   10
+                /      \
+             2           18
+           /   \        /  \
+          1     9      11   19
+               /        \
+              4          16
+            /  \        /  \
+           3    8      12   17
+               /        \
+              6          14
+            /  \        /  \
+           5    7     13   15
+    """
+    from bst import Bst
+    return Bst([
+        10, 2, 1, 9, 4, 3, 8, 6, 5, 7, 18, 11, 19, 16, 12, 17, 14, 13, 15
+    ])
+
+
+def test_del_handles_multiple_place_changes(robust):
+    """Delete a node that requires multiple changes to correct."""
+    robust.delete(9)
+    assert robust.balance() == 1
+    assert tuple(robust.in_order()) == (
+        1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+    )
+    robust.delete(10)
+    assert tuple(robust.in_order()) == (
+        1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19
+    )
+    assert robust.balance() == 0
+    assert robust.depth() == 6
+    robust.delete(19)
+    robust.delete(11)
+    robust.delete(12)
+    assert tuple(robust.in_order()) == (
+        1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18
+    )
+    assert robust.balance() == 0
+    assert robust.depth() == 5
