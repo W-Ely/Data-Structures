@@ -68,11 +68,12 @@ class Bst(object):
                     "\n#========== end this node ========#\n"
                     )
                 if balance not in range(-1, 2):
-                    self._rotate(current_node, node, balance, child_balance)
+                    self._check_case(
+                        current_node, node, balance, child_balance
+                    )
             else:
                 current_node.right = Node(val)
                 self._length += 1
-            return balance
         elif val < current_node.val:
             if current_node.left:
                 current_node = current_node.left
@@ -86,36 +87,55 @@ class Bst(object):
                     "chi bal:", child_balance,
                     "\n Current breadth first:", tuple(self.breadth_first()),
                     "\n Current in order:", tuple(self.in_order()),
-                    "\n#========== end this node ========#\n"
+                    "\n#=================== end ==================#\n"
                 )
                 if balance not in range(-1, 2):
-                    self._rotate(current_node, node, balance, child_balance)
+                    self._check_case(
+                        current_node, node, balance, child_balance
+                    )
             else:
                 current_node.left = Node(val)
                 self._length += 1
-            return balance
+        return balance
 
-    def _rotate(self, node, par_node, balance, child_balance):
+    def _check_case(self, node, par_node, balance, child_balance):
         """."""
-        # case 1 node.right.right
         print(
-            "#========Rotation Called============#\n"
+            "#========Check Case Called============#\n"
             'node', node.val, 'par_node', par_node.val,
             'balance', balance, 'child_balance', child_balance
         )
+        # case 1
         if balance == -2 and child_balance == -1:
-            pivot = node.left
-            node.left = pivot.right
-            pivot.right = node
-            if par_node.val < node.val:
-                par_node.right = pivot
-            else:
-                par_node.left = pivot
-            print("post-rotation breadth_first:", tuple(self.breadth_first()))
-            print("post-rotationin_order:", tuple(self.in_order()), "\n")
-
+            print("\nRight rotation needed")
+            self._make_rotate(child_balance, node, par_node)
+            # pivot = node.left
+            # node.left = pivot.right
+            # pivot.right = node
+            # if par_node.val < node.val:
+            #     par_node.right = pivot
+            # else:
+            #     par_node.left = pivot
         # case 2 node.left.left
         if balance == 2 and child_balance == 1:
+            print("\nLeft rotation needed")
+            self._make_rotate(child_balance, node, par_node)
+            # pivot = node.right
+            # node.right = pivot.left
+            # pivot.left = node
+            # if par_node.val < node.val:
+            #     par_node.right = pivot
+            # else:
+            #     par_node.left = pivot
+        # # case 3 node.right.left
+        if balance == 2 and child_balance == -1:
+            print("Fold Needed and bungled it probably")
+            pivot = node.right.left
+            node.right.left = pivot.right
+            pivot.left = node.right
+            node.right = pivot
+            # === case 2 ==== #
+            print("\nLeft rotation needed")
             pivot = node.right
             node.right = pivot.left
             pivot.left = node
@@ -123,15 +143,42 @@ class Bst(object):
                 par_node.right = pivot
             else:
                 par_node.left = pivot
-            print("post-rotation breadth_first:", tuple(self.breadth_first()))
-            print("post-rotation in_order:", tuple(self.in_order()))
-            print("#=========== End Rotation ==============#\n")
-        # # case 3 node.right.left
-        # if node.right.left:
-        #     pass
-        # # case 4 node.left.right
-        # if node.left.right:
-        #     pass
+        if balance == -2 and child_balance == 1:
+            print("Fold Needed and bungled it probably")
+            pivot = node.left.right
+            node.left.right = pivot.left
+            pivot.left = node.left
+            node.left = pivot
+            # === case 1 ==== #
+            print("\nRight rotation needed")
+            pivot = node.left
+            node.left = pivot.right
+            pivot.right = node
+            if par_node.val < node.val:
+                par_node.right = pivot
+            else:
+                par_node.left = pivot
+
+    def _make_rotate(self, balance, node, par_node, fold=False):
+        """Rotate based on case."""
+        direction = {-1: 'left', 1: 'right'}
+        print("Making {} rotation".format(direction[balance]))
+        if fold:
+            pass                               # left right based on direction
+        pivot = getattr(node, direction[balance])  # pivot = node.right
+        setattr(                                   # node.right = pivot.left
+            node, direction[balance],
+            getattr(pivot, direction[balance * -1])
+        )
+        setattr(pivot, direction[balance * -1], node)  # pivot.left = node
+        if par_node.val < node.val:
+                par_node.right = pivot
+        else:
+            par_node.left = pivot
+        print("post-rotation breadth_first:", tuple(self.breadth_first()))
+        print("post-rotation in_order:", tuple(self.in_order()))
+        print("post-rotation pre_order:", tuple(self.pre_order()))
+        print("#=========== End Rotation ==============#\n")
 
     def search(self, val, prev=False):
         """Return the node containing that value, else None."""
@@ -360,7 +407,7 @@ def test(search_val):  # pragma: no cover
 #    10 18
 #         \
 #         19
-# tree = Bst([10, 5, 15, 7])
+# tree = Bst([20, 5, 4, 2])
 tree = Bst([20, 100, 10, 5, 4, 15, 18, 19])
 # tree = Bst([20, 100, 5, 4, 15, 18, 10, 19])
 
