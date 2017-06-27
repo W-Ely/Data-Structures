@@ -58,7 +58,6 @@ class Bst(object):
             else:
                 current_node.right = Node(val)
                 self._length += 1
-                # print(node.val)
         elif val < current_node.val:
             if current_node.left:
                 current_node = current_node.left

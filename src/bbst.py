@@ -55,62 +55,82 @@ class Bst(object):
             if current_node.right:
                 current_node = current_node.right
                 self._insert(val, current_node)
-                if self.balance(current_node) not in range(-1, 1):
+                child_balance = self.balance(current_node.right)
+                balance = self.balance(current_node)
+                if balance not in range(-1, 1):
                     print(
-                        "parent node:",
+                        "par node:",
                         node.val,
-                        "current node:",
+                        "node:",
                         current_node.val,
-                        "current node balance:",
+                        "node bal:",
                         self.balance(current_node),
+                        "chi bal:",
+                        child_balance,
                         "breadth first:",
                         tuple(self.breadth_first())
                     )
-                    # self._rotate(current_node, node)
+                    self._rotate(current_node, node, balance, child_balance)
+                    return
             else:
                 current_node.right = Node(val)
                 self._length += 1
-                # print(node.val)
+                return self.balance(current_node)
         elif val < current_node.val:
             if current_node.left:
                 current_node = current_node.left
                 self._insert(val, current_node)
-                if self.balance(current_node) not in range(-1, 1):
+                child_balance = self.balance(current_node.left)
+                balance = self.balance(current_node)
+                if balance not in range(-1, 1):
                     print(
-                        "parent node:",
+                        "par node:",
                         node.val,
-                        "current node:",
+                        "node:",
                         current_node.val,
-                        "current node balance:",
+                        "node bal:",
                         self.balance(current_node),
+                        "chi bal:",
+                        child_balance,
                         "breadth first:",
                         tuple(self.breadth_first())
                     )
-                    # self._rotate(current_node, node)
+                    self._rotate(current_node, node, balance, child_balance)
+                    return
             else:
                 current_node.left = Node(val)
                 self._length += 1
+                return self.balance(current_node)
+                # import pdb; pdb.set_trace()
         else:
             return
+        balance = self.balance(self._root)
+        if balance > 1 or balance < -1:
+            
 
-    def _rotate(self, node, par_node):
+    def _rotate(self, node, par_node, balance, child_balance):
         """."""
         # case 1 node.right.right
-        if node.right.right:
-            node.right.left = node
+        print('node', node.val, 'par_node', par_node.val, 'balance', balance, 'child_balance', child_balance)
+        if balance == -2 and child_balance == -1:
+            pivot = node.left
+            node.left = pivot.right
+            pivot.right = node
             if par_node.val < node.val:
-                par_node.right = node.right
+                par_node.right = pivot
             else:
-                par_node.left = node.right
-            node.right = None
+                par_node.left = pivot
+            print(tuple(self.breadth_first()))
         # case 2 node.left.left
-        if node.left.left:
-            node.left.right = node
+        if balance == 2 and child_balance == 1:
+            pivot = node.right
+            node.right = pivot.left
+            pivot.left = node
             if par_node.val < node.val:
-                par_node.right = node.right
+                par_node.right = pivot
             else:
-                par_node.left = node.left
-            node.left = None
+                par_node.left = pivot
+            print(tuple(self.breadth_first()))
         # # case 3 node.right.left
         # if node.right.left:
         #     pass
@@ -343,20 +363,19 @@ def test(search_val):  # pragma: no cover
 #   7
 #    \
 #     9
-tree = Bst([10, 5, 15, 7])
-print("# =========== #")
-tree.insert(9)
-print(tuple(tree.in_order()))
+# tree = Bst([10, 5, 15, 7])
+tree = Bst([20, 100, 10, 5, 4, 15, 18])
+print(tuple(tree.breadth_first()))
 
-# ===============================
-#        10
-#       /  \
-#      5    15
-#     /
-#    4
-#   /
-#  3
-tree = Bst([10, 5, 15, 4])
-print("# =========== #")
-tree.insert(3)
-print(tuple(tree.in_order()))
+# # ===============================
+# #        10
+# #       /  \
+# #      5    15
+# #     /
+# #    4
+# #   /
+# #  3
+# tree = Bst([10, 5, 15, 4])
+# print("# =========== #")
+# tree.insert(3)
+# print(tuple(tree.in_order()))
