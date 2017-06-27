@@ -44,20 +44,21 @@ class Bst(object):
                 self._root = Node(val)
                 self._length += 1
             else:
-                return self._insert(val, self._root)
+                self._insert(val, self._root)
         else:
             raise TypeError('Must be a number.')
 
     def _insert(self, val, node):
-        """Handle insert recursivly. Re-balance at each level."""
+        """Handle insert recursivly. Re-balance if needed at each level."""
         current_node = node
+        balance = 0
         if val > current_node.val:
             if current_node.right:
                 # import pdb; pdb.set_trace()
                 current_node = current_node.right
-                self._insert(val, current_node)
+                child_balance = self._insert(val, current_node)
                 balance = self.balance(current_node)
-                child_balance = self.balance(current_node.right)
+                # child_balance = self.balance(current_node.right)
                 print(
                     "#====Back from insert heading up the tree====#\n",
                     "par node:", node.val,
@@ -69,17 +70,16 @@ class Bst(object):
                     )
                 if balance not in range(-1, 2):
                     self._rotate(current_node, node, balance, child_balance)
-                    return
             else:
                 current_node.right = Node(val)
                 self._length += 1
-                return
+            return balance
         elif val < current_node.val:
             if current_node.left:
                 current_node = current_node.left
-                self._insert(val, current_node)
+                child_balance = self._insert(val, current_node)
                 balance = self.balance(current_node)
-                child_balance = self.balance(current_node.left)
+                # child_balance = self.balance(current_node.left)
                 print(
                     "#====Back from insert heading up the tree====#\n",
                     "par node:", node.val,
@@ -91,13 +91,10 @@ class Bst(object):
                     )
                 if balance not in range(-1, 2):
                     self._rotate(current_node, node, balance, child_balance)
-                    return
             else:
                 current_node.left = Node(val)
                 self._length += 1
-                return
-        else:
-            return
+            return balance
 
     def _rotate(self, node, par_node, balance, child_balance):
         """."""
@@ -116,7 +113,9 @@ class Bst(object):
                 par_node.right = pivot
             else:
                 par_node.left = pivot
-            print(tuple(self.breadth_first()))
+            print("post-rotation breadth_first:", tuple(self.breadth_first()))
+            print("post-rotationin_order:", tuple(self.in_order()))
+
         # case 2 node.left.left
         if balance == 2 and child_balance == 1:
             pivot = node.right
@@ -126,7 +125,8 @@ class Bst(object):
                 par_node.right = pivot
             else:
                 par_node.left = pivot
-            print(tuple(self.breadth_first()))
+            print("post-rotation breadth_first:", tuple(self.breadth_first()))
+            print("post-rotation in_order:", tuple(self.in_order()))
         # # case 3 node.right.left
         # if node.right.left:
         #     pass
@@ -352,19 +352,21 @@ def test(search_val):  # pragma: no cover
 #     print('')
 
 # ===============================
-#    10
-#   /  \
-#  5    15
-#   \
-#   7
-#    \
-#     9
+#       20
+#      /  \
+#    5    100
+#   / \
+#  4  15
+#      /\
+#    10 18
+#         \
+#         19
 # tree = Bst([10, 5, 15, 7])
-# tree = Bst([20, 100, 10, 5, 4, 15, 18, 19])
-tree = Bst([20, 100, 5, 4, 15, 18, 10, 19])
+tree = Bst([20, 100, 10, 5, 4, 15, 18, 19])
+# tree = Bst([20, 100, 5, 4, 15, 18, 10, 19])
 
-print(tuple(tree.breadth_first()))
-print(tree.balance(tree._root.left.right))
+# print(tuple(tree.breadth_first()))
+# print(tree.balance(tree._root.left.right))
 
 # # ===============================
 # #        10
