@@ -54,18 +54,17 @@ class Bst(object):
         balance = 0
         if val > current_node.val:
             if current_node.right:
-                # import pdb; pdb.set_trace()
                 current_node = current_node.right
                 child_balance = self._insert(val, current_node)
                 balance = self.balance(current_node)
-                # child_balance = self.balance(current_node.right)
                 print(
                     "#====Back from insert heading up the tree====#\n",
                     "par node:", node.val,
                     "node:", current_node.val,
                     "node bal:", balance,
                     "chi bal:", child_balance,
-                    "breadth first:", tuple(self.breadth_first()),
+                    "\n Current breadth first:", tuple(self.breadth_first()),
+                    "\n Current in order:", tuple(self.in_order()),
                     "\n#========== end this node ========#\n"
                     )
                 if balance not in range(-1, 2):
@@ -79,16 +78,16 @@ class Bst(object):
                 current_node = current_node.left
                 child_balance = self._insert(val, current_node)
                 balance = self.balance(current_node)
-                # child_balance = self.balance(current_node.left)
                 print(
                     "#====Back from insert heading up the tree====#\n",
                     "par node:", node.val,
                     "node:", current_node.val,
                     "node bal:", balance,
                     "chi bal:", child_balance,
-                    "breadth first:", tuple(self.breadth_first()),
+                    "\n Current breadth first:", tuple(self.breadth_first()),
+                    "\n Current in order:", tuple(self.in_order()),
                     "\n#========== end this node ========#\n"
-                    )
+                )
                 if balance not in range(-1, 2):
                     self._rotate(current_node, node, balance, child_balance)
             else:
