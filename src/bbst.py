@@ -53,65 +53,61 @@ class Bst(object):
         current_node = node
         if val > current_node.val:
             if current_node.right:
+                # import pdb; pdb.set_trace()
                 current_node = current_node.right
                 self._insert(val, current_node)
-                child_balance = self.balance(current_node.right)
                 balance = self.balance(current_node)
-                if balance not in range(-1, 1):
-                    print(
-                        "par node:",
-                        node.val,
-                        "node:",
-                        current_node.val,
-                        "node bal:",
-                        self.balance(current_node),
-                        "chi bal:",
-                        child_balance,
-                        "breadth first:",
-                        tuple(self.breadth_first())
+                child_balance = self.balance(current_node.right)
+                print(
+                    "#====Back from insert heading up the tree====#\n",
+                    "par node:", node.val,
+                    "node:", current_node.val,
+                    "node bal:", balance,
+                    "chi bal:", child_balance,
+                    "breadth first:", tuple(self.breadth_first()),
+                    "\n#========== end this node ========#\n"
                     )
+                if balance not in range(-1, 2):
                     self._rotate(current_node, node, balance, child_balance)
                     return
             else:
                 current_node.right = Node(val)
                 self._length += 1
-                return self.balance(current_node)
+                return
         elif val < current_node.val:
             if current_node.left:
                 current_node = current_node.left
                 self._insert(val, current_node)
-                child_balance = self.balance(current_node.left)
                 balance = self.balance(current_node)
-                if balance not in range(-1, 1):
-                    print(
-                        "par node:",
-                        node.val,
-                        "node:",
-                        current_node.val,
-                        "node bal:",
-                        self.balance(current_node),
-                        "chi bal:",
-                        child_balance,
-                        "breadth first:",
-                        tuple(self.breadth_first())
+                child_balance = self.balance(current_node.left)
+                print(
+                    "#====Back from insert heading up the tree====#\n",
+                    "par node:", node.val,
+                    "node:", current_node.val,
+                    "node bal:", balance,
+                    "chi bal:", child_balance,
+                    "breadth first:", tuple(self.breadth_first()),
+                    "\n#========== end this node ========#\n"
                     )
+                if balance not in range(-1, 2):
                     self._rotate(current_node, node, balance, child_balance)
                     return
             else:
                 current_node.left = Node(val)
                 self._length += 1
-                return self.balance(current_node)
-                # import pdb; pdb.set_trace()
+                return
         else:
             return
-        balance = self.balance(self._root)
-        if balance > 1 or balance < -1:
-            
 
     def _rotate(self, node, par_node, balance, child_balance):
         """."""
         # case 1 node.right.right
-        print('node', node.val, 'par_node', par_node.val, 'balance', balance, 'child_balance', child_balance)
+        print(
+            "#========Rotation Called============#\n"
+            'node', node.val, 'par_node', par_node.val,
+            'balance', balance, 'child_balance', child_balance,
+            "\n"
+        )
         if balance == -2 and child_balance == -1:
             pivot = node.left
             node.left = pivot.right
@@ -185,7 +181,7 @@ class Bst(object):
             return 0
         left_depth = self._depth(node.left)
         right_depth = self._depth(node.right)
-        if (left_depth > right_depth):
+        if left_depth > right_depth:
             return left_depth + 1
         return right_depth + 1
 
@@ -364,8 +360,11 @@ def test(search_val):  # pragma: no cover
 #    \
 #     9
 # tree = Bst([10, 5, 15, 7])
-tree = Bst([20, 100, 10, 5, 4, 15, 18])
+# tree = Bst([20, 100, 10, 5, 4, 15, 18, 19])
+tree = Bst([20, 100, 5, 4, 15, 18, 10, 19])
+
 print(tuple(tree.breadth_first()))
+print(tree.balance(tree._root.left.right))
 
 # # ===============================
 # #        10
@@ -379,3 +378,7 @@ print(tuple(tree.breadth_first()))
 # print("# =========== #")
 # tree.insert(3)
 # print(tuple(tree.in_order()))
+
+# tree = Bst([5, 4, 15, 10, 18, 19])
+# print(tuple(tree.breadth_first()))
+# print(tree.balance(tree._root.right))
