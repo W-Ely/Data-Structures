@@ -101,8 +101,7 @@ class Bst(object):
         print(
             "#========Rotation Called============#\n"
             'node', node.val, 'par_node', par_node.val,
-            'balance', balance, 'child_balance', child_balance,
-            "\n"
+            'balance', balance, 'child_balance', child_balance
         )
         if balance == -2 and child_balance == -1:
             pivot = node.left
@@ -113,7 +112,7 @@ class Bst(object):
             else:
                 par_node.left = pivot
             print("post-rotation breadth_first:", tuple(self.breadth_first()))
-            print("post-rotationin_order:", tuple(self.in_order()))
+            print("post-rotationin_order:", tuple(self.in_order()), "\n")
 
         # case 2 node.left.left
         if balance == 2 and child_balance == 1:
@@ -126,6 +125,7 @@ class Bst(object):
                 par_node.left = pivot
             print("post-rotation breadth_first:", tuple(self.breadth_first()))
             print("post-rotation in_order:", tuple(self.in_order()))
+            print("#=========== End Rotation ==============#\n")
         # # case 3 node.right.left
         # if node.right.left:
         #     pass
