@@ -50,6 +50,7 @@ class Bst(object):
 
     def _insert(self, val, node, parent_node=None):
         """Handle insert recursivly. Re-balance if needed at each level."""
+        child_node = None
         if val > node.val:
             if node.right:
                 child_node = self._insert(val, node.right, node)
@@ -75,40 +76,26 @@ class Bst(object):
     def _rotate(
             self, node, balance, child, child_balance, parent
             ):
-        """Check which case we are working with, call rotate."""
-        # import pdb; pdb.set_trace()
-        # print(
-        #     "Node:", node.val,
-        #     "balance:", balance,
-        #     "child_node:", child.val,
-        #     "child_balance:", child_balance
-        # )
         if balance == -2 and child_balance == -1:  # case 1
-            if node is self._root:   # root working
-                node.left = child.right
-                child.right = node
+            node.left = child.right
+            child.right = node
+            if node is self._root:
                 self._root = child
-            else:                   # working
-                pivot = child
-                node.left = pivot.right
-                pivot.right = node
+            else:
                 if parent.val < node.val:
-                    parent.right = pivot
+                    parent.right = child
                 else:
-                    parent.left = pivot
+                    parent.left = child
         if balance == 2 and child_balance == 1:  # case 2
-            if node is self._root:  # root working
-                node.right = child.left
-                child.left = node
+            node.right = child.left
+            child.left = node
+            if node is self._root:
                 self._root = child
-            else:                   # working
-                pivot = child
-                node.right = pivot.left
-                pivot.left = node
+            else:
                 if parent.val < node.val:
-                    parent.right = pivot
+                    parent.right = child
                 else:
-                    parent.left = pivot
+                    parent.left = child
         if balance == 2 and child_balance == -1:  # case 3
             pivot = child.left  # step 1
             node.right = pivot.left
@@ -135,6 +122,7 @@ class Bst(object):
                     parent.right = pivot
                 else:
                     parent.left = pivot
+
     def search(self, val, prev=False):
         """Return the node containing that value, else None."""
         current_node = self._root
