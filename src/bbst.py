@@ -53,34 +53,36 @@ class Bst(object):
         if val > node.val:
             if node.right:
                 child_node = self._insert(val, node.right)
-                balance = self.balance(node)
-                child_balance = self.balance(child_node)
-                if balance not in range(-1, 2):
-                    self._check_case(
-                        node, balance, child_node, child_balance
-                    )
             else:
                 node.right = Node(val)
+                child_node = node.right
                 self._length += 1
         elif val < node.val:
             if node.left:
                 child_node = self._insert(val, node.left)
-                balance = self.balance(node)
-                child_balance = self.balance(child_node)
-                if balance not in range(-1, 2):
-                    self._check_case(
-                        node, balance, child_node, child_balance
-                    )
             else:
                 node.left = Node(val)
+                child_node = node.left
                 self._length += 1
+        balance = self.balance(node)
+        child_balance = self.balance(child_node)
+        if balance not in range(-1, 2):
+            self._check_case(
+                node, balance, child_node, child_balance
+            )
+        print(
+            "Node:", node.val,
+            "balance:", balance,
+            "child_node:", child_node.val,
+            "child_balance:", child_balance
+        )
         return node
 
     def _check_case(self, node, balance, child_node, child_balance):
         """Check which case we are working with, call rotate."""
         # import pdb; pdb.set_trace()
         if balance == -2 and child_balance == -1:  # case 1
-            # self._make_rotate(child_balance, child_node, node)
+            # self._rotate(child_balance, child_node, node)
             if node is self._root:
                 node.left = child_node.right
                 child_node.right = node
@@ -94,7 +96,7 @@ class Bst(object):
                 else:
                     node.left = pivot
         if balance == 2 and child_balance == 1:  # case 2
-            # self._make_rotate(child_balance, child_node, node)
+            # self._rotate(child_balance, child_node, node)
             if node is self._root:
                 node.right = child_node.left
                 child_node.right = node
@@ -137,7 +139,7 @@ class Bst(object):
             else:
                 node.left = pivot
 
-    def _make_rotate(self, balance, node, par_node, fold=False):
+    def _rotate(self, balance, node, par_node, fold=False):
         """Rotate based on case."""
         direction = {-1: 'left', 1: 'right'}
         print("Making {} rotation".format(direction[balance * -1]))
