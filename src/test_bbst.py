@@ -66,7 +66,7 @@ def bst_right_balance():
     balance: 0
     === Search Transversals ===
     in_order: (2, 5, 6, 8, 7, 9)
-    pre_order: (6, 5, 2, 8, 6, 7, 9)
+    pre_order: (6, 5, 2, 8, 7, 9)
     breadth_first: (6, 5, 8, 2, 7, 9)
     post_order: (2, 5, 7, 9, 8, 6)
     """
@@ -96,6 +96,7 @@ def bst_wiki():
               2      6   8
             /  \    /
            1    3  5
+
     depth: 4
     balance: -1
     === Search Transversals ===
@@ -254,72 +255,73 @@ def test_depth_returns_correct_value_balanced_tree(bst_balanced):
 
 def test_depth_returns_correct_value_right_balanced_tree(bst_right_balance):
     """Return value on empty tree."""
-    assert bst_right_balance.depth() == 4
+    assert bst_right_balance.depth() == 3
 
 
-# def test_depth_returns_correct_value_left_balanced_tree(bst_all_to_left):
-#     """Return value on empty tree."""
-#     assert bst_all_to_left.depth() == 3
-#
-#
-# def test_contains_returns_false_on_empty_tree(bst_empty):
-#     """False on empty tree."""
-#     assert bst_empty.contains(4) is False
-#
-#
-# def test_contains_returns_false_on_balanced_tree(bst_balanced):
-#     """False on balanced tree."""
-#     assert bst_balanced.contains(25) is False
-#
-#
-# def test_contains_returns_false_on_right_balanced_tree(bst_right_balance):
-#     """False on right balanced tree."""
-#     assert bst_right_balance.contains(25) is False
-#
-#
-# def test_contains_returns_false_on_left_balanced_tree(bst_all_to_left):
-#     """False on left balanced tree."""
-#     assert bst_all_to_left.contains(25) is False
-#
-#
-# def test_contains_returns_true_on_tree_with_value_left(bst_all_to_left):
-#     """Tree has value true."""
-#     assert bst_all_to_left.contains(3) is True
-#     assert bst_all_to_left.contains(1) is True
-#     assert bst_all_to_left.contains(2) is True
-#
-#
-# def test_contains_returns_true_on_tree_with_value_right(bst_right_balance):
-#     """Tree has value true."""
-#     assert bst_right_balance.contains(6) is True
-#     assert bst_right_balance.contains(2) is True
-#
-#
-# def test_contains_returns_true_on_tree_with_value(bst_balanced):
-#     """Tree has value true."""
-#     assert bst_balanced.contains(6) is True
-#     assert bst_balanced.contains(3) is True
-#
-#
-# def test_balance_right_tree(bst_right_balance):
-#     """Tree balanced right returns 2."""
-#     assert bst_right_balance.balance() == 2
-#
-#
-# def test_balance_left_tree(bst_all_to_left):
-#     """Tree balanced right returns -4."""
-#     assert bst_all_to_left.balance() == -4
-#
-#
-# def test_balance_balanced_tree(bst_balanced):
-#     """Tree balanced right returns 0."""
-#     assert bst_balanced.balance() == 0
-#
-#
-# def test_balance_empty_tree(bst_empty):
-#     """Tree balanced right returns 0."""
-#     assert bst_empty.balance() == 0
-#
+def test_depth_returns_correct_value_left_balanced_tree(bst_all_to_left):
+    """Return value on empty tree."""
+    assert bst_all_to_left.depth() == 3
+
+
+def test_contains_returns_false_on_empty_tree(bst_empty):
+    """False on empty tree."""
+    assert bst_empty.contains(4) is False
+
+
+def test_contains_returns_false_on_balanced_tree(bst_balanced):
+    """False on balanced tree."""
+    assert bst_balanced.contains(25) is False
+
+
+def test_contains_returns_false_on_right_balanced_tree(bst_right_balance):
+    """False on right balanced tree."""
+    assert bst_right_balance.contains(25) is False
+
+
+def test_contains_returns_false_on_left_balanced_tree(bst_all_to_left):
+    """False on left balanced tree."""
+    assert bst_all_to_left.contains(25) is False
+
+
+def test_contains_returns_true_on_tree_with_value_left(bst_all_to_left):
+    """Tree has value true."""
+    assert bst_all_to_left.contains(3) is True
+    assert bst_all_to_left.contains(1) is True
+    assert bst_all_to_left.contains(2) is True
+
+
+def test_contains_returns_true_on_tree_with_value_right(bst_right_balance):
+    """Tree has value true."""
+    assert bst_right_balance.contains(6) is True
+    assert bst_right_balance.contains(2) is True
+
+
+def test_contains_returns_true_on_tree_with_value(bst_balanced):
+    """Tree has value true."""
+    assert bst_balanced.contains(6) is True
+    assert bst_balanced.contains(3) is True
+
+
+def test_balance_right_tree(bst_right_balance):
+    """Tree balanced right returns 2."""
+    assert bst_right_balance.balance() == 0
+
+
+def test_balance_left_tree(bst_all_to_left):
+    """Tree balanced right returns -1."""
+    assert bst_all_to_left.balance() == -1
+
+
+def test_balance_balanced_tree(bst_balanced):
+    """Tree balanced right returns 0."""
+    assert bst_balanced.balance() == 0
+
+
+def test_balance_empty_tree(bst_empty):
+    """Tree balanced right returns 0."""
+    assert bst_empty.balance() == 0
+
+    
 # #=================== Transversal Tests ================== #
 
 
@@ -354,89 +356,89 @@ def testin_order_0_4(bst_wiki):
     assert tuple(bst_wiki.in_order()) == (1, 2, 3, 4, 5, 6, 7, 8, 9)
 
 
+def test_pre_order_0_0(bst_empty):
+    """Test pre order Transversal with various tress."""
+    assert tuple(bst_empty.pre_order()) == ()
+
+
+def test_pre_order_0_1(bst_balanced):
+    """Test pre order Transversal with various tress."""
+    assert tuple(bst_balanced.pre_order()) == (5, 2, 1, 3, 6, 7)
+
+
+def test_pre_order_0_2(bst_all_to_left):
+    """Test pre order Transversal with various tress."""
+    assert tuple(bst_all_to_left.pre_order()) == (4, 2, 1, 3, 5)
+
+
+def test_pre_order_0_3(bst_right_balance):
+    """Test pre order Transversal with various tress."""
+    assert tuple(bst_right_balance.pre_order()) == (6, 5, 2, 8, 7, 9)
+
+
+def test_pre_order_0_4(bst_wiki):
+    """Test pre order Transversal with various tress."""
+    assert tuple(bst_wiki.pre_order()) == (7, 4, 2, 1, 3, 6, 5, 9, 8)
+
+
+def test_post_order_0_0(bst_empty):
+    """Test post_order Transversal with various tress."""
+    assert tuple(bst_empty.post_order()) == ()
+
+
+def test_post_order_0_1(bst_balanced):
+    """Test post_order Transversal with various tress."""
+    assert tuple(bst_balanced.post_order()) == (1, 3, 2, 7, 6, 5)
+
+
+def test_post_order_0_2(bst_all_to_left):
+    """Test post_order Transversal with various tress."""
+    assert tuple(bst_all_to_left.post_order()) == (1, 3, 2, 5, 4)
+
+
+def test_post_order_0_3(bst_right_balance):
+    """Test post_order Transversal with various tress."""
+    assert tuple(bst_right_balance.post_order()) == (2, 5, 7, 9, 8, 6)
+
+
+def test_post_order_0_4(bst_wiki):
+    """Test post_order Transversal with various tress."""
+    assert tuple(bst_wiki.post_order()) == (1, 3, 2, 5, 6, 4, 8, 9, 7)
+
+
+def test_breadth_first_0_0(bst_empty):
+    """Test breadth_first Transversal with various tress."""
+    assert tuple(bst_empty.breadth_first()) == ()
+
+
+def test_breadth_first_0_1(bst_balanced):
+    """Test breadth_first Transversal with various tress."""
+    assert tuple(bst_balanced.breadth_first()) == (5, 2, 6, 1, 3, 7)
+
+
+def test_breadth_first_0_2(bst_all_to_left):
+    """Test breadth_first Transversal with various tress."""
+    assert tuple(bst_all_to_left.breadth_first()) == (4, 2, 5, 1, 3)
+
+
+def test_breadth_first_0_3(bst_right_balance):
+    """Test breadth_first Transversal with various tress."""
+    assert tuple(bst_right_balance.breadth_first()) == (6, 5, 8, 2, 7, 9)
+
+
+def test_breadth_first_0_4(bst_wiki):
+    """Test breadth_first Transversal with various tress."""
+    assert tuple(bst_wiki.breadth_first()) == (7, 4, 9, 2, 6, 8, 1, 3, 5)
+
+
 def test_in_order_0_5(bst_100_rand):
     """Test 100 in a row are in order."""
     assert(tuple(bst_100_rand.in_order())) == tuple(x for x in range(100))
 
 
-# def test_pre_order_0_0(bst_empty):
-#     """Test pre order Transversal with various tress."""
-#     assert tuple(bst_empty.pre_order()) == ()
-#
-#
-# def test_pre_order_0_1(bst_balanced):
-#     """Test pre order Transversal with various tress."""
-#     assert tuple(bst_balanced.pre_order()) == (5, 2, 1, 3, 6, 7)
-#
-#
-# def test_pre_order_0_2(bst_all_to_left):
-#     """Test pre order Transversal with various tress."""
-#     assert tuple(bst_all_to_left.pre_order()) == (5, 4, 1, 3, 2)
-#
-#
-# def test_pre_order_0_3(bst_right_balance):
-#     """Test pre order Transversal with various tress."""
-#     assert tuple(bst_right_balance.pre_order()) == (5, 2, 8, 6, 7, 9)
-#
-#
-# def test_pre_order_0_4(bst_wiki):
-#     """Test pre order Transversal with various tress."""
-#     assert tuple(bst_wiki.pre_order()) == (6, 2, 1, 4, 3, 5, 7, 9, 8)
-#
-#
-# def test_post_order_0_0(bst_empty):
-#     """Test post_order Transversal with various tress."""
-#     assert tuple(bst_empty.post_order()) == ()
-#
-#
-# def test_post_order_0_1(bst_balanced):
-#     """Test post_order Transversal with various tress."""
-#     assert tuple(bst_balanced.post_order()) == (1, 3, 2, 7, 6, 5)
-#
-#
-# def test_post_order_0_2(bst_all_to_left):
-#     """Test post_order Transversal with various tress."""
-#     assert tuple(bst_all_to_left.post_order()) == (2, 3, 1, 4, 5)
-#
-#
-# def test_post_order_0_3(bst_right_balance):
-#     """Test post_order Transversal with various tress."""
-#     assert tuple(bst_right_balance.post_order()) == (2, 7, 6, 9, 8, 5)
-#
-#
-# def test_post_order_0_4(bst_wiki):
-#     """Test post_order Transversal with various tress."""
-#     assert tuple(bst_wiki.post_order()) == (1, 3, 5, 4, 2, 8, 9, 7, 6)
-#
-#
-# def test_breadth_first_0_0(bst_empty):
-#     """Test breadth_first Transversal with various tress."""
-#     assert tuple(bst_empty.breadth_first()) == ()
-#
-#
-# def test_breadth_first_0_1(bst_balanced):
-#     """Test breadth_first Transversal with various tress."""
-#     assert tuple(bst_balanced.breadth_first()) == (5, 2, 6, 1, 3, 7)
-#
-#
-# def test_breadth_first_0_2(bst_all_to_left):
-#     """Test breadth_first Transversal with various tress."""
-#     assert tuple(bst_all_to_left.breadth_first()) == (5, 4, 1, 3, 2)
-#
-#
-# def test_breadth_first_0_3(bst_right_balance):
-#     """Test breadth_first Transversal with various tress."""
-#     assert tuple(bst_right_balance.breadth_first()) == (5, 2, 8, 6, 9, 7)
-#
-#
-# def test_breadth_first_0_4(bst_wiki):
-#     """Test breadth_first Transversal with various tress."""
-#     assert tuple(bst_wiki.breadth_first()) == (6, 2, 7, 1, 4, 9, 3, 5, 8)
-#
-#
-# # ===================  Delete Tests ===================== #
-#
-#
+# ===================  Delete Tests ===================== #
+
+
 # def test_del_right_left_most_has_right(right_left_most_has_right_child):
 #     """Delete one child deletion test."""
 #     right_left_most_has_right_child.delete(5)
@@ -676,3 +678,81 @@ def test_in_order_0_5(bst_100_rand):
 #     )
 #     assert robust.balance() == 0
 #     assert robust.depth() == 5
+
+# =============== AVL Testing ====================#
+
+def test_right_rotation_three_node_tree_including_root():
+    """Test three nodes rotate right."""
+    from bbst import Bst
+    tree = Bst([5, 4, 3])
+    assert tuple(tree.in_order()) == (3, 4, 5)
+    assert tuple(tree.breadth_first()) == (4, 3, 5)
+    assert tuple(tree.pre_order()) == (4, 3, 5)
+    assert tuple(tree.post_order()) == (3, 5, 4)
+    assert tree.depth() == 2
+    assert tree.balance() == 0
+
+
+def test_left_rotation_three_node_tree_including_root():
+    """Test three nodes rotate right."""
+    from bbst import Bst
+    tree = Bst([3, 4, 5])
+    assert tuple(tree.in_order()) == (3, 4, 5)
+    assert tuple(tree.breadth_first()) == (4, 3, 5)
+    assert tuple(tree.pre_order()) == (4, 3, 5)
+    assert tuple(tree.post_order()) == (3, 5, 4)
+    assert tree.depth() == 2
+    assert tree.balance() == 0
+
+
+def test_right_rotation_four_node_tree():
+    """Test four nodes rotate right, no root change."""
+    from bbst import Bst
+    tree = Bst([5, 4, 3, 2, 1])
+    assert tuple(tree.in_order()) == (1, 2, 3, 4, 5)
+    assert tuple(tree.breadth_first()) == (4, 2, 5, 1, 3)
+    assert tuple(tree.pre_order()) == (4, 2, 1, 3, 5)
+    assert tuple(tree.post_order()) == (1, 3, 2, 5, 4)
+    assert tree.depth() == 3
+    assert tree.balance() == -1
+
+
+def test_left_rotation_four_node_tree():
+    """Test four nodes rotate left, no root change."""
+    from bbst import Bst
+    tree = Bst([1, 2, 3, 4, 5])
+    assert tuple(tree.in_order()) == (1, 2, 3, 4, 5)
+    assert tuple(tree.breadth_first()) == (2, 1, 4, 3, 5)
+    assert tuple(tree.pre_order()) == (2, 1, 4, 3, 5)
+    assert tuple(tree.post_order()) == (1, 3, 5, 4, 2)
+    assert tree.depth() == 3
+    assert tree.balance() == 1
+
+
+def test_right_left__rotation_five_node_tree():
+    """Test three nodes rotate right, no root change."""
+    from bbst import Bst
+    tree = Bst([1, 2, 5, 3, 4])
+    assert tuple(tree.in_order()) == (1, 2, 3, 4, 5)
+    assert tuple(tree.breadth_first()) == (2, 1, 4, 3, 5)
+    assert tuple(tree.pre_order()) == (2, 1, 4, 3, 5)
+    assert tuple(tree.post_order()) == (1, 3, 5, 4, 2)
+    assert tree.depth() == 3
+    assert tree.balance() == 1
+
+
+def testt_left_right_rotation_five_node_tree():
+    """Test three nodes rotate right, no root change."""
+    from bbst import Bst
+    tree = Bst([4, 5, 1, 3, 2])
+    assert tuple(tree.in_order()) == (1, 2, 3, 4, 5)
+    assert tuple(tree.breadth_first()) == (4, 2, 5, 1, 3)
+    assert tuple(tree.pre_order()) == (4, 2, 1, 3, 5)
+    assert tuple(tree.post_order()) == (1, 3, 2, 5, 4)
+    assert tree.depth() == 3
+    assert tree.balance() == -1
+
+
+def test_random_100_in_order(bst_100_rand):
+    """Test random one retains order."""
+    assert tuple(bst_100_rand.in_order()) == tuple(x for x in range(100))
