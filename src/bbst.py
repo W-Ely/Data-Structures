@@ -79,51 +79,52 @@ class Bst(object):
 
     def _check_case(self, node, balance, child_node, child_balance):
         """Check which case we are working with, call rotate."""
-        if balance == -2 and child_balance == -1:  # case 1
-            import pdb; pdb.set_trace()
-            # self._make_rotate(child_balance, child_node, node)
-            pivot = child_node.left
-            child_node.left = pivot.right
-            pivot.right = child_node
-            if node.val < child_node.val:
-                node.right = pivot
-            else:
-                node.left = pivot
-        if balance == 2 and child_balance == 1:  # case 2
-            # self._make_rotate(child_balance, child_node, node)
-            pivot = child_node.right
-            child_node.right = pivot.left
-            pivot.left = child_node
-            if node.val < child_node.val:
-                node.right = pivot
-            else:
-                node.left = pivot
-        if balance == 2 and child_balance == -1:  # case 3
-            pivot = child_node.right.left
-            child_node.right.left = pivot.right
-            pivot.left = child_node.right
-            child_node.right = pivot
-            # === case 2 ==== #
-            pivot = child_node.right
-            child_node.right = pivot.left
-            pivot.left = child_node
-            if node.val < child_node.val:
-                node.right = pivot
-            else:
-                node.left = pivot
-        if balance == -2 and child_balance == 1:  # case 4
-            pivot = child_node.left.right
-            child_node.left.right = pivot.left
-            pivot.left = child_node.left
-            child_node.left = pivot
-            # === case 1 ==== #
-            pivot = child_node.left
-            child_node.left = pivot.right
-            pivot.right = child_node
-            if node.val < child_node.val:
-                node.right = pivot
-            else:
-                node.left = pivot
+        pass
+        # if balance == -2 and child_balance == -1:  # case 1
+        #     # import pdb; pdb.set_trace()
+        #     # self._make_rotate(child_balance, child_node, node)
+        #     pivot = child_node.left
+        #     child_node.left = pivot.right
+        #     pivot.right = child_node
+        #     if node.val < child_node.val:
+        #         node.right = pivot
+        #     else:
+        #         node.left = pivot
+        # if balance == 2 and child_balance == 1:  # case 2
+        #     # self._make_rotate(child_balance, child_node, node)
+        #     pivot = child_node.right
+        #     child_node.right = pivot.left
+        #     pivot.left = child_node
+        #     if node.val < child_node.val:
+        #         node.right = pivot
+        #     else:
+        #         node.left = pivot
+        # if balance == 2 and child_balance == -1:  # case 3
+        #     pivot = child_node.right.left
+        #     child_node.right.left = pivot.right
+        #     pivot.left = child_node.right
+        #     child_node.right = pivot
+        #     # === case 2 ==== #
+        #     pivot = child_node.right
+        #     child_node.right = pivot.left
+        #     pivot.left = child_node
+        #     if node.val < child_node.val:
+        #         node.right = pivot
+        #     else:
+        #         node.left = pivot
+        # if balance == -2 and child_balance == 1:  # case 4
+        #     pivot = child_node.left.right
+        #     child_node.left.right = pivot.left
+        #     pivot.left = child_node.left
+        #     child_node.left = pivot
+        #     # === case 1 ==== #
+        #     pivot = child_node.left
+        #     child_node.left = pivot.right
+        #     pivot.right = child_node
+        #     if node.val < child_node.val:
+        #         node.right = pivot
+        #     else:
+        #         node.left = pivot
 
     def _make_rotate(self, balance, node, par_node, fold=False):
         """Rotate based on case."""

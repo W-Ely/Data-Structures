@@ -257,11 +257,11 @@ def test_depth_returns_correct_value_right_balanced_tree(bst_right_balance):
     assert bst_right_balance.depth() == 4
 
 
-def test_depth_returns_correct_value_left_balanced_tree(bst_all_to_left):
-    """Return value on empty tree."""
-    assert bst_all_to_left.depth() == 3
-
-
+# def test_depth_returns_correct_value_left_balanced_tree(bst_all_to_left):
+#     """Return value on empty tree."""
+#     assert bst_all_to_left.depth() == 3
+#
+#
 # def test_contains_returns_false_on_empty_tree(bst_empty):
 #     """False on empty tree."""
 #     assert bst_empty.contains(4) is False
@@ -321,39 +321,44 @@ def test_depth_returns_correct_value_left_balanced_tree(bst_all_to_left):
 #     assert bst_empty.balance() == 0
 #
 # #=================== Transversal Tests ================== #
-#
-#
-# def test_in_order_0_0(bst_empty):
-#     """Test in order Transversal with various tress."""
-#     assert tuple(bst_empty.in_order()) == ()
-#
-#
-# def test_in_order_one_item_tree(bst_empty):
-#     """Test in order works on one item tree."""
-#     bst_empty.insert(10)
-#     assert next(bst_empty.in_order()) == 10
-#
-#
-# def test_in_order_0_1(bst_balanced):
-#     """Test in order Transversal with various tress."""
-#     assert tuple(bst_balanced.in_order()) == (1, 2, 3, 5, 6, 7)
-#
-#
-# def test_in_order_0_2(bst_all_to_left):
-#     """Test in order Transversal with various tress."""
-#     assert tuple(bst_all_to_left.in_order()) == (1, 2, 3, 4, 5)
-#
-#
-# def test_in_order_0_3(bst_right_balance):
-#     """Test in order Transversal with various tress."""
-#     assert tuple(bst_right_balance.in_order()) == (2, 5, 6, 7, 8, 9)
-#
-#
-# def testin_order_0_4(bst_wiki):
-#     """Test in order Transversal with various tress."""
-#     assert tuple(bst_wiki.in_order()) == (1, 2, 3, 4, 5, 6, 7, 8, 9)
-#
-#
+
+
+def test_in_order_0_0(bst_empty):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_empty.in_order()) == ()
+
+
+def test_in_order_one_item_tree(bst_empty):
+    """Test in order works on one item tree."""
+    bst_empty.insert(10)
+    assert next(bst_empty.in_order()) == 10
+
+
+def test_in_order_0_1(bst_balanced):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_balanced.in_order()) == (1, 2, 3, 5, 6, 7)
+
+
+def test_in_order_0_2(bst_all_to_left):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_all_to_left.in_order()) == (1, 2, 3, 4, 5)
+
+
+def test_in_order_0_3(bst_right_balance):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_right_balance.in_order()) == (2, 5, 6, 7, 8, 9)
+
+
+def testin_order_0_4(bst_wiki):
+    """Test in order Transversal with various tress."""
+    assert tuple(bst_wiki.in_order()) == (1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+
+def test_in_order_0_5(bst_100_rand):
+    """Test 100 in a row are in order."""
+    assert(tuple(bst_100_rand.in_order())) == tuple(x for x in range(100))
+
+
 # def test_pre_order_0_0(bst_empty):
 #     """Test pre order Transversal with various tress."""
 #     assert tuple(bst_empty.pre_order()) == ()
