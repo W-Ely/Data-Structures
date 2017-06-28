@@ -322,7 +322,44 @@ def test_balance_empty_tree(bst_empty):
     assert bst_empty.balance() == 0
 
 
-# #=================== Transversal Tests ================== #
+# =============== Beefy Re-balance Tests ================ #
+
+
+def test_random_100_balance_remains_between_1_and_negative_1(bst_100_rand):
+    """Test random 100 balance between 1 and -1."""
+    assert bst_100_rand.balance() in range(-1, 2)
+
+
+def test_straight_100_balance_remains_between_1and_negative_1():
+    """Test 100 numbers in a row still has balance."""
+    from bbst import Bst
+    tree = Bst(x for x in range(100))
+    assert tree.balance() in range(-1, 2)
+
+
+def test_backwards_100_balance_remains_between_1_and_negative_1():
+    """Test 100 numbers in a row still has balance."""
+    from bbst import Bst
+    tree = Bst([x for x in range(100)][::-1])
+    assert tree.balance() in range(-1, 2)
+
+
+def test_rand_100_depth_remains_less_than_8():
+    """Test 100 numbers depth rational."""
+    from bbst import Bst
+    from random import shuffle
+    max_depth = 0
+    for x in range(10):
+        rando = [x for x in range(100)]
+        shuffle(rando)
+        tree = Bst(rando)
+        tree_depth = tree.depth()
+        if tree_depth > max_depth:
+            max_depth = tree_depth
+    assert max_depth == 8
+
+
+# =================== Transversal Tests ================== #
 
 
 def test_in_order_0_0(bst_empty):
@@ -349,6 +386,11 @@ def test_in_order_0_2(bst_all_to_left):
 def test_in_order_0_3(bst_right_balance):
     """Test in order Transversal with various tress."""
     assert tuple(bst_right_balance.in_order()) == (2, 5, 6, 7, 8, 9)
+
+
+def test_random_100_in_order(bst_100_rand):
+    """Test random 100 retains in_order transversal."""
+    assert tuple(bst_100_rand.in_order()) == tuple(x for x in range(100))
 
 
 def testin_order_0_4(bst_wiki):

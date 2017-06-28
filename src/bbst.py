@@ -258,6 +258,36 @@ class Bst(object):
                 except(AttributeError):
                     pass
 
+    def test_delete(self, val):
+        """Delete recursivly. Re-balance if needed at each level."""
+        pass
+
+    def Test_helper_delete(self, val, node, parent_node=None):
+        """Handle insert recursivly. Re-balance if needed at each level."""
+        child_node = None
+        if val > node.val:
+            if node.right:
+                child_node = self._insert(val, node.right, node)
+            else:
+                node.right = Node(val)
+                child_node = node.right
+                self._length += 1
+        elif val < node.val:
+            if node.left:
+                child_node = self._insert(val, node.left, node)
+            else:
+                node.left = Node(val)
+                child_node = node.left
+                self._length += 1
+        balance = self.balance(node)
+        child_balance = self.balance(child_node)
+        if balance not in range(-1, 2):
+            self._rotate(
+                node, balance, child_node, child_balance, parent_node
+            )
+        return node
+        pass
+
     def delete(self, val):
         """Remove value from the tree if present.
 
@@ -339,9 +369,3 @@ def test(search_val):  # pragma: no cover
 #     print("#================= worse case search 1000x==============#")
 #     print(worst.timeit(number=1000))
 #     print('')
-
-tree = Bst([4, 5, 6])
-print("in_order: ", tuple(tree.in_order()))
-print("pre_order:", tuple(tree.pre_order()))
-print("post_order", tuple(tree.post_order()))
-print("breadth:", tuple(tree.breadth_first()))
