@@ -176,90 +176,90 @@ def robust():
     return Bst([
         10, 2, 1, 9, 4, 3, 8, 6, 5, 7, 18, 11, 19, 16, 12, 17, 14, 13, 15
     ])
-
-
-def test_initalizing_with_non_iterable_or_not_numbers_raises_ValueError():
-    """Init returns Value error with with non-numbers or non-iterables."""
-    from bbst import Bst
-    with pytest.raises(TypeError):
-        Bst("dfsdfadgasdg")
-
-
-def test_insert_must_be_a_number(bst_empty):
-    """Raise TypeError on non number insert."""
-    with pytest.raises(TypeError):
-        bst_empty.insert("dfsdfadgasdg")
-
-
-def test_insert_to_empty_tree_increases_tree_length(bst_empty):
-    """Insert increses length."""
-    bst_empty.insert(1)
-    assert len(bst_empty) == 1
-
-
-def test_insert_adds_value_to_tree(bst_balanced):
-    """Value added to tree."""
-    bst_balanced.insert(15)
-    assert bst_balanced.contains(15) is True
-    assert bst_balanced.search(15).val == 15
-
-
-def test_insert_will_not_duplicate_value(bst_balanced):
-    """Value not added twice."""
-    bst_balanced.insert(6)
-    assert bst_balanced.size() == 6
-
-
-def test_insert_to_balanced_tree_changes_balance(bst_balanced):
-    """Balance changes."""
-    assert bst_balanced.balance() == 0
-    bst_balanced.insert(4)
-    assert bst_balanced.balance() == -1
-
-
-def test_search_finds_node(bst_balanced):
-    """Search returns node with value."""
-    assert bst_balanced.search(1).val == 1
-
-
-def test_search_returns_none_when_value_not_in_tree_right(bst_balanced):
-    """Search returns None."""
-    assert bst_balanced.search(25) is None
-
-
-def test_search_returns_none_when_value_notin_tree_left(bst_all_to_left):
-    """Catch case value less than tree values."""
-    assert bst_all_to_left.search(0) is None
-
-
-def test_size_is_correct_on_empty_tree(bst_empty):
-    """Tree size is accurate."""
-    assert bst_empty.size() == 0
-
-
-def test_size_is_correct_on_filled_tree(bst_100_rand):
-    """Tree size is accurate."""
-    assert bst_100_rand.size() == 100
-
-
-def test_depth_returns_zero_on_empty_tree(bst_empty):
-    """Return 0 on empty tree."""
-    assert bst_empty.depth() == 0
-
-
-def test_depth_returns_correct_value_balanced_tree(bst_balanced):
-    """Return value on tree."""
-    assert bst_balanced.depth() == 3
-
-
-def test_depth_returns_correct_value_right_balanced_tree(bst_right_balance):
-    """Return value on empty tree."""
-    assert bst_right_balance.depth() == 4
-
-
-def test_depth_returns_correct_value_left_balanced_tree(bst_all_to_left):
-    """Return value on empty tree."""
-    assert bst_all_to_left.depth() == 3
+#
+#
+# def test_initalizing_with_non_iterable_or_not_numbers_raises_ValueError():
+#     """Init returns Value error with with non-numbers or non-iterables."""
+#     from bbst import Bst
+#     with pytest.raises(TypeError):
+#         Bst("dfsdfadgasdg")
+#
+#
+# def test_insert_must_be_a_number(bst_empty):
+#     """Raise TypeError on non number insert."""
+#     with pytest.raises(TypeError):
+#         bst_empty.insert("dfsdfadgasdg")
+#
+#
+# def test_insert_to_empty_tree_increases_tree_length(bst_empty):
+#     """Insert increses length."""
+#     bst_empty.insert(1)
+#     assert len(bst_empty) == 1
+#
+#
+# def test_insert_adds_value_to_tree(bst_balanced):
+#     """Value added to tree."""
+#     bst_balanced.insert(15)
+#     assert bst_balanced.contains(15) is True
+#     assert bst_balanced.search(15).val == 15
+#
+#
+# def test_insert_will_not_duplicate_value(bst_balanced):
+#     """Value not added twice."""
+#     bst_balanced.insert(6)
+#     assert bst_balanced.size() == 6
+#
+#
+# def test_insert_to_balanced_tree_changes_balance(bst_balanced):
+#     """Balance changes."""
+#     assert bst_balanced.balance() == 0
+#     bst_balanced.insert(4)
+#     assert bst_balanced.balance() == -1
+#
+#
+# def test_search_finds_node(bst_balanced):
+#     """Search returns node with value."""
+#     assert bst_balanced.search(1).val == 1
+#
+#
+# def test_search_returns_none_when_value_not_in_tree_right(bst_balanced):
+#     """Search returns None."""
+#     assert bst_balanced.search(25) is None
+#
+#
+# def test_search_returns_none_when_value_notin_tree_left(bst_all_to_left):
+#     """Catch case value less than tree values."""
+#     assert bst_all_to_left.search(0) is None
+#
+#
+# def test_size_is_correct_on_empty_tree(bst_empty):
+#     """Tree size is accurate."""
+#     assert bst_empty.size() == 0
+#
+#
+# def test_size_is_correct_on_filled_tree(bst_100_rand):
+#     """Tree size is accurate."""
+#     assert bst_100_rand.size() == 100
+#
+#
+# def test_depth_returns_zero_on_empty_tree(bst_empty):
+#     """Return 0 on empty tree."""
+#     assert bst_empty.depth() == 0
+#
+#
+# def test_depth_returns_correct_value_balanced_tree(bst_balanced):
+#     """Return value on tree."""
+#     assert bst_balanced.depth() == 3
+#
+#
+# def test_depth_returns_correct_value_right_balanced_tree(bst_right_balance):
+#     """Return value on empty tree."""
+#     assert bst_right_balance.depth() == 4
+#
+#
+# def test_depth_returns_correct_value_left_balanced_tree(bst_all_to_left):
+#     """Return value on empty tree."""
+#     assert bst_all_to_left.depth() == 3
 
 
 # def test_contains_returns_false_on_empty_tree(bst_empty):
@@ -671,3 +671,76 @@ def test_depth_returns_correct_value_left_balanced_tree(bst_all_to_left):
 #     )
 #     assert robust.balance() == 0
 #     assert robust.depth() == 5
+
+# =============== AVL Testing ====================#
+
+def test_right_rotation_three_node_tree_including_root():
+    """Test three nodes rotate right."""
+    from bbst import Bst
+    tree = Bst([5, 4, 3])
+    assert (tuple(tree.in_order())) == (3, 4, 5)
+    assert (tuple(tree.breadth_first())) == (4, 3, 5)
+    assert (tuple(tree.pre_order())) == (4, 3, 5)
+    assert (tuple(tree.post_order())) == (3, 5, 4)
+    assert tree.depth() == 2
+    assert tree.balance() == 0
+
+
+def test_left_rotation_three_node_tree_including_root():
+    """Test three nodes rotate right."""
+    from bbst import Bst
+    tree = Bst([3, 4, 5])
+    assert (tuple(tree.in_order())) == (3, 4, 5)
+    assert (tuple(tree.breadth_first())) == (4, 3, 5)
+    assert (tuple(tree.pre_order())) == (4, 3, 5)
+    assert (tuple(tree.post_order())) == (3, 5, 4)
+    assert tree.depth() == 2
+    assert tree.balance() == 0
+
+
+def test_right_rotation_four_node_tree():
+    """Test four nodes rotate right, no root change."""
+    from bbst import Bst
+    tree = Bst([5, 4, 3, 2, 1])
+    assert (tuple(tree.in_order())) == (1, 2, 3, 4, 5)
+    assert (tuple(tree.breadth_first())) == (4, 2, 5, 1, 3)
+    assert (tuple(tree.pre_order())) == (4, 2, 1, 3, 5)
+    assert (tuple(tree.post_order())) == (1, 3, 2, 5, 4)
+    assert tree.depth() == 3
+    assert tree.balance() == -1
+
+
+def test_left_rotation_four_node_tree():
+    """Test four nodes rotate left, no root change."""
+    from bbst import Bst
+    tree = Bst([1, 2, 3, 4, 5])
+    assert (tuple(tree.in_order())) == (1, 2, 3, 4, 5)
+    assert (tuple(tree.breadth_first())) == (2, 1, 4, 3, 5)
+    assert (tuple(tree.pre_order())) == (2, 1, 4, 3, 5)
+    assert (tuple(tree.post_order())) == (1, 3, 5, 4, 2)
+    assert tree.depth() == 3
+    assert tree.balance() == 1
+
+
+def test_right_left__rotation_five_node_tree():
+    """Test three nodes rotate right, no root change."""
+    from bbst import Bst
+    tree = Bst([1, 2, 5, 3, 4])
+    assert (tuple(tree.in_order())) == (1, 2, 3, 4, 5)
+    assert (tuple(tree.breadth_first())) == (2, 1, 4, 3, 5)
+    assert (tuple(tree.pre_order())) == (2, 1, 4, 3, 5)
+    assert (tuple(tree.post_order())) == (1, 3, 5, 4, 2)
+    assert tree.depth() == 3
+    assert tree.balance() == 1
+
+
+def testt_left_right_rotation_five_node_tree():
+    """Test three nodes rotate right, no root change."""
+    from bbst import Bst
+    tree = Bst([4, 5, 1, 3, 2])
+    assert (tuple(tree.in_order())) == (1, 2, 3, 4, 5)
+    assert (tuple(tree.breadth_first())) == (4, 2, 5, 1, 3)
+    assert (tuple(tree.pre_order())) == (4, 2, 1, 3, 5)
+    assert (tuple(tree.post_order())) == (1, 3, 2, 5, 4)
+    assert tree.depth() == 3
+    assert tree.balance() == -1

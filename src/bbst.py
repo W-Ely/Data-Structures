@@ -48,18 +48,18 @@ class Bst(object):
         else:
             raise TypeError('Must be a number.')
 
-    def _insert(self, val, node):
+    def _insert(self, val, node, parent_node=None):
         """Handle insert recursivly. Re-balance if needed at each level."""
         if val > node.val:
             if node.right:
-                child_node = self._insert(val, node.right)
+                child_node = self._insert(val, node.right, node)
             else:
                 node.right = Node(val)
                 child_node = node.right
                 self._length += 1
         elif val < node.val:
             if node.left:
-                child_node = self._insert(val, node.left)
+                child_node = self._insert(val, node.left, node)
             else:
                 node.left = Node(val)
                 child_node = node.left
@@ -67,95 +67,74 @@ class Bst(object):
         balance = self.balance(node)
         child_balance = self.balance(child_node)
         if balance not in range(-1, 2):
-            self._check_case(
-                node, balance, child_node, child_balance
+            self._rotate(
+                node, balance, child_node, child_balance, parent_node
             )
-        print(
-            "Node:", node.val,
-            "balance:", balance,
-            "child_node:", child_node.val,
-            "child_balance:", child_balance
-        )
         return node
 
-    def _check_case(self, node, balance, child_node, child_balance):
+    def _rotate(
+            self, node, balance, child, child_balance, parent
+            ):
         """Check which case we are working with, call rotate."""
         # import pdb; pdb.set_trace()
+        # print(
+        #     "Node:", node.val,
+        #     "balance:", balance,
+        #     "child_node:", child.val,
+        #     "child_balance:", child_balance
+        # )
         if balance == -2 and child_balance == -1:  # case 1
-            # self._rotate(child_balance, child_node, node)
-            if node is self._root:
-                node.left = child_node.right
-                child_node.right = node
-                self._root = child_node
-            else:
-                pivot = child_node.left
-                child_node.left = pivot.right
-                pivot.right = child_node
-                if node.val < child_node.val:
-                    node.right = pivot
+            if node is self._root:   # root working
+                node.left = child.right
+                child.right = node
+                self._root = child
+            else:                   # working
+                pivot = child
+                node.left = pivot.right
+                pivot.right = node
+                if parent.val < node.val:
+                    parent.right = pivot
                 else:
-                    node.left = pivot
+                    parent.left = pivot
         if balance == 2 and child_balance == 1:  # case 2
-            # self._rotate(child_balance, child_node, node)
-            if node is self._root:
-                node.right = child_node.left
-                child_node.right = node
-                self._root = child_node
-            else:
-                pivot = child_node.right
-                child_node.right = pivot.left
-                pivot.left = child_node
-                if node.val < child_node.val:
-                    node.right = pivot
+            if node is self._root:  # root working
+                node.right = child.left
+                child.left = node
+                self._root = child
+            else:                   # working
+                pivot = child
+                node.right = pivot.left
+                pivot.left = node
+                if parent.val < node.val:
+                    parent.right = pivot
                 else:
-                    node.left = pivot
+                    parent.left = pivot
         if balance == 2 and child_balance == -1:  # case 3
-            node.right = child_node.left
-            child_node.left = node.right.right
-            node.left.left = child_node
-            # pivot = child_node.right.left
-            # child_node.right.left = pivot.right
-            # pivot.left = child_node.right
-            # child_node.right = pivot
-            # === case 2 ==== #
-            pivot = child_node.right
-            child_node.right = pivot.left
-            pivot.left = child_node
-            if node.val < child_node.val:
-                node.right = pivot
+            pivot = child.left  # step 1
+            node.right = pivot.left
+            child.left = pivot.right
+            pivot.left = node
+            pivot.right = child
+            if node is self._root:
+                self._root = pivot
             else:
-                node.left = pivot
+                if parent.val < node.val:
+                    parent.right = pivot
+                else:
+                    parent.left = pivot
         if balance == -2 and child_balance == 1:  # case 4
-            pivot = child_node.left.right
-            child_node.left.right = pivot.left
-            pivot.left = child_node.left
-            child_node.left = pivot
-            # === case 1 ==== #
-            pivot = child_node.left
-            child_node.left = pivot.right
-            pivot.right = child_node
-            if node.val < child_node.val:
-                node.right = pivot
+            pivot = child.right
+            node.left = pivot.right
+            child.right = pivot.left
+            pivot.right = node
+            pivot.left = child
+            if node is self._root:
+                self._root = pivot
             else:
-                node.left = pivot
-
-    def _rotate(self, balance, node, par_node, fold=False):
-        """Rotate based on case."""
-        direction = {-1: 'left', 1: 'right'}
-        print("Making {} rotation".format(direction[balance * -1]))
-        if fold:
-            pass                               # left/right based on direction
-        pivot = getattr(node, direction[balance])  # pivot = node.right
-        setattr(                                   # node.right = pivot.left
-            node, direction[balance],
-            getattr(pivot, direction[balance * -1])
-        )
-        setattr(pivot, direction[balance * -1], node)  # pivot.left = node
-        if par_node.val < node.val:
-                par_node.right = pivot
-        else:
-            par_node.left = pivot
-
+                if parent.val < node.val:
+                    parent.right = pivot
+                else:
+                    parent.left = pivot
     def search(self, val, prev=False):
         """Return the node containing that value, else None."""
         current_node = self._root
@@ -373,7 +352,7 @@ def test(search_val):  # pragma: no cover
 #     print(worst.timeit(number=1000))
 #     print('')
 
-tree = Bst([5, 4, 3, 2, 1])
+tree = Bst([4, 5, 6])
 print("in_order: ", tuple(tree.in_order()))
 print("pre_order:", tuple(tree.pre_order()))
 print("post_order", tuple(tree.post_order()))
