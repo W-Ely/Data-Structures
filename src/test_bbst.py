@@ -321,6 +321,7 @@ def test_balance_empty_tree(bst_empty):
     """Tree balanced right returns 0."""
     assert bst_empty.balance() == 0
 
+
 # #=================== Transversal Tests ================== #
 
 
