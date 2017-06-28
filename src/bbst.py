@@ -50,7 +50,6 @@ class Bst(object):
 
     def _insert(self, val, node):
         """Handle insert recursivly. Re-balance if needed at each level."""
-        balance, child_node, child_balance = None, None, None
         if val > node.val:
             if node.right:
                 child_node = self._insert(val, node.right)
@@ -79,30 +78,43 @@ class Bst(object):
 
     def _check_case(self, node, balance, child_node, child_balance):
         """Check which case we are working with, call rotate."""
+        # import pdb; pdb.set_trace()
         if balance == -2 and child_balance == -1:  # case 1
-            import pdb; pdb.set_trace()
             # self._make_rotate(child_balance, child_node, node)
-            pivot = child_node.left
-            child_node.left = pivot.right
-            pivot.right = child_node
-            if node.val < child_node.val:
-                node.right = pivot
+            if node is self._root:
+                node.left = child_node.right
+                child_node.right = node
+                self._root = child_node
             else:
-                node.left = pivot
+                pivot = child_node.left
+                child_node.left = pivot.right
+                pivot.right = child_node
+                if node.val < child_node.val:
+                    node.right = pivot
+                else:
+                    node.left = pivot
         if balance == 2 and child_balance == 1:  # case 2
             # self._make_rotate(child_balance, child_node, node)
-            pivot = child_node.right
-            child_node.right = pivot.left
-            pivot.left = child_node
-            if node.val < child_node.val:
-                node.right = pivot
+            if node is self._root:
+                node.right = child_node.left
+                child_node.right = node
+                self._root = child_node
             else:
-                node.left = pivot
+                pivot = child_node.right
+                child_node.right = pivot.left
+                pivot.left = child_node
+                if node.val < child_node.val:
+                    node.right = pivot
+                else:
+                    node.left = pivot
         if balance == 2 and child_balance == -1:  # case 3
-            pivot = child_node.right.left
-            child_node.right.left = pivot.right
-            pivot.left = child_node.right
-            child_node.right = pivot
+            node.right = child_node.left
+            child_node.left = node.right.right
+            node.left.left = child_node
+            # pivot = child_node.right.left
+            # child_node.right.left = pivot.right
+            # pivot.left = child_node.right
+            # child_node.right = pivot
             # === case 2 ==== #
             pivot = child_node.right
             child_node.right = pivot.left
@@ -359,7 +371,7 @@ def test(search_val):  # pragma: no cover
 #     print(worst.timeit(number=1000))
 #     print('')
 
-tree = Bst([5, 3, 2])
+tree = Bst([5, 4, 3, 2, 1])
 print("in_order: ", tuple(tree.in_order()))
 print("pre_order:", tuple(tree.pre_order()))
 print("post_order", tuple(tree.post_order()))
