@@ -50,122 +50,80 @@ class Bst(object):
 
     def _insert(self, val, node):
         """Handle insert recursivly. Re-balance if needed at each level."""
-        current_node = node
-        balance = 0
-        if val > current_node.val:
-            if current_node.right:
-                current_node = current_node.right
-                balance = self.balance(current_node)
-                child_balance = self._insert(val, current_node)
-                print(
-                    "#====Back from insert heading up the tree====#\n",
-                    "par node:", node.val,
-                    "node:", current_node.val,
-                    "node bal:", balance,
-                    "chi bal:", child_balance,
-                    "\n Current breadth first:", tuple(self.breadth_first()),
-                    "\n Current in order:", tuple(self.in_order()),
-                    "\n#========== end this node ========#\n"
-                    )
+        balance, child_node, child_balance = None, None, None
+        if val > node.val:
+            if node.right:
+                child_node = self._insert(val, node.right)
+                balance = self.balance(node)
+                child_balance = self.balance(child_node)
                 if balance not in range(-1, 2):
                     self._check_case(
-                        current_node, node, balance, child_balance
+                        node, balance, child_node, child_balance
                     )
             else:
-                current_node.right = Node(val)
+                node.right = Node(val)
                 self._length += 1
-        elif val < current_node.val:
-            if current_node.left:
-                current_node = current_node.left
-                balance = self.balance(current_node)
-                child_balance = self._insert(val, current_node)
-                print(
-                    "#====Back from insert heading up the tree====#\n",
-                    "par node:", node.val,
-                    "node:", current_node.val,
-                    "node bal:", balance,
-                    "chi bal:", child_balance,
-                    "\n Current breadth first:", tuple(self.breadth_first()),
-                    "\n Current in order:", tuple(self.in_order()),
-                    "\n#=================== end ==================#\n"
-                )
+        elif val < node.val:
+            if node.left:
+                child_node = self._insert(val, node.left)
+                balance = self.balance(node)
+                child_balance = self.balance(child_node)
                 if balance not in range(-1, 2):
                     self._check_case(
-                        current_node, node, balance, child_balance
+                        node, balance, child_node, child_balance
                     )
             else:
-                current_node.left = Node(val)
+                node.left = Node(val)
                 self._length += 1
-        if node == self._root:
-            balance = self.balance()
-            pass
-        return balance
+        return node
 
-    def _check_case(self, node, par_node, balance, child_balance):
+    def _check_case(self, node, balance, child_node, child_balance):
         """Check which case we are working with, call rotate."""
-        print(
-            "#========Check Case Called============#\n"
-            'node', node.val, 'par_node', par_node.val,
-            'balance', balance, 'child_balance', child_balance
-        )
         if balance == -2 and child_balance == -1:  # case 1
-            print("\nRight rotation needed")
-            # self._make_rotate(child_balance, node, par_node)
-            print("Making right rotation")
-            pivot = node.left
-            node.left = pivot.right
-            pivot.right = node
-            if par_node.val < node.val:
-                par_node.right = pivot
+            import pdb; pdb.set_trace()
+            # self._make_rotate(child_balance, child_node, node)
+            pivot = child_node.left
+            child_node.left = pivot.right
+            pivot.right = child_node
+            if node.val < child_node.val:
+                node.right = pivot
             else:
-                par_node.left = pivot
+                node.left = pivot
         if balance == 2 and child_balance == 1:  # case 2
-            print("\nLeft rotation needed")
-            # self._make_rotate(child_balance, node, par_node)
-            print("Making left rotation")
-            pivot = node.right
-            node.right = pivot.left
-            pivot.left = node
-            if par_node.val < node.val:
-                par_node.right = pivot
+            # self._make_rotate(child_balance, child_node, node)
+            pivot = child_node.right
+            child_node.right = pivot.left
+            pivot.left = child_node
+            if node.val < child_node.val:
+                node.right = pivot
             else:
-                par_node.left = pivot
+                node.left = pivot
         if balance == 2 and child_balance == -1:  # case 3
-            print("Fold Needed and bungled it probably")
-            pivot = node.right.left
-            node.right.left = pivot.right
-            pivot.left = node.right
-            node.right = pivot
+            pivot = child_node.right.left
+            child_node.right.left = pivot.right
+            pivot.left = child_node.right
+            child_node.right = pivot
             # === case 2 ==== #
-            print("\nLeft rotation needed")
-            print("Making left rotation")
-            pivot = node.right
-            node.right = pivot.left
-            pivot.left = node
-            if par_node.val < node.val:
-                par_node.right = pivot
+            pivot = child_node.right
+            child_node.right = pivot.left
+            pivot.left = child_node
+            if node.val < child_node.val:
+                node.right = pivot
             else:
-                par_node.left = pivot
+                node.left = pivot
         if balance == -2 and child_balance == 1:  # case 4
-            print("Fold Needed and bungled it probably")
-            pivot = node.left.right
-            node.left.right = pivot.left
-            pivot.left = node.left
-            node.left = pivot
+            pivot = child_node.left.right
+            child_node.left.right = pivot.left
+            pivot.left = child_node.left
+            child_node.left = pivot
             # === case 1 ==== #
-            print("\nRight rotation needed")
-            print("Making right rotation")
-            pivot = node.left
-            node.left = pivot.right
-            pivot.right = node
-            if par_node.val < node.val:
-                par_node.right = pivot
+            pivot = child_node.left
+            child_node.left = pivot.right
+            pivot.right = child_node
+            if node.val < child_node.val:
+                node.right = pivot
             else:
-                par_node.left = pivot
-        print("post-rotation breadth_first:", tuple(self.breadth_first()))
-        print("post-rotation in_order:", tuple(self.in_order()))
-        print("post-rotation pre_order:", tuple(self.pre_order()))
-        print("#=========== End Rotation ==============#\n")
+                node.left = pivot
 
     def _make_rotate(self, balance, node, par_node, fold=False):
         """Rotate based on case."""
@@ -183,10 +141,6 @@ class Bst(object):
                 par_node.right = pivot
         else:
             par_node.left = pivot
-        print("post-rotation breadth_first:", tuple(self.breadth_first()))
-        print("post-rotation in_order:", tuple(self.in_order()))
-        print("post-rotation pre_order:", tuple(self.pre_order()))
-        print("#=========== End Rotation ==============#\n")
 
     def search(self, val, prev=False):
         """Return the node containing that value, else None."""
@@ -405,4 +359,8 @@ def test(search_val):  # pragma: no cover
 #     print(worst.timeit(number=1000))
 #     print('')
 
-tree = Bst([5, 3, 2, 1])
+tree = Bst([5, 3, 2])
+print("in_order: ", tuple(tree.in_order()))
+print("pre_order:", tuple(tree.pre_order()))
+print("post_order", tuple(tree.post_order()))
+print("breadth:", tuple(tree.breadth_first()))
