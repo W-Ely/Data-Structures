@@ -125,20 +125,21 @@ class Bst(object):
 
     def search(self, val, prev=False):
         """Return the node containing that value, else None."""
-        current_node = self._root
-        parent = None
-        direction = None
-        while current_node:
-            if val > current_node.val:
-                if current_node.right:
-                    parent, current_node = current_node, current_node.right
+        node = self._root
+        parent, direction, sibling = None, None, None
+        while node:
+            if val > node.val:
+                if node.right:
+                    parent, node = node, node.right
+                    sibling = node.left
                     direction = 'right'
                     continue
                 else:
                     return
-            elif val < current_node.val:
-                if current_node.left:
-                    parent, current_node = current_node, current_node.left
+            elif val < node.val:
+                if node.left:
+                    parent, node = node, node.left
+                    sibling = node.right
                     direction = 'left'
                     continue
                 else:
@@ -146,8 +147,8 @@ class Bst(object):
             else:
                 break
         if prev:
-            return current_node, parent, direction
-        return current_node
+            return node, parent, direction, sibling
+        return node
 
     def size(self):
         """Rreturn the integer size of the BST.
@@ -293,21 +294,21 @@ class Bst(object):
 
         Return None always.
         """
-        current_node, prev_node, par_to_chi_dir = self.search(val, True)
-        if not current_node:
+        node, parent, direction, sibling = self.search(val, True)
+        if not node:
             return
-        succ, prev_succ, balance, direct = self._find_succ(current_node)
+        succ, prev_succ, balance, direct = self._find_succ(node)
         # The successor gets the non-relative child of node to remove.
         if not succ:
-            if not par_to_chi_dir:
+            if not direction:
                 self._root = None
             else:
-                setattr(prev_node, par_to_chi_dir, None)
+                setattr(parent, direction, None)
         else:
             setattr(
                 succ,
                 direct[balance * -1],
-                getattr(current_node, direct[balance * -1])
+                getattr(node, direct[balance * -1])
             )
             # The node bofore the successor gets successor's child
             if succ is not prev_succ:
@@ -317,19 +318,19 @@ class Bst(object):
                     getattr(succ, direct[balance])
                 )
             # The successor's child becomes the current nodes other child
-            if getattr(current_node, direct[balance]) is not succ:
+            if getattr(node, direct[balance]) is not succ:
                 setattr(
                     succ,
                     direct[balance],
-                    getattr(current_node, direct[balance])
+                    getattr(node, direct[balance])
                 )
             # The node before the deleted node now connects to successor
-            if prev_node is None:
+            if parent is None:
                 self._root = succ
-            elif prev_node.val < current_node.val:
-                prev_node.right = succ
+            elif parent.val < node.val:
+                parent.right = succ
             else:
-                prev_node.left = succ
+                parent.left = succ
         self._length -= 1
         return
 

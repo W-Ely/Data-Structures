@@ -172,10 +172,45 @@ def robust():
        1   3   5  7  10 12   14   18
                      /        \   / \
                     9         15 17  19
+    Is Robust.
     """
     from bbst import Bst
     return Bst([
         10, 2, 1, 9, 4, 3, 8, 6, 5, 7, 18, 11, 19, 16, 12, 17, 14, 13, 15
+    ])
+
+
+@pytest.fixture
+def hard_mode():
+    r"""Test The First Rule of Hard Mode.
+
+                     20
+                   /    \
+                  5      40
+                /  \    /   \
+               3   10  30   45
+                   /  /  \    \
+                  8  25  35    50
+                         /
+                        33
+    in_order: (3, 5, 8, 10, 20, 25, 30, 33, 35, 40, 45, 50)
+    breadth_first: (20, 5, 40, 3, 10, 30, 45, 8, 25, 35, 50, 33)
+
+    Try and delete 3!
+
+                     30
+                   /    \
+                  20    40
+                /  \   /  \
+               8   25 35  45
+              / \     /     \
+             5  10   33      50
+    in_order: (4, 8, 10, 20, 25, 30, 33, 35, 40, 45, 50)
+    breadth_first: (30, 20, 40, 8, 25, 35, 45, 5, 10, 33, 50)
+    """
+    from bbst import Bst
+    return Bst([
+        20, 5, 40, 3, 10, 30, 45, 8, 25, 35, 50, 33
     ])
 
 
@@ -715,6 +750,24 @@ def test_delete_complex_tree_06(comp):
 #     )
 #     assert robust.balance() == 0
 #     assert robust.depth() == 5
+
+def test_hard_mode(hard_mode):
+    """Is hard mode."""
+    assert tuple(hard_mode.in_order()) == (
+        3, 5, 8, 10, 20, 25, 30, 33, 35, 40, 45, 50
+    )
+    assert tuple(hard_mode.breadth_first()) == (
+        20, 5, 40, 3, 10, 30, 45, 8, 25, 35, 50, 33
+    )
+    hard_mode.delete(3)
+    assert tuple(hard_mode.in_order()) == (
+        5, 8, 10, 20, 25, 30, 33, 35, 40, 45, 50
+    )
+    # #Hard Mode True test Below!!!
+    # assert tuple(hard_mode.breadth_first()) == (
+    #     30, 20, 40, 8, 25, 35, 45, 5, 10, 33, 50
+    # )
+
 
 # =============== AVL Testing ====================#
 
