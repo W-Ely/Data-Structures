@@ -321,6 +321,7 @@ def test_balance_empty_tree(bst_empty):
     """Tree balanced right returns 0."""
     assert bst_empty.balance() == 0
 
+    
 # #=================== Transversal Tests ================== #
 
 
@@ -430,9 +431,14 @@ def test_breadth_first_0_4(bst_wiki):
     assert tuple(bst_wiki.breadth_first()) == (7, 4, 9, 2, 6, 8, 1, 3, 5)
 
 
-# # ===================  Delete Tests ===================== #
-#
-#
+def test_in_order_0_5(bst_100_rand):
+    """Test 100 in a row are in order."""
+    assert(tuple(bst_100_rand.in_order())) == tuple(x for x in range(100))
+
+
+# ===================  Delete Tests ===================== #
+
+
 # def test_del_right_left_most_has_right(right_left_most_has_right_child):
 #     """Delete one child deletion test."""
 #     right_left_most_has_right_child.delete(5)
