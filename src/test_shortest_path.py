@@ -152,7 +152,9 @@ def test_dijkstra_A_to_C(large):
 
 def test_dijkstra_W_to_V(large):
     """Test simple route."""
-    assert large.dijkstra('W', 'V') == ['W', 'X', 'C', 'D', 'M', 'V']
+    assert large.dijkstra('W', 'V') in (
+        ['W', 'X', 'C', 'D', 'M', 'V'], ['W', 'X', 'C', 'D', 'E', 'V']
+    )
 
 
 def test_dijkstra_W_to_W(large):
@@ -189,7 +191,9 @@ def test_floyd_warshall_A_to_C(large):
 
 def test_floyd_warshall_W_to_V(large):
     """Test simple route."""
-    assert large.floyd_warshall('W', 'V') == ['W', 'X', 'C', 'D', 'M', 'V']
+    assert large.floyd_warshall('W', 'V') in (
+        ['W', 'X', 'C', 'D', 'M', 'V'], ['W', 'X', 'C', 'D', 'E', 'V']
+    )
 
 
 def test_floyd_warshall_W_to_W(large):
