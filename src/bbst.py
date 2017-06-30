@@ -280,19 +280,10 @@ class Bst(object):
             elif val == node.val:
                 if node.left and node.right:
                     successor = node.right
-                    prev = None
                     while successor.left:
-                        prev, successor = successor, successor.left
+                        successor = successor.left
                     self.delete(successor.val)
                     node.val = successor.val
-                    # if prev:
-                    #     prev.left = self._delete(
-                    #         successor.val, successor, prev
-                    #     )
-                    # else:
-                    #     node.right = self._delete(
-                    #         successor.val, successor, node
-                    #     )
                 else:
                     if not node.left and not node.right:
                         node = None
@@ -309,11 +300,9 @@ class Bst(object):
                 elif balance > 1:
                     child = node.right
                     child_balance = self.balance(child)
-                # import pdb; pdb.set_trace()
                 node = self._rotate(
                     node, balance, child, child_balance, parent
                 )
-                # import pdb; pdb.set_trace()
             return node
 
     def __len__(self):
