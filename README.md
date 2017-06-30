@@ -75,3 +75,6 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 
 ## AVL Tree (self balancing)
 - all the same properties of the bst above but added auto balancing. Search, should always be logN.
+### Related reading and inspiration
+- [Tim Rijavec's how-to-implement-avl-tree-in-python](http://blog.coder.si/2014/02/how-to-implement-avl-tree-in-python.html)
+- [Geeks for geeks - avl-tree-set-2-deletion](http://www.geeksforgeeks.org/avl-tree-set-2-deletion/)
