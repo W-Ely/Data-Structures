@@ -72,3 +72,6 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - pre_order(self): will return a generator that will return the values in the tree using pre-order traversal, one at a time.
 - post_order(self): will return a generator that will return the values in the tree using post_order traversal, one at a time.
 - breadth_first(self): will return a generator that will return the values in the tree using breadth-first traversal, one at a time.
+
+## AVL Tree (self balancing)
+- all the same properties of the bst above but added auto balancing. Search, should always be logN.
