@@ -127,29 +127,24 @@ class Bst(object):
                     parent.left = child
             return child
 
-    def search(self, val, prev=False):
+    def search(self, val):
         """Return the node containing that value, else None."""
         node = self._root
-        parent, direction, sibling = None, None, None
         while node:
             if val > node.val:
                 if node.right:
-                    parent, node, sibling = node, node.right, node.left
-                    direction = 'right'
+                    node = node.right
                     continue
                 else:
                     return
             elif val < node.val:
                 if node.left:
-                    parent, node, sibling = node, node.left, node.right
-                    direction = 'left'
+                    node = node.left
                     continue
                 else:
                     return
             else:
                 break
-        if prev:
-            return node, parent, direction, sibling
         return node
 
     def size(self):
