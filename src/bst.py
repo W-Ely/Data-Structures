@@ -18,7 +18,6 @@ class Bst(object):
         """Init with or without iterable but only nums."""
         self._root = None
         self._length = 0
-        self._depth = {'r': 0, 'l': 0}
         if not iterable:
             pass
         elif iterable and self.check_value(iterable):
@@ -44,16 +43,9 @@ class Bst(object):
             if not self._root:
                 self._root = Node(val)
                 self._length += 1
-                self._depth = {'r': 1, 'l': 1}
             else:
-                count_depth = 1
                 current_node = self._root
-                if val > current_node.val:
-                    side = 'r'
-                if val < current_node.val:
-                    side = 'l'
                 while current_node:
-                    count_depth += 1
                     if val > current_node.val:
                         if current_node.right:
                             current_node = current_node.right
@@ -61,7 +53,6 @@ class Bst(object):
                         else:
                             current_node.right = Node(val)
                             self._length += 1
-                            self._depth[side] = count_depth
                     elif val < current_node.val:
                         if current_node.left:
                             current_node = current_node.left
@@ -69,31 +60,36 @@ class Bst(object):
                         else:
                             current_node.left = Node(val)
                             self._length += 1
-                            self._depth[side] = count_depth
                     else:
                         return
         else:
             raise TypeError('Must be a number.')
 
-    def search(self, val):
+    def search(self, val, prev=False):
         """Return the node containing that value, else None."""
         current_node = self._root
+        parent = None
+        direction = None
         while current_node:
             if val > current_node.val:
                 if current_node.right:
-                    current_node = current_node.right
+                    parent, current_node = current_node, current_node.right
+                    direction = 'right'
                     continue
                 else:
                     return
             elif val < current_node.val:
                 if current_node.left:
-                    current_node = current_node.left
+                    parent, current_node = current_node, current_node.left
+                    direction = 'left'
                     continue
                 else:
                     return
             else:
-                return current_node
-        return
+                break
+        if prev:
+            return current_node, parent, direction
+        return current_node
 
     def size(self):
         """Rreturn the integer size of the BST.
@@ -109,7 +105,16 @@ class Bst(object):
         If there are no values, depth is 0, if one value the depth should be 1,
         if two values it will be 2, if three values it may be 2 or 3.
         """
-        return max([depth for side, depth in self._depth.items()])
+        return self._depth(self._root)
+
+    def _depth(self, node):
+        if node is None:
+            return 0
+        left_depth = self._depth(node.left)
+        right_depth = self._depth(node.right)
+        if (left_depth > right_depth):
+            return left_depth + 1
+        return right_depth + 1
 
     def contains(self, val):
         """Return True if val is in the BST, False if not."""
@@ -117,7 +122,7 @@ class Bst(object):
             return True
         return False
 
-    def balance(self):
+    def balance(self, node=None):
         """Return an integer, positive, negative or zero.
 
         that represents how well balanced the tree is.
@@ -126,7 +131,11 @@ class Bst(object):
         should return a negative value. An ideally-balanced tree should
         return 0.
         """
-        return self._depth['l'] - self._depth['r']
+        if self._length == 0:
+            return 0
+        if not node:
+            node = self._root
+        return self._depth(node.right) - self._depth(node.left)
 
     def in_order(self, node=None, start=True):
         """Return a generator that will return the values in the tree.
@@ -194,28 +203,62 @@ class Bst(object):
     def delete(self, val):
         """Remove value from the tree if present.
 
-        Return None if not present.
+        Return None always.
         """
-        # current_node = self._root
-        # prev_node = None
-        # direction = None
-        # while current_node:
-        #     if val > current_node.val:
-        #         if current_node.right:
-        #             prev_node, current_node = current_node, current_node.right
-        #             direction = 'right'
-        #             continue
-        #         return
-        #     elif val < current_node.val:
-        #         if current_node.left:
-        #             prev_node, current_node = current_node, current_node.left
-        #             direction = 'left'
-        #             continue
-        #         return
-        #     else:
-        #         delete current_node
-        # return
-        pass
+        current_node, prev_node, par_to_chi_dir = self.search(val, True)
+        if not current_node:
+            return
+        succ, prev_succ, balance, direct = self._find_succ(current_node)
+        # The successor gets the non-relative child of node to remove.
+        if not succ:
+            if not par_to_chi_dir:
+                self._root = None
+            else:
+                setattr(prev_node, par_to_chi_dir, None)
+        else:
+            setattr(
+                succ,
+                direct[balance * -1],
+                getattr(current_node, direct[balance * -1])
+            )
+            # The node bofore the successor gets successor's child
+            if succ is not prev_succ:
+                setattr(
+                    prev_succ,
+                    direct[balance * -1],
+                    getattr(succ, direct[balance])
+                )
+            # The successor's child becomes the current nodes other child
+            if getattr(current_node, direct[balance]) is not succ:
+                setattr(
+                    succ,
+                    direct[balance],
+                    getattr(current_node, direct[balance])
+                )
+            # The node before the deleted node now connects to successor
+            if prev_node is None:
+                self._root = succ
+            elif prev_node.val < current_node.val:
+                prev_node.right = succ
+            else:
+                prev_node.left = succ
+        self._length -= 1
+        return
+
+    def _find_succ(self, node):
+        """Find the successor node of the node to delete."""
+        balance = self.balance(node)
+        if balance < 0:
+            balance = -1
+        if balance >= 0:
+            balance = 1
+        direct = {1: 'right', -1: 'left'}
+        succ = getattr(node, direct[balance])
+        prev_succ = getattr(node, direct[balance])
+        if hasattr(succ, direct[balance * -1]):
+            while getattr(succ, direct[balance * -1]):
+                prev_succ, succ = succ, getattr(succ, direct[balance * -1])
+        return succ, prev_succ, balance, direct
 
     def __len__(self):
         """Return the length."""
