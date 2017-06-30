@@ -127,7 +127,6 @@ class Bst(object):
                     parent.left = child
             return child
 
-
     def search(self, val, prev=False):
         """Return the node containing that value, else None."""
         node = self._root
@@ -280,14 +279,20 @@ class Bst(object):
                 node.left = self._delete(val, node.left, node)
             elif val == node.val:
                 if node.left and node.right:
-                    successor, prev = self._find_succ(node.right)
+                    successor = node.right
+                    prev = None
+                    while successor.left:
+                        prev, successor = successor, successor.left
+                    self.delete(successor.val)
                     node.val = successor.val
-                    if prev:
-                        prev.left = self._delete(val, successor, prev)
-                    else:
-                        node.right = self._delete(
-                            successor.val, successor, node
-                        )
+                    # if prev:
+                    #     prev.left = self._delete(
+                    #         successor.val, successor, prev
+                    #     )
+                    # else:
+                    #     node.right = self._delete(
+                    #         successor.val, successor, node
+                    #     )
                 else:
                     if not node.left and not node.right:
                         node = None
@@ -310,14 +315,6 @@ class Bst(object):
                 )
                 # import pdb; pdb.set_trace()
             return node
-
-    def _find_succ(self, node):
-        """Find the successor node of the node to delete."""
-        temp = node
-        prev = None
-        while temp.left:
-            prev, temp = temp, temp.left
-        return temp, prev
 
     def __len__(self):
         """Return the length."""

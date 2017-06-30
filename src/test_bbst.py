@@ -811,7 +811,7 @@ def test_delete_complex_tree_07(comp):
     """Delete bottom right 12."""
     comp.delete(12)
     assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 11, 13, 14, 15)
-    assert tuple(comp.breadth_first()) == (11, 8, 13, 6, 10, 14, 4, 7, 9, 15)
+    assert tuple(comp.breadth_first()) == (11, 8, 14, 6, 10, 13, 15, 4, 7, 9)
 
 
 def test_delete_complex_tree_08(comp):
