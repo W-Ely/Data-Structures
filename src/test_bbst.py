@@ -696,7 +696,6 @@ def test_delete_two_node_left_balanced_tree_01(bst_empty):
     assert bst_empty._root.left is None
 
 
-
 def test_delete_two_node_left_balanced_tree_02(bst_empty):
     """Delete last node leaves one node tree."""
     bst_empty.insert(2)
@@ -833,16 +832,20 @@ def test_del_handles_multiple_place_changes(robust):
     assert tuple(robust.in_order()) == (
         1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19
     )
-    assert robust.balance() == 0
-    assert robust.depth() == 6
+    assert robust.balance() == 1
+    assert robust.depth() == 5
     robust.delete(19)
     robust.delete(11)
     robust.delete(12)
     assert tuple(robust.in_order()) == (
         1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18
     )
+    assert tuple(robust.breadth_first()) == (
+        8, 4, 16, 2, 6, 14, 18, 1, 3, 5, 7, 13, 15, 17
+    )
     assert robust.balance() == 0
-    assert robust.depth() == 5
+    assert robust.depth() == 4
+
 
 def test_hard_mode(hard_mode):
     """Is hard mode."""
