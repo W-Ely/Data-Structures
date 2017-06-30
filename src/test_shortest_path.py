@@ -120,26 +120,31 @@ def test_floyd_warshall_shortest_path_e_to_d(simple_wgraph):
 
 # =================== Large Graph ========================== #
 
-# LARGE_WGRAPH = [
-#     ("A", "B", 3), ("A", "D", 4), ("B", "C", 2), ("B", "E", 5), ("C", "D", 1),
-#     ("C", "G", 6), ("D", "E", 3), ("D", "B", 4), ("E", "G", 5), ("E", "C", 2),
-#     ("E", "F", 5), ("F", "G", 2)
-# ]
-#
-#
-# @pytest.fixture
-# def large():
-#     """Large graph to test more depth.
-#
-#     A --1--> B --1--> C --1--> D --1--> E --1--> F
-#
-#     """
-#     from shortest_path import WeightedGraph
-#     graph = WeightedGraph()
-#
-#
-#
-#
+LARGE_WGRAPH = [
+    ("A", "B", 5), ("A", "Z", 5), ("B", "C", 5), ("C", "D", 5), ("C", "X", 5),
+    ("D", "E", 5), ("E", "F", 5), ("E", "V", 5), ("F", "G", 5), ("G", "T", 5),
+    ("T", "G", 5), ("T", "U", 5), ("U", "V", 5), ("V", "E", 5), ("V", "W", 5),
+    ("W", "X", 5), ("X", "C", 5), ("X", "Y", 5), ("Y", "Z", 5), ("Z", "A", 5)
+]
+
+
+@pytest.fixture
+def large():
+    """Large graph to test more depth.
+
+    A ---5---> B ---5---> C ---5---> D ---5---> E ---5---> F ---5---> G
+    |                     |                     |                     |
+    5                     5                     5                     5
+    |                     |                     |                     |
+    Z <---5--- Y <---5--- X <---5--- W <---5--- V <---5--- U <---5--- T
+    """
+    from shortest_path import WeightedGraph
+    graph = WeightedGraph()
+    for edge in LARGE_WGRAPH:
+        graph.add_edge(edge[0], edge[1], edge[2])
+    return graph
+
+
 
 # ================  Graph Tests ============================ #
 
