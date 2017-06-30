@@ -94,3 +94,5 @@ or with: ```pip install -e .[testing]```
 ```pytest src/test_bbst.py -v```
 - all files with coverage report
 ```py.test -v src/ --cov=src/ --cov-report term-missing```
+- to test both python 2.7 and 3.6 simply run:
+```tox```

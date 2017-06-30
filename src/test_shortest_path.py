@@ -121,22 +121,22 @@ def test_floyd_warshall_shortest_path_e_to_d(simple_wgraph):
 # =================== Large Graph ========================== #
 
 LARGE_WGRAPH = [
-    ("A", "B", 5), ("A", "Z", 5), ("B", "C", 5), ("C", "D", 5), ("C", "X", 5),
-    ("D", "E", 5), ("E", "F", 5), ("E", "V", 5), ("F", "G", 5), ("G", "T", 5),
-    ("T", "G", 5), ("T", "U", 5), ("U", "V", 5), ("V", "E", 5), ("V", "W", 5),
-    ("W", "X", 5), ("X", "C", 5), ("X", "Y", 5), ("Y", "Z", 5), ("Z", "A", 5)
+    ("A", "B", 5), ("B", "C", 5), ("C", "D", 1), ("C", "X", 5), ("D", "M", 1),
+    ("D", "E", 1), ("E", "F", 5), ("E", "V", 1), ("F", "G", 5), ("G", "T", 5),
+    ("T", "G", 5), ("T", "U", 5), ("U", "V", 5), ("V", "E", 1), ("V", "W", 1),
+    ("W", "X", 1), ("X", "C", 5), ("X", "Y", 5), ("Y", "Z", 5), ("M", "V", 1)
 ]
 
 
 @pytest.fixture
 def large():
-    """Large graph to test more depth.
+    r"""Large graph to test more depth.
 
-    A ---5---> B ---5---> C ---5---> D ---5---> E ---5---> F ---5---> G
-    |                     |                     |                     |
-    5                     5                     5                     5
-    |                     |                     |                     |
-    Z <---5--- Y <---5--- X <---5--- W <---5--- V <---5--- U <---5--- T
+    A ---5---> B ---5---> C ---1---> D ---1---> E ---5---> F ---5---> G
+                          |          1          |                     |
+                          5          M --1---   1                     5
+                          |                   \ |                     |
+    Z <---5--- Y <---5--- X <---1--- W <---1--- V <---5--- U <---5--- T
     """
     from shortest_path import WeightedGraph
     graph = WeightedGraph()
@@ -145,8 +145,82 @@ def large():
     return graph
 
 
+def test_dijkstra_A_to_C(large):
+    """Test simple route."""
+    assert large.dijkstra('A', 'C') == ['A', 'B', 'C']
+
+
+def test_dijkstra_W_to_V(large):
+    """Test simple route."""
+    assert large.dijkstra('W', 'V') == ['W', 'X', 'C', 'D', 'M', 'V']
+
+
+def test_dijkstra_W_to_W(large):
+    """Test simple route."""
+    assert large.dijkstra('W', 'W') == ['W']
+
+
+def test_dijkstra_F_to_Z(large):
+    """Test simple route."""
+    assert large.dijkstra('F', 'Z') == [
+        'F', 'G', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+    ]
+
+
+def test_dijkstra_Y_to_A(large):
+    """Test No route."""
+    assert large.dijkstra('Y', 'A') == []
+
+
+def test_dijkstra_C_to_X(large):
+    """Test 2 equal routs, one has more points, returns a route."""
+    assert large.dijkstra('C', 'X') == ['C', 'X']
+
+
+def test_dijkstra_D_to_V(large):
+    """Test 2 equal routs, same number points, returns a route."""
+    assert large.dijkstra('D', 'V') in (['D', 'M', 'V'], ['D', 'E', 'V'])
+
+
+def test_floyd_warshall_A_to_C(large):
+    """Test simple route."""
+    assert large.floyd_warshall('A', 'C') == ['A', 'B', 'C']
+
+
+def test_floyd_warshall_W_to_V(large):
+    """Test simple route."""
+    assert large.floyd_warshall('W', 'V') == ['W', 'X', 'C', 'D', 'M', 'V']
+
+
+def test_floyd_warshall_W_to_W(large):
+    """Test simple route."""
+    assert large.floyd_warshall('W', 'W') == ['W']
+
+
+def test_floyd_warshall_F_to_Z(large):
+    """Test simple route."""
+    assert large.floyd_warshall('F', 'Z') == [
+        'F', 'G', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+    ]
+
+
+def test_floyd_warshall_Y_to_A(large):
+    """Test No route."""
+    assert large.floyd_warshall('Y', 'A') == []
+
+
+def test_floyd_warshall_C_to_X(large):
+    """Test 2 equal routs, one has more points, returns a route."""
+    assert large.floyd_warshall('C', 'X') == ['C', 'X']
+
+
+def test_floyd_warshall_D_to_V(large):
+    """Test 2 equal routs, same number points, returns a route."""
+    assert large.floyd_warshall('D', 'V') in (['D', 'M', 'V'], ['D', 'E', 'V'])
+
 
 # ================  Graph Tests ============================ #
+
 
 @pytest.fixture
 def graph():
