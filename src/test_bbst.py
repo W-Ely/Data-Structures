@@ -172,11 +172,53 @@ def robust():
        1   3   5  7  10 12   14   18
                      /        \   / \
                     9         15 17  19
+    Is Robust.
     """
     from bbst import Bst
     return Bst([
         10, 2, 1, 9, 4, 3, 8, 6, 5, 7, 18, 11, 19, 16, 12, 17, 14, 13, 15
     ])
+
+
+@pytest.fixture
+def hard_mode():
+    r"""Test The First Rule of Hard Mode.
+
+                     20
+                   /    \
+                  5      40
+                /  \    /   \
+               3   10  30   45
+                   /  /  \    \
+                  8  25  35    50
+                         /
+                        33
+    in_order: (3, 5, 8, 10, 20, 25, 30, 33, 35, 40, 45, 50)
+    breadth_first: (20, 5, 40, 3, 10, 30, 45, 8, 25, 35, 50, 33)
+
+    Try and delete 3!
+
+                     30
+                   /    \
+                  20    40
+                /  \   /  \
+               8   25 35  45
+              / \     /     \
+             5  10   33      50
+    in_order: (4, 8, 10, 20, 25, 30, 33, 35, 40, 45, 50)
+    breadth_first: (30, 20, 40, 8, 25, 35, 45, 5, 10, 33, 50)
+    """
+    from bbst import Bst
+    return Bst([
+        20, 5, 40, 3, 10, 30, 45, 8, 25, 35, 50, 33
+    ])
+
+
+@pytest.fixture
+def three_del():
+    """Test Simple balanced three for base of tests."""
+    from bbst import Bst
+    return Bst([10, 20, 30])
 
 
 def test_initalizing_with_non_iterable_or_not_numbers_raises_ValueError():
@@ -322,7 +364,44 @@ def test_balance_empty_tree(bst_empty):
     assert bst_empty.balance() == 0
 
 
-# #=================== Transversal Tests ================== #
+# =============== Beefy Re-balance Tests ================ #
+
+
+def test_random_100_balance_remains_between_1_and_negative_1(bst_100_rand):
+    """Test random 100 balance between 1 and -1."""
+    assert bst_100_rand.balance() in range(-1, 2)
+
+
+def test_straight_100_balance_remains_between_1and_negative_1():
+    """Test 100 numbers in a row still has balance."""
+    from bbst import Bst
+    tree = Bst(x for x in range(100))
+    assert tree.balance() in range(-1, 2)
+
+
+def test_backwards_100_balance_remains_between_1_and_negative_1():
+    """Test 100 numbers in a row still has balance."""
+    from bbst import Bst
+    tree = Bst([x for x in range(100)][::-1])
+    assert tree.balance() in range(-1, 2)
+
+
+def test_rand_100_depth_remains_less_than_8():
+    """Test 100 numbers depth rational."""
+    from bbst import Bst
+    from random import shuffle
+    max_depth = 0
+    for x in range(10):
+        rando = [x for x in range(100)]
+        shuffle(rando)
+        tree = Bst(rando)
+        tree_depth = tree.depth()
+        if tree_depth > max_depth:
+            max_depth = tree_depth
+    assert max_depth == 8
+
+
+# =================== Transversal Tests ================== #
 
 
 def test_in_order_0_0(bst_empty):
@@ -349,6 +428,11 @@ def test_in_order_0_2(bst_all_to_left):
 def test_in_order_0_3(bst_right_balance):
     """Test in order Transversal with various tress."""
     assert tuple(bst_right_balance.in_order()) == (2, 5, 6, 7, 8, 9)
+
+
+def test_random_100_in_order(bst_100_rand):
+    """Test random 100 retains in_order transversal."""
+    assert tuple(bst_100_rand.in_order()) == tuple(x for x in range(100))
 
 
 def testin_order_0_4(bst_wiki):
@@ -434,6 +518,86 @@ def test_breadth_first_0_4(bst_wiki):
 # ===================  Delete Tests ===================== #
 
 
+def test_delete_empty_bst(bst_empty):
+    """Delete returns none on empty tree. Tree remains."""
+    assert bst_empty.delete() is None
+    assert bst_empty._root is None
+
+
+def test_delete_empty_bst_value_not_in_tree(bst_empty):
+    """Test delete on empty tree with value not in tree."""
+    assert bst_empty.delete(5) is None
+    assert bst_empty._root is None
+
+
+def test_four_nodes_needs_right_rotation(three_del):
+    """Test delete requires right rotation."""
+    three_del.insert(5)
+    three_del.delete(30)
+    assert tuple(three_del.in_order()) == (5, 10, 20)
+    assert tuple(three_del.breadth_first()) == (10, 5, 20)
+
+
+def test_four_nodes_needs_left_rotation(three_del):
+    """Test four node with deletion requireing left rotation."""
+    three_del.insert(40)
+    three_del.delete(10)
+    assert tuple(three_del.in_order()) == (20, 30, 40)
+    assert tuple(three_del.breadth_first()) == (30, 20, 40)
+
+
+def test_four_nodes_needs_right_left_rotation(three_del):
+    """Test right left delete rotation."""
+    three_del.insert(25)
+    three_del.delete(10)
+    assert tuple(three_del.in_order()) == (20, 25, 30)
+    assert tuple(three_del.breadth_first()) == (25, 20, 30)
+
+
+def test_four_nodes_needs_left_right_rotation(three_del):
+    """Test right left delete rotation."""
+    three_del.insert(15)
+    three_del.delete(30)
+    assert tuple(three_del.in_order()) == (10, 15, 20)
+    assert tuple(three_del.breadth_first()) == (15, 10, 20)
+
+
+def test_delete_right_leaf_no_rotation(bst_balanced):
+    """Test normal deletion, no rotation."""
+    bst_balanced.delete(7)
+    assert tuple(bst_balanced.in_order()) == (1, 2, 3, 5, 6)
+    assert tuple(bst_balanced.breadth_first()) == (5, 2, 6, 1, 3)
+
+
+def test_delete_left_leaf_no_rotation(bst_balanced):
+    """Test normal deletion, no rotation."""
+    bst_balanced.delete(1)
+    assert tuple(bst_balanced.in_order()) == (2, 3, 5, 6, 7)
+    assert tuple(bst_balanced.breadth_first()) == (5, 2, 6, 3, 7)
+
+
+def test_delete_right_branch_no_rotation(bst_balanced):
+    """Test normal deletion, no rotation."""
+    bst_balanced.delete(6)
+    assert tuple(bst_balanced.in_order()) == (1, 2, 3, 5, 7)
+    assert tuple(bst_balanced.breadth_first()) == (5, 2, 7, 1, 3)
+
+
+def test_delete_left_branch_no_rotation(bst_balanced):
+    """Test normal deletion, no rotation."""
+    bst_balanced.delete(2)
+    assert tuple(bst_balanced.in_order()) == (1, 3, 5, 6, 7)
+    assert tuple(bst_balanced.breadth_first()) == (5, 3, 6, 1, 7)
+
+
+def test_delele_requires_right_branch_rotation(comp):
+    """Test delete leaf, branch needs right rotation."""
+    comp.delete(12)
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 11, 13, 14, 15)
+    assert tuple(comp.breadth_first()) == (11, 8, 14, 6, 10, 13, 15, 4, 7, 9)
+
+
+# Bugger bug below.
 def test_del_right_left_most_has_right(right_left_most_has_right_child):
     """Delete one child deletion test."""
     right_left_most_has_right_child.delete(5)
@@ -516,7 +680,8 @@ def test_delete_on_empty_bst_leaves_bst_intact(bst_empty):
 def test_delete_tree_with_one_node_leaves_empty_tree(bst_empty):
     """Delete single node."""
     bst_empty.insert(1)
-    assert bst_empty.delete(1) is None
+    bst_empty.delete(1)
+    assert bst_empty._root is None
     with pytest.raises(AttributeError):
         bst_empty._root.val
     assert bst_empty.size() == 0
@@ -535,11 +700,14 @@ def test_delete_two_node_left_balanced_tree_02(bst_empty):
     """Delete last node leaves one node tree."""
     bst_empty.insert(2)
     bst_empty.insert(1)
+    assert bst_empty._root.val == 2
+    assert tuple(bst_empty.in_order()) == (1, 2)
+    assert tuple(bst_empty.breadth_first()) == (2, 1)
     bst_empty.delete(1)
     assert bst_empty._root.val == 2
     assert bst_empty._root.right is None
     assert bst_empty._root.left is None
-    # assert len(bst_empty) == 1
+    assert len(bst_empty) == 1
 
 
 def test_delete_left_tree_single_child(bst_all_to_left):
@@ -556,6 +724,7 @@ def test_delete_two_node_right_balanced_tree_01(bst_empty):
     bst_empty.delete(1)
     assert bst_empty._root.val == 3
     assert bst_empty._root.left is None
+    assert bst_empty._root.right is None
 
 
 def test_delete_two_node_right_balanced_tree_02(bst_empty):
@@ -638,41 +807,63 @@ def test_delete_complex_tree_06(comp):
     assert tuple(comp.breadth_first()) == (11, 8, 13, 6, 10, 12, 14, 4, 7, 15)
 
 
-# def test_delete_complex_tree_07(comp):
-#     """Delete bottom right 12."""
-#     comp.delete(12)
-#     assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 11, 13, 14, 15)
-#     assert tuple(comp.breadth_first()) == (11, 8, 13, 6, 10, 14, 4, 7, 9, 15)
-#
-#
-# def test_delete_complex_tree_08(comp):
-#     """Delete mid bottom right 11."""
-#     comp.delete(11)
-#     assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 12, 13, 14, 15)
-#     assert tuple(comp.breadth_first()) == ()
+def test_delete_complex_tree_07(comp):
+    """Delete bottom right 12."""
+    comp.delete(12)
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 11, 13, 14, 15)
+    assert tuple(comp.breadth_first()) == (11, 8, 14, 6, 10, 13, 15, 4, 7, 9)
 
 
-# def test_del_handles_multiple_place_changes(robust):
-#     """Delete a node that requires multiple changes to correct."""
-#     robust.delete(9)
-#     assert robust.balance() == 1
-#     assert tuple(robust.in_order()) == (
-#         1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
-#     )
-#     robust.delete(10)
-#     assert tuple(robust.in_order()) == (
-#         1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19
-#     )
-#     assert robust.balance() == 0
-#     assert robust.depth() == 6
-#     robust.delete(19)
-#     robust.delete(11)
-#     robust.delete(12)
-#     assert tuple(robust.in_order()) == (
-#         1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18
-#     )
-#     assert robust.balance() == 0
-#     assert robust.depth() == 5
+def test_delete_complex_tree_08(comp):
+    """Delete mid bottom right 11."""
+    comp.delete(11)
+    assert tuple(comp.in_order()) == (4, 6, 7, 8, 9, 10, 12, 13, 14, 15)
+    assert tuple(comp.breadth_first()) == (12, 8, 14, 6, 10, 13, 15, 4, 7, 9)
+
+
+def test_del_handles_multiple_place_changes(robust):
+    """Delete a node that requires multiple changes to correct."""
+    robust.delete(9)
+    assert robust.balance() == 1
+    assert tuple(robust.in_order()) == (
+        1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+    )
+    robust.delete(10)
+    assert tuple(robust.in_order()) == (
+        1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19
+    )
+    assert robust.balance() == 1
+    assert robust.depth() == 5
+    robust.delete(19)
+    robust.delete(11)
+    robust.delete(12)
+    assert tuple(robust.in_order()) == (
+        1, 2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18
+    )
+    assert tuple(robust.breadth_first()) == (
+        8, 4, 16, 2, 6, 14, 18, 1, 3, 5, 7, 13, 15, 17
+    )
+    assert robust.balance() == 0
+    assert robust.depth() == 4
+
+
+def test_hard_mode(hard_mode):
+    """Is hard mode."""
+    assert tuple(hard_mode.in_order()) == (
+        3, 5, 8, 10, 20, 25, 30, 33, 35, 40, 45, 50
+    )
+    assert tuple(hard_mode.breadth_first()) == (
+        20, 5, 40, 3, 10, 30, 45, 8, 25, 35, 50, 33
+    )
+    hard_mode.delete(3)
+    assert tuple(hard_mode.in_order()) == (
+        5, 8, 10, 20, 25, 30, 33, 35, 40, 45, 50
+    )
+    # Hard Mode True test Below!!!
+    assert tuple(hard_mode.breadth_first()) == (
+        30, 20, 40, 8, 25, 35, 45, 5, 10, 33, 50
+    )
+
 
 # =============== AVL Testing ====================#
 
@@ -748,6 +939,6 @@ def testt_left_right_rotation_five_node_tree():
     assert tree.balance() == -1
 
 
-def test_random_100_in_order(bst_100_rand):
+def test_random_100_in_order_again(bst_100_rand):
     """Test random one retains order."""
     assert tuple(bst_100_rand.in_order()) == tuple(x for x in range(100))

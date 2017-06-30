@@ -48,68 +48,35 @@ class Bst(object):
         else:
             raise TypeError('Must be a number.')
 
-    def _insert(self, val, node, parent_node=None):
+    def _insert(self, val, node, parent=None):
         """Handle insert recursivly. Re-balance if needed at each level."""
-        child_node = None
+        child = None
         if val > node.val:
             if node.right:
-                child_node = self._insert(val, node.right, node)
+                child = self._insert(val, node.right, node)
             else:
                 node.right = Node(val)
-                child_node = node.right
+                child = node.right
                 self._length += 1
         elif val < node.val:
             if node.left:
-                child_node = self._insert(val, node.left, node)
+                child = self._insert(val, node.left, node)
             else:
                 node.left = Node(val)
-                child_node = node.left
+                child = node.left
                 self._length += 1
         balance = self.balance(node)
-        child_balance = self.balance(child_node)
+        child_balance = self.balance(child)
         if balance not in range(-1, 2):
             self._rotate(
-                node, balance, child_node, child_balance, parent_node
+                node, balance, child, child_balance, parent
             )
         return node
 
     def _rotate(
             self, node, balance, child, child_balance, parent
             ):
-        if balance == -2 and child_balance == -1:  # case 1
-            node.left = child.right
-            child.right = node
-            if node is self._root:
-                self._root = child
-            else:
-                if parent.val < node.val:
-                    parent.right = child
-                else:
-                    parent.left = child
-        if balance == 2 and child_balance == 1:  # case 2
-            node.right = child.left
-            child.left = node
-            if node is self._root:
-                self._root = child
-            else:
-                if parent.val < node.val:
-                    parent.right = child
-                else:
-                    parent.left = child
-        if balance == 2 and child_balance == -1:  # case 3
-            pivot = child.left  # step 1
-            node.right = pivot.left
-            child.left = pivot.right
-            pivot.left = node
-            pivot.right = child
-            if node is self._root:
-                self._root = pivot
-            else:
-                if parent.val < node.val:
-                    parent.right = pivot
-                else:
-                    parent.left = pivot
-        if balance == -2 and child_balance == 1:  # case 4
+        if balance == -2 and child_balance >= 1:  # case 1 left, right
             pivot = child.right
             node.left = pivot.right
             child.right = pivot.left
@@ -122,23 +89,59 @@ class Bst(object):
                     parent.right = pivot
                 else:
                     parent.left = pivot
+            return pivot
+        if balance == -2 and child_balance <= 0:  # case 2 right
+            node.left = child.right
+            child.right = node
+            if node is self._root:
+                self._root = child
+            else:
+                if parent.val < node.val:
+                    parent.right = child
+                else:
+                    parent.left = child
+            return child
+        if balance == 2 and child_balance <= 0:  # case 3 right, left
+            pivot = child.left  # step 1
+            node.right = pivot.left
+            child.left = pivot.right
+            pivot.left = node
+            pivot.right = child
+            if node is self._root:
+                self._root = pivot
+            else:
+                if parent.val < node.val:
+                    parent.right = pivot
+                else:
+                    parent.left = pivot
+            return pivot
+        if balance == 2 and child_balance >= 0:  # case 4 left
+            node.right = child.left
+            child.left = node
+            if node is self._root:
+                self._root = child
+            else:
+                if parent.val < node.val:
+                    parent.right = child
+                else:
+                    parent.left = child
+            return child
 
     def search(self, val, prev=False):
         """Return the node containing that value, else None."""
-        current_node = self._root
-        parent = None
-        direction = None
-        while current_node:
-            if val > current_node.val:
-                if current_node.right:
-                    parent, current_node = current_node, current_node.right
+        node = self._root
+        parent, direction, sibling = None, None, None
+        while node:
+            if val > node.val:
+                if node.right:
+                    parent, node, sibling = node, node.right, node.left
                     direction = 'right'
                     continue
                 else:
                     return
-            elif val < current_node.val:
-                if current_node.left:
-                    parent, current_node = current_node, current_node.left
+            elif val < node.val:
+                if node.left:
+                    parent, node, sibling = node, node.left, node.right
                     direction = 'left'
                     continue
                 else:
@@ -146,8 +149,8 @@ class Bst(object):
             else:
                 break
         if prev:
-            return current_node, parent, direction
-        return current_node
+            return node, parent, direction, sibling
+        return node
 
     def size(self):
         """Rreturn the integer size of the BST.
@@ -258,65 +261,49 @@ class Bst(object):
                 except(AttributeError):
                     pass
 
-    def delete(self, val):
+    def delete(self, val=None):
         """Remove value from the tree if present.
 
         Return None always.
         """
-        current_node, prev_node, par_to_chi_dir = self.search(val, True)
-        if not current_node:
+        if not self._root:
             return
-        succ, prev_succ, balance, direct = self._find_succ(current_node)
-        # The successor gets the non-relative child of node to remove.
-        if not succ:
-            if not par_to_chi_dir:
-                self._root = None
-            else:
-                setattr(prev_node, par_to_chi_dir, None)
-        else:
-            setattr(
-                succ,
-                direct[balance * -1],
-                getattr(current_node, direct[balance * -1])
-            )
-            # The node bofore the successor gets successor's child
-            if succ is not prev_succ:
-                setattr(
-                    prev_succ,
-                    direct[balance * -1],
-                    getattr(succ, direct[balance])
-                )
-            # The successor's child becomes the current nodes other child
-            if getattr(current_node, direct[balance]) is not succ:
-                setattr(
-                    succ,
-                    direct[balance],
-                    getattr(current_node, direct[balance])
-                )
-            # The node before the deleted node now connects to successor
-            if prev_node is None:
-                self._root = succ
-            elif prev_node.val < current_node.val:
-                prev_node.right = succ
-            else:
-                prev_node.left = succ
-        self._length -= 1
-        return
+        self._root = self._delete(val, self._root)
 
-    def _find_succ(self, node):
-        """Find the successor node of the node to delete."""
-        balance = self.balance(node)
-        if balance < 0:
-            balance = -1
-        if balance >= 0:
-            balance = 1
-        direct = {1: 'right', -1: 'left'}
-        succ = getattr(node, direct[balance])
-        prev_succ = getattr(node, direct[balance])
-        if hasattr(succ, direct[balance * -1]):
-            while getattr(succ, direct[balance * -1]):
-                prev_succ, succ = succ, getattr(succ, direct[balance * -1])
-        return succ, prev_succ, balance, direct
+    def _delete(self, val, node, parent=None):
+        """Delete recursivly. Re-balance if needed at each level."""
+        if node:
+            if val > node.val:
+                node.right = self._delete(val, node.right, node)
+            elif val < node.val:
+                node.left = self._delete(val, node.left, node)
+            elif val == node.val:
+                if node.left and node.right:
+                    successor = node.right
+                    while successor.left:
+                        successor = successor.left
+                    self.delete(successor.val)
+                    node.val = successor.val
+                else:
+                    if not node.left and not node.right:
+                        node = None
+                    elif not node.left:
+                        node = node.right
+                    elif not node.right:
+                        node = node.left
+                    self._length -= 1
+            balance = self.balance(node)
+            if balance not in range(-1, 2):
+                if balance < -1:
+                    child = node.left
+                    child_balance = self.balance(child)
+                elif balance > 1:
+                    child = node.right
+                    child_balance = self.balance(child)
+                node = self._rotate(
+                    node, balance, child, child_balance, parent
+                )
+            return node
 
     def __len__(self):
         """Return the length."""
@@ -329,19 +316,13 @@ def test(search_val):  # pragma: no cover
     tree.search(search_val)
 
 
-# if __name__ == '__main__':  # pragma: no cover
-#     from timeit import Timer
-#     best = Timer('test(100)', "from __main__ import test")
-#     worst = Timer('test(1)', "from __main__ import test")
-#     print("#================= best case search 1000x ==============#")
-#     print(best.timeit(number=1000))
-#     print('')
-#     print("#================= worse case search 1000x==============#")
-#     print(worst.timeit(number=1000))
-#     print('')
-
-tree = Bst([4, 5, 6])
-print("in_order: ", tuple(tree.in_order()))
-print("pre_order:", tuple(tree.pre_order()))
-print("post_order", tuple(tree.post_order()))
-print("breadth:", tuple(tree.breadth_first()))
+if __name__ == '__main__':  # pragma: no cover
+    from timeit import Timer
+    best = Timer('test(100)', "from __main__ import test")
+    worst = Timer('test(1)', "from __main__ import test")
+    print("#================= best case search 1000x ==============#")
+    print(best.timeit(number=1000))
+    print('')
+    print("#================= worse case search 1000x==============#")
+    print(worst.timeit(number=1000))
+    print('')
