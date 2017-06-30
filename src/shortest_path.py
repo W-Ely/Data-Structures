@@ -62,7 +62,7 @@ class WeightedGraph(dict):
             raise ValueError('No such edge.')
 
     def has_node(self, val):
-        """True if node containing 'val' is in the graph, False if not."""
+        """Return True if node with 'val' is in the graph, False if not."""
         return val in self
 
     def neighbors(self, val):
@@ -129,8 +129,11 @@ class WeightedGraph(dict):
         prev = end
         while prev is not None:
             path.append(prev)
-            prev = path_weights[prev][0]
-        return list(reversed(path))
+            try:
+                prev = path_weights[prev][0]
+            except KeyError:
+                return []
+        return path[::-1]
 
     def floyd_warshall(self, start, end):
         """Find shortest distance with floyd_warshall algorithm."""
@@ -156,7 +159,7 @@ class WeightedGraph(dict):
 
     def floyd_warshall_path(self, start, end, next_node):
         """Path for the floyd_warshall algorithm."""
-        if next_node[start][end] is None:
+        if end not in next_node[start].keys():
             return []
         path = [start]
         while start is not end:
