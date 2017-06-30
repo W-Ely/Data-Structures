@@ -1,7 +1,7 @@
-# data-structures [![Build Status](https://travis-ci.org/Casey0Kane/data-structures.svg?branch=master)](https://travis-ci.org/Casey0Kane/data-structures)
+# Data Structures [![Build Status](https://travis-ci.org/Casey0Kane/data-structures.svg?branch=master)](https://travis-ci.org/Casey0Kane/data-structures)
 This will hold sample code for a number of classic data structures implemented in Python.
 
-## linked_list
+## Linked List
 - push(val) will insert the value ‘val’ at the head of the list
 - pop() will pop the first value off the head of the list and return it. Raises an exception with an appropriate message if there are no values to return.
 - size() will return the length of the list
@@ -72,3 +72,25 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - pre_order(self): will return a generator that will return the values in the tree using pre-order traversal, one at a time.
 - post_order(self): will return a generator that will return the values in the tree using post_order traversal, one at a time.
 - breadth_first(self): will return a generator that will return the values in the tree using breadth-first traversal, one at a time.
+
+## AVL Tree (self balancing)
+- all the same properties of the bst above but added auto balancing. Search, should always be logN.
+### Related reading and inspiration
+- [Tim Rijavec's how-to-implement-avl-tree-in-python](http://blog.coder.si/2014/02/how-to-implement-avl-tree-in-python.html)
+- [Geeks for geeks - avl-tree-set-2-deletion](http://www.geeksforgeeks.org/avl-tree-set-2-deletion/)
+
+
+# To install
+- clone repo with ssh or https
+ssh: ```git clone git@github.com:Casey0Kane/data-structures.git```
+https: ```git clone https://github.com/Casey0Kane/data-structures.git```
+- change into data-structures direrctoy
+```cd data-structures```
+- install dependencies and/or those for testing
+without testing: ```pip install -e .```
+or with: ```pip install -e .[testing]```
+## Runing tests
+- single file where test_bbst.py is the file to run tests on.
+```pytest src/test_bbst.py -v```
+- all files with coverage report
+```py.test -v src/ --cov=src/ --cov-report term-missing```

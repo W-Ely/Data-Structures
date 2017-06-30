@@ -44,55 +44,108 @@ class Bst(object):
                 self._root = Node(val)
                 self._length += 1
             else:
-                return self._insert(val, self._root)
+                self._insert(val, self._root)
         else:
             raise TypeError('Must be a number.')
 
-    def _insert(self, val, node):
-        """Handle insert recursivly. Re-balance at each level."""
-        current_node = node
-        if val > current_node.val:
-            if current_node.right:
-                current_node = current_node.right
-                self._insert(val, current_node)
+    def _insert(self, val, node, parent=None):
+        """Handle insert recursivly. Re-balance if needed at each level."""
+        child = None
+        if val > node.val:
+            if node.right:
+                child = self._insert(val, node.right, node)
             else:
-                current_node.right = Node(val)
+                node.right = Node(val)
+                child = node.right
                 self._length += 1
-        elif val < current_node.val:
-            if current_node.left:
-                current_node = current_node.left
-                self._insert(val, current_node)
+        elif val < node.val:
+            if node.left:
+                child = self._insert(val, node.left, node)
             else:
-                current_node.left = Node(val)
+                node.left = Node(val)
+                child = node.left
                 self._length += 1
-        else:
-            return
+        balance = self.balance(node)
+        child_balance = self.balance(child)
+        if balance not in range(-1, 2):
+            self._rotate(
+                node, balance, child, child_balance, parent
+            )
+        return node
 
-    def search(self, val, prev=False):
+    def _rotate(
+            self, node, balance, child, child_balance, parent
+            ):
+        if balance == -2 and child_balance >= 1:  # case 1 left, right
+            pivot = child.right
+            node.left = pivot.right
+            child.right = pivot.left
+            pivot.right = node
+            pivot.left = child
+            if node is self._root:
+                self._root = pivot
+            else:
+                if parent.val < node.val:
+                    parent.right = pivot
+                else:
+                    parent.left = pivot
+            return pivot
+        if balance == -2 and child_balance <= 0:  # case 2 right
+            node.left = child.right
+            child.right = node
+            if node is self._root:
+                self._root = child
+            else:
+                if parent.val < node.val:
+                    parent.right = child
+                else:
+                    parent.left = child
+            return child
+        if balance == 2 and child_balance <= 0:  # case 3 right, left
+            pivot = child.left  # step 1
+            node.right = pivot.left
+            child.left = pivot.right
+            pivot.left = node
+            pivot.right = child
+            if node is self._root:
+                self._root = pivot
+            else:
+                if parent.val < node.val:
+                    parent.right = pivot
+                else:
+                    parent.left = pivot
+            return pivot
+        if balance == 2 and child_balance >= 0:  # case 4 left
+            node.right = child.left
+            child.left = node
+            if node is self._root:
+                self._root = child
+            else:
+                if parent.val < node.val:
+                    parent.right = child
+                else:
+                    parent.left = child
+            return child
+
+    def search(self, val):
         """Return the node containing that value, else None."""
-        current_node = self._root
-        parent = None
-        direction = None
-        while current_node:
-            if val > current_node.val:
-                if current_node.right:
-                    parent, current_node = current_node, current_node.right
-                    direction = 'right'
+        node = self._root
+        while node:
+            if val > node.val:
+                if node.right:
+                    node = node.right
                     continue
                 else:
                     return
-            elif val < current_node.val:
-                if current_node.left:
-                    parent, current_node = current_node, current_node.left
-                    direction = 'left'
+            elif val < node.val:
+                if node.left:
+                    node = node.left
                     continue
                 else:
                     return
             else:
                 break
-        if prev:
-            return current_node, parent, direction
-        return current_node
+        return node
 
     def size(self):
         """Rreturn the integer size of the BST.
@@ -115,7 +168,7 @@ class Bst(object):
             return 0
         left_depth = self._depth(node.left)
         right_depth = self._depth(node.right)
-        if (left_depth > right_depth):
+        if left_depth > right_depth:
             return left_depth + 1
         return right_depth + 1
 
@@ -203,62 +256,49 @@ class Bst(object):
                 except(AttributeError):
                     pass
 
-    def delete(self, val):
+    def delete(self, val=None):
         """Remove value from the tree if present.
 
         Return None always.
         """
-        current_node, prev_node, par_to_chi_dir = self.search(val, True)
-        if not current_node:
+        if not self._root:
             return
-        succ, prev_succ, balance, direct = self._find_succ(current_node)
-        if not succ:  # Successor gets non-relative child of node to remove
-            if not par_to_chi_dir:
-                self._root = None
-            else:
-                setattr(prev_node, par_to_chi_dir, None)
-        else:
-            setattr(
-                succ,
-                direct[balance * -1],
-                getattr(current_node, direct[balance * -1])
-            )
-            if succ is not prev_succ:  # Successor parent gets successor child
-                setattr(
-                    prev_succ,
-                    direct[balance * -1],
-                    getattr(succ, direct[balance])
-                )
-            # Successor child becomes the current nodes other child
-            if getattr(current_node, direct[balance]) is not succ:
-                setattr(
-                    succ,
-                    direct[balance],
-                    getattr(current_node, direct[balance])
-                )
-            if prev_node is None:  # Parent deleted node connects to successor
-                self._root = succ
-            elif prev_node.val < current_node.val:
-                prev_node.right = succ
-            else:
-                prev_node.left = succ
-        self._length -= 1
-        return
+        self._root = self._delete(val, self._root)
 
-    def _find_succ(self, node):
-        """Find the successor node of the node to delete."""
-        balance = self.balance(node)
-        if balance < 0:
-            balance = -1
-        if balance >= 0:
-            balance = 1
-        direct = {1: 'right', -1: 'left'}
-        succ = getattr(node, direct[balance])
-        prev_succ = getattr(node, direct[balance])
-        if hasattr(succ, direct[balance * -1]):
-            while getattr(succ, direct[balance * -1]):
-                prev_succ, succ = succ, getattr(succ, direct[balance * -1])
-        return succ, prev_succ, balance, direct
+    def _delete(self, val, node, parent=None):
+        """Delete recursivly. Re-balance if needed at each level."""
+        if node:
+            if val > node.val:
+                node.right = self._delete(val, node.right, node)
+            elif val < node.val:
+                node.left = self._delete(val, node.left, node)
+            elif val == node.val:
+                if node.left and node.right:
+                    successor = node.right
+                    while successor.left:
+                        successor = successor.left
+                    self.delete(successor.val)
+                    node.val = successor.val
+                else:
+                    if not node.left and not node.right:
+                        node = None
+                    elif not node.left:
+                        node = node.right
+                    elif not node.right:
+                        node = node.left
+                    self._length -= 1
+            balance = self.balance(node)
+            if balance not in range(-1, 2):
+                if balance < -1:
+                    child = node.left
+                    child_balance = self.balance(child)
+                elif balance > 1:
+                    child = node.right
+                    child_balance = self.balance(child)
+                node = self._rotate(
+                    node, balance, child, child_balance, parent
+                )
+            return node
 
     def __len__(self):
         """Return the length."""
