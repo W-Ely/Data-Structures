@@ -316,13 +316,13 @@ def test(search_val):  # pragma: no cover
     tree.search(search_val)
 
 
-# if __name__ == '__main__':  # pragma: no cover
-#     from timeit import Timer
-#     best = Timer('test(100)', "from __main__ import test")
-#     worst = Timer('test(1)', "from __main__ import test")
-#     print("#================= best case search 1000x ==============#")
-#     print(best.timeit(number=1000))
-#     print('')
-#     print("#================= worse case search 1000x==============#")
-#     print(worst.timeit(number=1000))
-#     print('')
+if __name__ == '__main__':  # pragma: no cover
+    from timeit import Timer
+    best = Timer('test(100)', "from __main__ import test")
+    worst = Timer('test(1)', "from __main__ import test")
+    print("#================= best case search 1000x ==============#")
+    print(best.timeit(number=1000))
+    print('')
+    print("#================= worse case search 1000x==============#")
+    print(worst.timeit(number=1000))
+    print('')
