@@ -1,4 +1,5 @@
-# Data Structures [![Build Status](https://travis-ci.org/Casey0Kane/data-structures.svg?branch=master)](https://travis-ci.org/Casey0Kane/data-structures)
+# Data Structures [![Build Status](https://travis-ci.org/W-Ely/Data-Structures-Fork.svg?branch=master)](https://travis-ci.org/W-Ely/Data-Structures-Fork) [![Coverage Status](https://coveralls.io/repos/github/W-Ely/data-structures/badge.svg?branch=master)](https://coveralls.io/github/W-Ely/data-structures?branch=master)
+
 This will hold sample code for a number of classic data structures implemented in Python.
 
 ## Linked List
