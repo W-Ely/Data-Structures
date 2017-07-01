@@ -1,4 +1,5 @@
-# Data Structures [![Build Status](https://travis-ci.org/Casey0Kane/data-structures.svg?branch=master)](https://travis-ci.org/Casey0Kane/data-structures)
+# Data Structures [![Build Status](https://travis-ci.org/W-Ely/Data-Structures-Fork.svg?branch=master)](https://travis-ci.org/W-Ely/Data-Structures-Fork) [![Coverage Status](https://coveralls.io/repos/github/W-Ely/data-structures/badge.svg?branch=master)](https://coveralls.io/github/W-Ely/data-structures?branch=master)
+
 This will hold sample code for a number of classic data structures implemented in Python.
 
 ## Linked List
@@ -82,16 +83,21 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 
 # To install
 - clone repo with ssh or https
+
 ssh:
 ```git clone git@github.com:Casey0Kane/data-structures.git```
+
 https:
 ```git clone https://github.com/Casey0Kane/data-structures.git```
 - change into data-structures direrctoy
 ```cd data-structures```
+
 - install dependencies and/or those for testing
 without testing:
+
 ```pip install -e .```
 or with:
+
 ```pip install -e .[testing]```
 ## Runing tests
 - single file where test_bbst.py is the file to run tests on.
