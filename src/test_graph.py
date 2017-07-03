@@ -69,8 +69,8 @@ def tri_graph(empty_graph):
 
 
 def test_init_creates_empty_graph(empty_graph):
-        """Initialize and empty graph."""
-        assert empty_graph.nodes() == []
+    """Initialize and empty graph."""
+    assert empty_graph.nodes() == []
 
 
 def test_nodes_returns_list_of_all_nodes(tri_graph):
