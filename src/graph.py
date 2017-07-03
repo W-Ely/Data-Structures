@@ -62,7 +62,7 @@ class Graph(dict):
             raise ValueError('No such edge.')
 
     def has_node(self, val):
-        """True if node containing 'val' is in the graph, False if not."""
+        """Return True if node containing 'val' in the graph, False if not."""
         return val in self
 
     def neighbors(self, val):
