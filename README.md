@@ -82,6 +82,13 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - [Geeks for geeks - avl-tree-set-2-deletion](http://www.geeksforgeeks.org/avl-tree-set-2-deletion/)
 
 
+## Trie
+- insert(self, string): will insert the input string into the trie. If character in the input string is already present, it will be ignored.
+- contains(self, string): will return True if the string is in the trie, False if not.
+- size(self): will return the total number of words contained within the trie. 0 if empty.
+- remove(self, string): will remove the given string from the trie. If the word doesn’t exist, will raise an appropriate exception.
+
+
 # To install
 - clone repo with ssh or https
 
