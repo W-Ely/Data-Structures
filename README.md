@@ -1,8 +1,6 @@
 # Data Structures [![Build Status](https://travis-ci.org/Casey0Kane/data-structures.svg?branch=master)](https://travis-ci.org/Casey0Kane/data-structures)
 This will hold sample code for a number of classic data structures implemented in Python.
 
-This will hold sample code for a number of classic data structures implemented in Python.
-
 ## Linked List
 - push(val) will insert the value ‘val’ at the head of the list
 - pop() will pop the first value off the head of the list and return it. Raises an exception with an appropriate message if there are no values to return.
