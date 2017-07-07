@@ -81,8 +81,8 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 
 ## Hash Table
 - this implementation takes a size and an optional hashing function as parameters. It uses a addative hashing function by default. Very sub optimal. The file also has a better custom hashing function included - optimus_prime_hash.
-- get(key) - should return the value stored with the given key
-- set(key, val) - should store the given val using the given key
+- get(key) - should return the value stored with the given key - Big(O) - O(1) less collisions
+- set(key, val) - should store the given val using the given key - Big(O) - O(1) less collisions
 - _hash(key) - should hash the key provided (note that this is an internal api)
 
 # To install
