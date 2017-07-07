@@ -75,12 +75,17 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - post_order(self): will return a generator that will return the values in the tree using post_order traversal, one at a time.
 - breadth_first(self): will return a generator that will return the values in the tree using breadth-first traversal, one at a time.
 
-## AVL Tree (self balancing)
+## AVL Tree (self balancing - bbst)
 - all the same properties of the bst above but added auto balancing. Search, should always be logN.
 ### Related reading and inspiration
 - [Tim Rijavec's how-to-implement-avl-tree-in-python](http://blog.coder.si/2014/02/how-to-implement-avl-tree-in-python.html)
 - [Geeks for geeks - avl-tree-set-2-deletion](http://www.geeksforgeeks.org/avl-tree-set-2-deletion/)
 
+## Hash Table
+- this implementation takes a size and an optional hashing function as parameters. It uses a addative hashing function by default. Very sub optimal. The file also has a better custom hashing function included - optimus_prime_hash.
+- get(key) - should return the value stored with the given key
+- set(key, val) - should store the given val using the given key
+- _hash(key) - should hash the key provided (note that this is an internal api)
 
 # To install
 - clone repo with ssh or https
