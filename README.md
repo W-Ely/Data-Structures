@@ -1,8 +1,6 @@
 # Data Structures [![Build Status](https://travis-ci.org/Casey0Kane/data-structures.svg?branch=master)](https://travis-ci.org/Casey0Kane/data-structures)
 This will hold sample code for a number of classic data structures implemented in Python.
 
-This will hold sample code for a number of classic data structures implemented in Python.
-
 ## Linked List
 - push(val) will insert the value ‘val’ at the head of the list
 - pop() will pop the first value off the head of the list and return it. Raises an exception with an appropriate message if there are no values to return.
@@ -75,12 +73,17 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - post_order(self): will return a generator that will return the values in the tree using post_order traversal, one at a time.
 - breadth_first(self): will return a generator that will return the values in the tree using breadth-first traversal, one at a time.
 
-## AVL Tree (self balancing)
+## AVL Tree (self balancing - bbst)
 - all the same properties of the bst above but added auto balancing. Search, should always be logN.
 ### Related reading and inspiration
 - [Tim Rijavec's how-to-implement-avl-tree-in-python](http://blog.coder.si/2014/02/how-to-implement-avl-tree-in-python.html)
 - [Geeks for geeks - avl-tree-set-2-deletion](http://www.geeksforgeeks.org/avl-tree-set-2-deletion/)
 
+## Hash Table
+- this implementation takes a size and an optional hashing function as parameters. It uses a addative hashing function by default. Very sub optimal. The file also has a better custom hashing function included - optimus_prime_hash.
+- get(key) - should return the value stored with the given key - Big(O) - O(1) less collisions
+- set(key, val) - should store the given val using the given key - Big(O) - O(1) less collisions
+- _hash(key) - should hash the key provided (note that this is an internal api)
 
 ## Trie
 - insert(self, string): will insert the input string into the trie. If character in the input string is already present, it will be ignored.
