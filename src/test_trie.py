@@ -51,13 +51,13 @@ def test_size_increases_with_insert(trie):
     assert trie.size() == 1
 
 
-# def test_size_does_not_increase_with_attempt_to_add_duplicate(trie):
-#     """Test size doesn't increase with duplicate insert."""
-#     trie.insert('abc')
-#     trie.insert('ab')
-#     assert trie.size() == 2
-#     trie.insert('abc')
-#     assert trie.size() == 2
+def test_size_does_not_increase_with_attempt_to_add_duplicate(trie):
+    """Test size doesn't increase with duplicate insert."""
+    trie.insert('abc')
+    trie.insert('ab')
+    assert trie.size() == 2
+    trie.insert('abc')
+    assert trie.size() == 2
 
 
 def test_size_decrease_on_remove(trie):

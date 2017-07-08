@@ -15,7 +15,8 @@ class Trie(dict):
 
         If char in the string is already present, it will be ignored.
         """
-        self._length += 1
+        if not self.contains(string):
+            self._length += 1
         if len(string) == 1:
             self.setdefault(string[0], "$")
         else:
