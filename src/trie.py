@@ -62,10 +62,10 @@ class Trie(dict):
                 if len(temp.keys()) > 1:
                     closest_fork = temp
                     node_to_remove = char
+                temp = temp[char]
                 if char is string[-1]:
                     del closest_fork[node_to_remove]
                     self._length -= 1
                     return
-                temp = temp[char]
         except KeyError:
             raise KeyError("Value not in trie.")

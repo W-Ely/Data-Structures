@@ -158,6 +158,25 @@ def test_remove_removes_only_terminator_when_the_rest_should_remain(simple):
     assert '$' in simple['d']['e']['f']
 
 
+def test_remove_repeated_remove_raises_key_error(simple):
+    """Test removes teminator leaving other when required.
+
+    Remove 'ab', 'abc' should remain.
+    """
+    assert simple.size() == 3
+    assert '$' in simple['a']['b']
+    assert '$' in simple['a']['b']['c']
+    assert '$' in simple['d']['e']['f']
+    simple.remove('ab')
+    assert simple.size() == 2
+    assert '$' not in simple['a']['b']
+    assert '$' in simple['a']['b']['c']
+    assert '$' in simple['d']['e']['f']
+    with pytest.raises(KeyError):
+        simple.remove('ab')
+    assert '$' in simple['a']['b']['c']
+
+
 def test_remove_branch_from_trie(simple):
     """Test remove branch."""
     assert simple.size() == 3
@@ -184,36 +203,39 @@ def test_remove_branch_from_root_of_trie(simple):
     assert 'd' not in simple
 
 
-# # ========== Short Test Fixture ============== @
-#
-# def populate_short_words():
-#     """Populate our words set."""
-#     words = set()
-#     dictfile = "/src/test/short_words"
-#     path = os.getcwd() + dictfile
-#     with open(path, 'r') as words_file:
-#         for line in words_file:
-#             words.add(line[:-1].lower())
-#     return words
-#
-#
-# SHORT_WORDS = populate_short_words()
-#
-#
-# @pytest.fixture
-# def short(trie):
-#     """Large Trie."""
-#     for word in SHORT_WORDS:
-#         trie.insert(word)
-#     return trie
-#
-#
-# def test_short_trie_handles_remove(short):
-#     """Test large trie remove."""
-#     # import pdb; pdb.set_trace()
-#     assert short.size() == len(SHORT_WORDS)
-#     # short.remove('snapy')
-#     # assert not short.contains('snapy')
+# ========== Short Test Fixture ============== @
+
+def populate_short_words():
+    """Populate our words set."""
+    words = set()
+    dictfile = "/src/test/short_words"
+    path = os.getcwd() + dictfile
+    with open(path, 'r') as words_file:
+        for line in words_file:
+            words.add(line[:-1].lower())
+    return words
+
+
+SHORT_WORDS = populate_short_words()
+
+
+@pytest.fixture
+def short(trie):
+    """Large Trie."""
+    for word in SHORT_WORDS:
+        trie.insert(word)
+    return trie
+
+
+def test_short_trie_handles_remove(short):
+    """Test large trie remove."""
+    assert short.size() == len(SHORT_WORDS)
+    short.remove('a')
+    assert not short.contains('a')
+    assert short.size() == len(SHORT_WORDS) - 1
+    assert '$' not in short['a'].keys()
+    with pytest.raises(KeyError):
+        short.remove('a')
 
 
 # ===================== Large Test ===================== #
@@ -229,7 +251,19 @@ def populate_words():
     return words
 
 
-WORDS = populate_words()
+WORDS = list(populate_words())
+
+
+def random_words_to_remove():
+    """Create set of random words to remove."""
+    import random
+    words_to_remove = set()
+    for _ in range(10000):
+        words_to_remove.add(random.choice(WORDS))
+    return words_to_remove
+
+
+WORDS_TO_REMOVE = list(random_words_to_remove())
 
 
 @pytest.fixture
@@ -246,3 +280,16 @@ def test_large_trie_handles_remove(large):
     large.remove('apple')
     assert not large.contains('apple')
     assert large.size() == len(WORDS) - 1
+
+
+def test_remove_random_words(large):
+    """Test random removals."""
+    length = len(WORDS)
+    assert large.size() == length
+    for word in WORDS_TO_REMOVE:
+        large.remove(word)
+        length -= 1
+        assert not large.contains(word)
+        assert large.size() == length
+        with pytest.raises(KeyError):
+            large.remove(word)
