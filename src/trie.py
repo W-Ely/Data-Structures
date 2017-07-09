@@ -4,23 +4,32 @@
 class Trie(dict):
     """Create Trie data structure."""
 
-    def __init__(self, string=None):
+    def __init__(self):
         """Inialize trie."""
         self._length = 0
-        if string and type(string) is str:
-            self.insert(string)
 
     def insert(self, string):
         """Insert the string into the trie.
 
         If char in the string is already present, it will be ignored.
         """
-        if not self.contains(string):
-            self._length += 1
-        if len(string) == 1:
-            self.setdefault(string[0], "$")
-        else:
-            self.setdefault(string[0], Trie(string[1:]))
+        if string and type(string) is str and '$' not in string:
+            temp = self
+            for char in string:
+                try:
+                    temp = temp[char]
+                    if char == string[-1] and '$' not in temp:
+                        temp.update({'$': None})
+                        self._length += 1
+                except KeyError:
+                    if char == string[-1]:
+                        temp[char] = {'$': None}
+                        self._length += 1
+                    else:
+                        temp.update({char: {}})
+                        temp = temp[char]
+            return
+        raise TypeError('Invalid String.')
 
     def contains(self, string):
         """Return True if the string is in the trie, False if not."""
@@ -28,7 +37,7 @@ class Trie(dict):
         try:
             for char in string:
                 temp = temp[char]
-            return temp == '$'
+            return '$' in temp.keys()
         except KeyError:
             return False
 
@@ -57,7 +66,8 @@ class Trie(dict):
             raise KeyError("Value on it trie.")
 
 
-trie = Trie('test')
+trie = Trie()
+trie.insert('test')
 print(trie)
 print(trie.contains('test'))  # True
 print(trie.contains('no'))  # False

@@ -16,7 +16,7 @@ def test_insert_inserts_new_string(trie):
     assert list(trie.keys())[0] == 'a'
     assert list(trie['a'].keys())[0] == 'b'
     assert list(trie['a']['b'].keys())[0] == 'c'
-    assert trie['a']['b']['c'] == '$'
+    assert '$' in trie['a']['b']['c']
 
 
 def test_insert_ignors_duplicate_string(trie):
