@@ -32,6 +32,26 @@ def simple(trie):
     return trie
 
 
+def test_insert_one_char_string(trie):
+    """Test trie handles one char string."""
+    trie.insert('a')
+    assert trie.size() == 1
+    assert list(trie.keys()) == ['a']
+    assert trie['a'] == {'$': None}
+
+
+def test_insert_two_words_the_same_char(trie):
+    """Test trie handles one char string."""
+    trie.insert('a')
+    assert trie.size() == 1
+    assert list(trie.keys()) == ['a']
+    assert trie['a'] == {'$': None}
+    trie.insert('aa')
+    assert trie.size() == 2
+    assert list(trie.keys()) == ['a']
+    assert trie['a'] == {'$': None, 'a': {'$': None}}
+
+
 def test_insert_inserts_new_string(trie):
     """Test insert adds new string."""
     trie.insert('abc')
@@ -188,47 +208,41 @@ def test_remove_branch_from_root_of_trie(simple):
 #     return trie
 #
 #
-# # ============================================ #
-#
-#
 # def test_short_trie_handles_remove(short):
 #     """Test large trie remove."""
-#     import pdb; pdb.set_trace()
+#     # import pdb; pdb.set_trace()
 #     assert short.size() == len(SHORT_WORDS)
-#     short.remove('snapy')
-#     assert not short.contains('snapy')
-#
+#     # short.remove('snapy')
+#     # assert not short.contains('snapy')
 
-#
-# # ========== Large Test Fixture ============== @
-#
-# def populate_words():
-#     """Populate our words set."""
-#     words = set()
-#     dictfile = "/src/test/words"
-#     path = os.getcwd() + dictfile
-#     with open(path, 'r') as words_file:
-#         for line in words_file:
-#             words.add(line[:-1].lower())
-#     return words
-#
-#
-# WORDS = populate_words()
-#
-#
-# @pytest.fixture
-# def large(trie):
-#     """Large Trie."""
-#     for word in WORDS:
-#         trie.insert(word)
-#     return trie
-#
-#
-# # ============================================ #
-#
-#
-# def test_large_trie_handles_remove(large):
-#     """Test large trie remove."""
-#     assert large.size() == len(WORDS)
-#     large.remove('apple')
-#     assert not large.contains('apple')
+
+# ===================== Large Test ===================== #
+
+def populate_words():
+    """Populate our words set."""
+    words = set()
+    dictfile = "/src/test/words"
+    path = os.getcwd() + dictfile
+    with open(path, 'r') as words_file:
+        for line in words_file:
+            words.add(line[:-1].lower())
+    return words
+
+
+WORDS = populate_words()
+
+
+@pytest.fixture
+def large(trie):
+    """Large Trie."""
+    for word in WORDS:
+        trie.insert(word)
+    return trie
+
+
+def test_large_trie_handles_remove(large):
+    """Test large trie remove."""
+    assert large.size() == len(WORDS)
+    large.remove('apple')
+    assert not large.contains('apple')
+    assert large.size() == len(WORDS) - 1

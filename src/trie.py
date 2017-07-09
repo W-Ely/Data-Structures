@@ -15,15 +15,15 @@ class Trie(dict):
         """
         if string and type(string) is str and '$' not in string:
             temp = self
+            string += '$'
             for char in string:
                 try:
                     temp = temp[char]
-                    if char == string[-1] and '$' not in temp:
-                        temp.update({'$': None})
-                        self._length += 1
+                    if char == string[-1] and not temp:
+                        return
                 except KeyError:
                     if char == string[-1]:
-                        temp[char] = {'$': None}
+                        temp[char] = None
                         self._length += 1
                     else:
                         temp.update({char: {}})
