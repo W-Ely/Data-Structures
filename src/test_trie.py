@@ -1,4 +1,5 @@
 """Test module for trie data structure."""
+import os
 import pytest
 from trie import Trie
 
@@ -161,3 +162,73 @@ def test_remove_branch_from_root_of_trie(simple):
     assert '$' in simple['a']['b']
     assert '$' in simple['a']['b']['c']
     assert 'd' not in simple
+
+
+# # ========== Short Test Fixture ============== @
+#
+# def populate_short_words():
+#     """Populate our words set."""
+#     words = set()
+#     dictfile = "/src/test/short_words"
+#     path = os.getcwd() + dictfile
+#     with open(path, 'r') as words_file:
+#         for line in words_file:
+#             words.add(line[:-1].lower())
+#     return words
+#
+#
+# SHORT_WORDS = populate_short_words()
+#
+#
+# @pytest.fixture
+# def short(trie):
+#     """Large Trie."""
+#     for word in SHORT_WORDS:
+#         trie.insert(word)
+#     return trie
+#
+#
+# # ============================================ #
+#
+#
+# def test_short_trie_handles_remove(short):
+#     """Test large trie remove."""
+#     import pdb; pdb.set_trace()
+#     assert short.size() == len(SHORT_WORDS)
+#     short.remove('snapy')
+#     assert not short.contains('snapy')
+#
+
+#
+# # ========== Large Test Fixture ============== @
+#
+# def populate_words():
+#     """Populate our words set."""
+#     words = set()
+#     dictfile = "/src/test/words"
+#     path = os.getcwd() + dictfile
+#     with open(path, 'r') as words_file:
+#         for line in words_file:
+#             words.add(line[:-1].lower())
+#     return words
+#
+#
+# WORDS = populate_words()
+#
+#
+# @pytest.fixture
+# def large(trie):
+#     """Large Trie."""
+#     for word in WORDS:
+#         trie.insert(word)
+#     return trie
+#
+#
+# # ============================================ #
+#
+#
+# def test_large_trie_handles_remove(large):
+#     """Test large trie remove."""
+#     assert large.size() == len(WORDS)
+#     large.remove('apple')
+#     assert not large.contains('apple')
