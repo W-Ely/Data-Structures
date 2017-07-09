@@ -67,5 +67,51 @@ def test_size_decrease_on_remove(trie):
     assert trie.size() == 2
     trie.remove('abc')
     assert trie.size() == 1
-# size(self): will return the total number of words contained within the trie. 0 if empty.
-# remove(self, string): will remove the given string from the trie. If the word doesn’t exist, will raise an appropriate exception.
+
+
+def test_size_doesnt_decrease_if_item_not_found(trie):
+    """Test size doesn't decrease if value not in trie."""
+    trie.insert('abc')
+    trie.insert('def')
+    assert trie.size() == 2
+    with pytest.raises(KeyError):
+        trie.remove('not in tree')
+    assert trie.size() == 2
+
+
+def test_remove_removes_value_from_trie(trie):
+    """Test removes value from trie."""
+    trie.insert('abc')
+    trie.insert('def')
+    trie.remove('abc')
+    assert not trie.contains('abc')
+    assert trie.size() == 1
+    assert 'a' not in trie.keys()
+
+
+def test_remove_removes_only_terminator_when_the_rest_should_remain(trie):
+    r"""Test removes teminator leaving other when required.
+
+         trie
+        /    \
+       a      d
+       |      |
+       b      e
+      / \     |
+     c   $    f
+     |        |
+     $        $
+
+    Remove 'ab', 'abc' should remain.
+    """
+    trie.insert('abc')
+    trie.insert('ab')
+    trie.insert('def')
+    assert trie.size() == 3
+    assert '$' in trie['a']['b']
+    trie.remove('ab')
+    assert trie.size() == 2
+    assert '$' not in trie['a']['b']
+
+# remove(self, string): will remove the given string from the trie.
+# If the word doesn’t exist, will raise an appropriate exception.

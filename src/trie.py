@@ -54,25 +54,18 @@ class Trie(dict):
         If the word doesn't exist, will raise an appropriate exception.
         """
         temp = self
+        string += '$'
         try:
+            closest_fork = temp
+            node_to_remove = string[0]
             for char in string:
-                if len(temp[char].keys()) > 1:
-                    temp = temp[char]
-                else:
-                    del temp[char]
+                if len(temp.keys()) > 1:
+                    closest_fork = temp
+                    node_to_remove = char
+                temp = temp[char]
+                if char is string[-1]:
+                    del closest_fork[node_to_remove]
                     self._length -= 1
                     return
         except KeyError:
-            raise KeyError("Value on it trie.")
-
-
-trie = Trie()
-trie.insert('test')
-print(trie)
-print(trie.contains('test'))  # True
-print(trie.contains('no'))  # False
-print(trie.size())  # 1
-trie.remove('test')
-print(trie.size())  # 0
-print(trie.contains('test'))  # False
-print(trie)
+            raise KeyError("Value not in trie.")
