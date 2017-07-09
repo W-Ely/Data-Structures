@@ -293,3 +293,24 @@ def test_remove_random_words(large):
         assert large.size() == length
         with pytest.raises(KeyError):
             large.remove(word)
+
+
+# def test_depth_first_transversal_two_suffixes(simple):
+#     """Test simple depth first."""
+#     assert tuple(simple.depth_first_traversal('a')) in (
+#         ('ab', 'abc'),
+#         ('abc', 'ab')
+#     )
+
+
+# def test_depth_first_transversal_two_suffixes_comlete_word(simple):
+#     """Test simple depth first."""
+#     assert tuple(simple.depth_first_traversal('ab')) in (
+#         ('ab', 'abc'),
+#         ('abc', 'ab')
+#     )
+
+
+# def test_depth_first_transversal_one_suffix(simple):
+#     """Test simple depth first."""
+#     assert simple.depth_first_traversal('d') == 'def'
