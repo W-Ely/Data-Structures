@@ -45,8 +45,8 @@ error if there is no values in the pqueue.
 - del_node(val): deletes the node containing ‘val’ from the graph; raises an error if no such node exists
 - del_edge(val1, val2): deletes the edge connecting ‘val1’ and ‘val2’ from the graph; raises an error if no such edge exists
 - has_node(val): True if node containing ‘val’ is contained in the graph, False if not.
-- neighbors(val): returns the list of all nodes connected to the node containing ‘val’ by edges; raises an error if val is not in g
-- adjacent(val1, val2): returns True if there is an edge connecting val1 and val2, False if not; raises an error if either of the supplied values are not in g
+- neighbors(val): returns the list of all nodes connected to the node containing ‘val’ by edges; raises an error if val is not in graph.
+- adjacent(val1, val2): returns True if there is an edge connecting val1 and val2, False if not; raises an error if either of the supplied values are not in graph.
 - depth_first_traversal(start_val): Perform a full depth-first traversal of the graph beginning at start_val. Return the full visited path when traversal is complete.
 - breadth_first_traversal(start_val): Perform a full breadth-first traversal of the graph, beginning at start_val. Return the full visited path when traversal is complete.
 
