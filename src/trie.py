@@ -83,7 +83,5 @@ class Trie(dict):
             if char == '$':
                 yield string
             else:
-                for val in self.traverse(
-                    string + char, node[char]
-                ):
+                for val in self.traverse(string + char, node[char]):
                     yield val
