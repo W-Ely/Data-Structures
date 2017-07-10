@@ -86,11 +86,11 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - _hash(key) - should hash the key provided (note that this is an internal api)
 
 ## Trie
-- insert(self, string): will insert the input string into the trie. If character in the input string is already present, it will be ignored.
-- contains(self, string): will return True if the string is in the trie, False if not.
-- size(self): will return the total number of words contained within the trie. 0 if empty.
-- remove(self, string): will remove the given string from the trie. If the word doesn’t exist, will raise an appropriate exception.
-- traverse(self, start_string): depth-first traversal returning all of the words in the trie tree that start with start_string. Returns a generator.
+- insert(self, string): will insert the input string into the trie. If character in the input string is already present, it will be ignored. Big(O) - O(1)
+- contains(self, string): will return True if the string is in the trie, False if not. Big(O) - O(1)
+- size(self): will return the total number of words contained within the trie. 0 if empty. Big(O) - O(1)
+- remove(self, string): will remove the given string from the trie. If the word doesn’t exist, will raise an appropriate exception. Big(O) - O(1)
+- traverse(self, start_string): depth-first traversal returning all of the words in the trie tree that start with start_string. Returns a generator. Big(O) - O(1)
 
 # To install
 ### Clone repo with ssh or https
