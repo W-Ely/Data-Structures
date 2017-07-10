@@ -71,10 +71,10 @@ class Trie(dict):
             raise KeyError("Value not in trie.")
 
     def depth_first_traversal(
-        self, string=None, start_node=None
+        self, string=None, node=None
     ):
         """Return the words with depth transversal."""
-        if not start_node:
+        if not node:
             temp = self
             try:
                 for char in string:
@@ -82,9 +82,18 @@ class Trie(dict):
             except KeyError:
                 raise KeyError('Value not in trie.')
         else:
-            temp = start_node
+            temp = node
         for char in temp:
             if char == '$':
                 yield string
             else:
-                self.depth_first_traversal(string + char, temp[char])
+                return self.depth_first_traversal(
+                    string + char, temp[char]
+                )
+
+
+trie = Trie()
+trie.insert('abc')
+trie.insert('ab')
+trie.insert('def')
+print(tuple(trie.depth_first_traversal('a')))
