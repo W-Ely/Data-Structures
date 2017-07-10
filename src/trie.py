@@ -70,7 +70,7 @@ class Trie(dict):
         except KeyError:
             raise KeyError("Value not in trie.")
 
-    def traverse(self, string, node=None):
+    def word_traverse(self, string, node=None):
         """Return the words with depth transversal."""
         if not node:
             node = self
@@ -83,5 +83,24 @@ class Trie(dict):
             if char == '$':
                 yield string
             else:
-                for val in self.traverse(string + char, node[char]):
+                for val in self.word_traverse(string + char, node[char]):
+                    yield val
+
+    def traverse(self, string, node=None):
+        """Return the chars with depth transversal."""
+        if not node:
+            node = self
+            try:
+                for char in string:
+                    node = node[char]
+            except KeyError:
+                raise KeyError("Value not in trie.")
+            node = self
+            for char in string:
+                node = node[char]
+                yield char
+        for char in node:
+            if char is not '$':
+                yield char
+                for val in self.traverse(None, node[char]):
                     yield val
