@@ -332,3 +332,22 @@ def test_depth_first_transversl_on_large_trie(large):
         assert word in a_letter_words
     for word in a_letter_words:
         assert word in results
+
+
+def test_depth_first_transversl_on_large_trie_0_1(large):
+    """Test on large tire."""
+    a_letter_words = [
+        word for word in WORDS if len(word) > 1 and
+        word[0] == 'd' and word[1] == 'e'
+    ]
+    results = tuple(large.traverse('de'))
+    for word in results:
+        assert word in a_letter_words
+    for word in a_letter_words:
+        assert word in results
+    for word in results:
+        large.remove(word)
+    assert large.size() == len(WORDS) - len(results)
+    for word in results:
+        with pytest.raises(KeyError):
+            large.remove(word)
