@@ -37,7 +37,7 @@ class Trie(dict):
         try:
             for char in string:
                 temp = temp[char]
-            return '$' in temp.keys()
+            return '$' in temp
         except KeyError:
             return False
 
@@ -59,7 +59,7 @@ class Trie(dict):
             closest_fork = temp
             node_to_remove = string[0]
             for char in string:
-                if len(temp.keys()) > 1:
+                if len(temp) > 1:
                     closest_fork = temp
                     node_to_remove = char
                 temp = temp[char]
