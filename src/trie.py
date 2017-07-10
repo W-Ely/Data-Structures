@@ -70,7 +70,7 @@ class Trie(dict):
         except KeyError:
             raise KeyError("Value not in trie.")
 
-    def traverse(self, string=None, node=None):
+    def traverse(self, string, node=None):
         """Return the words with depth transversal."""
         if not node:
             node = self
