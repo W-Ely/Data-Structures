@@ -89,10 +89,3 @@ class Trie(dict):
                     string + char, node[char]
                 ):
                     yield val
-
-
-trie = Trie()
-trie.insert('abc')
-trie.insert('ab')
-trie.insert('def')
-print(tuple(trie.depth_first_traversal('a')))
