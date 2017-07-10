@@ -265,6 +265,13 @@ def test_short_trie_handles_remove(short):
         short.remove('a')
 
 
+def test_traverse_on_short_trie_empty_strng(short):
+    """Test should return entire set of words."""
+    results = tuple(short.traverse(''))
+    for word in SHORT_WORDS:
+        assert word in results
+
+
 # ===================== Large Test ===================== #
 
 def populate_words():
@@ -322,7 +329,7 @@ def test_remove_random_words(large):
             large.remove(word)
 
 
-def test_depth_first_transversl_on_large_trie(large):
+def test_traverse_on_large_trie(large):
     """Test on large trie."""
     a_letter_words = [
         word for word in WORDS if word[0] == 'a'
@@ -334,7 +341,7 @@ def test_depth_first_transversl_on_large_trie(large):
         assert word in results
 
 
-def test_depth_first_transversl_on_large_trie_0_1(large):
+def test_traverse_on_large_trie_0_1(large):
     """Test on large tire."""
     a_letter_words = [
         word for word in WORDS if len(word) > 1 and
