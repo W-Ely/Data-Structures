@@ -295,31 +295,31 @@ def test_remove_random_words(large):
             large.remove(word)
 
 
-def test_depth_first_transversal_two_suffixes(simple):
+def test_traverse_two_suffixes(simple):
     """Test simple depth first."""
-    assert tuple(simple.depth_first_traversal('a')) in (
+    assert tuple(simple.traverse('a')) in (
         ('ab', 'abc'),
         ('abc', 'ab')
     )
 
 
-def test_depth_first_transversal_two_suffixes_comlete_word(simple):
+def test_traverse_two_suffixes_comlete_word(simple):
     """Test simple depth first."""
-    assert tuple(simple.depth_first_traversal('ab')) in (
+    assert tuple(simple.traverse('ab')) in (
         ('ab', 'abc'),
         ('abc', 'ab')
     )
 
 
-def test_depth_first_transversal_one_suffix(simple):
+def test_traverse_one_suffix(simple):
     """Test simple depth first."""
-    assert next(simple.depth_first_traversal('d')) == 'def'
+    assert next(simple.traverse('d')) == 'def'
 
 
-def test_depth_first_transversal_value_not_in_trie(simple):
+def test_traverse_value_not_in_trie(simple):
     """Test value not in trie."""
     with pytest.raises(KeyError):
-        next(simple.depth_first_traversal('test'))
+        next(simple.traverse('test'))
 
 
 def test_depth_first_transversl_on_large_trie(large):
@@ -327,7 +327,7 @@ def test_depth_first_transversl_on_large_trie(large):
     a_letter_words = [
         word for word in WORDS if word[0] == 'a'
     ]
-    results = tuple(large.depth_first_traversal('a'))
+    results = tuple(large.traverse('a'))
     for word in results:
         assert word in a_letter_words
     for word in a_letter_words:
