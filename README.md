@@ -93,7 +93,7 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - traverse(self, start_string): depth-first traversal returning all of the words in the trie tree that start with start_string. Returns a generator.
 
 # To install
-### clone repo with ssh or https
+### Clone repo with ssh or https
 
 - ssh:
 ```git clone git@github.com:Casey0Kane/data-structures.git```
@@ -103,7 +103,7 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - change into data-structures direrctoy
 ```cd data-structures```
 
-### install dependencies and/or those for testing
+### Install dependencies and/or those for testing
 
 - without testing:
 ```pip install -e .```
