@@ -250,6 +250,12 @@ def test_traverse_on_short_trie_0_4(simple):
     assert tuple(simple.traverse('ab')) == ('a', 'b', 'c')
 
 
+def test_traverse_on_short_value_not_in_trie(simple):
+    """Test should return charss."""
+    with pytest.raises(KeyError):
+        next(simple.traverse('xyzzy'))
+
+
 # ========== Short Test Fixture ============== @
 
 def populate_short_words():
