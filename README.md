@@ -1,5 +1,4 @@
-# Data Structures [![Build Status](https://travis-ci.org/W-Ely/Data-Structures-Fork.svg?branch=master)](https://travis-ci.org/W-Ely/Data-Structures-Fork) [![Coverage Status](https://coveralls.io/repos/github/W-Ely/data-structures/badge.svg?branch=master)](https://coveralls.io/github/W-Ely/data-structures?branch=master)
-
+# Data Structures [![Build Status](https://travis-ci.org/Casey0Kane/data-structures.svg?branch=master)](https://travis-ci.org/Casey0Kane/data-structures)
 This will hold sample code for a number of classic data structures implemented in Python.
 
 ## Linked List
@@ -74,32 +73,44 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - post_order(self): will return a generator that will return the values in the tree using post_order traversal, one at a time.
 - breadth_first(self): will return a generator that will return the values in the tree using breadth-first traversal, one at a time.
 
-## AVL Tree (self balancing)
+## AVL Tree (self balancing - bbst)
 - all the same properties of the bst above but added auto balancing. Search, should always be logN.
 ### Related reading and inspiration
 - [Tim Rijavec's how-to-implement-avl-tree-in-python](http://blog.coder.si/2014/02/how-to-implement-avl-tree-in-python.html)
 - [Geeks for geeks - avl-tree-set-2-deletion](http://www.geeksforgeeks.org/avl-tree-set-2-deletion/)
 
+## Hash Table
+- this implementation takes a size and an optional hashing function as parameters. It uses a addative hashing function by default. Very sub optimal. The file also has a better custom hashing function included - optimus_prime_hash.
+- get(key) - should return the value stored with the given key - Big(O) - O(1) less collisions
+- set(key, val) - should store the given val using the given key - Big(O) - O(1) less collisions
+- _hash(key) - should hash the key provided (note that this is an internal api)
+
+## Trie
+- insert(self, string): will insert the input string into the trie. If character in the input string is already present, it will be ignored. Big(O) - O(1)
+- contains(self, string): will return True if the string is in the trie, False if not. Big(O) - O(1)
+- size(self): will return the total number of words contained within the trie. 0 if empty. Big(O) - O(1)
+- remove(self, string): will remove the given string from the trie. If the word doesn’t exist, will raise an appropriate exception. Big(O) - O(1)
+- traverse(self, start_string): depth-first traversal returning all of the words in the trie tree that start with start_string. Returns a generator. Big(O) - O(1)
 
 # To install
-- clone repo with ssh or https
+### Clone repo with ssh or https
 
-ssh:
+- ssh:
 ```git clone git@github.com:Casey0Kane/data-structures.git```
 
-https:
+- https:
 ```git clone https://github.com/Casey0Kane/data-structures.git```
 - change into data-structures direrctoy
 ```cd data-structures```
 
-- install dependencies and/or those for testing
-without testing:
+### Install dependencies and/or those for testing
 
+- without testing:
 ```pip install -e .```
-or with:
-
+- or with:
 ```pip install -e .[testing]```
-## Runing tests
+
+### Runing tests
 - single file where test_bbst.py is the file to run tests on.
 ```pytest src/test_bbst.py -v```
 - all files with coverage report

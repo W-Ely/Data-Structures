@@ -4,7 +4,7 @@ import pytest
 
 @pytest.fixture
 def traverse():
-    """."""
+    """Test fixture."""
     from graph import Graph
     trans_graph = Graph()
     trans_graph.add_edge(1, 2)
@@ -17,7 +17,7 @@ def traverse():
 
 @pytest.fixture
 def loop():
-    """."""
+    """Test fixture."""
     from graph import Graph
     loop_graph = Graph()
     loop_graph.add_edge(1, 2)
@@ -31,7 +31,7 @@ def loop():
 
 @pytest.fixture
 def more_complex():
-    """."""
+    """Test fixture."""
     from graph import Graph
     new_graph = Graph()
     new_graph.add_edge(1, 2)
@@ -69,8 +69,8 @@ def tri_graph(empty_graph):
 
 
 def test_init_creates_empty_graph(empty_graph):
-        """Initialize and empty graph."""
-        assert empty_graph.nodes() == []
+    """Initialize and empty graph."""
+    assert empty_graph.nodes() == []
 
 
 def test_nodes_returns_list_of_all_nodes(tri_graph):
@@ -159,46 +159,46 @@ def test_adjacent_raises_ValueError_if_either_are_not_in_graph(tri_graph):
 
 
 def test_depth_first_transversal(traverse):
-    """."""
+    """Test depth first transversal."""
     assert traverse.depth_first_traversal(1) == [1, 2, 4, 5, 6, 3]
 
 
 def test_depth_first_transversal_more_complex(more_complex):
-    """."""
+    """Test depth first transversal."""
     assert more_complex.depth_first_traversal(1) == [
         1, 2, 4, 12, 5, 6, 3, 7
     ]
 
 
 def test_depth_first_transversal_start_value_not_in_graph(traverse):
-    """."""
+    """Test depth first transversal."""
     with pytest.raises(ValueError):
         traverse.depth_first_traversal(25)
 
 
 def test_depth_first_traversal_with_loop(loop):
-    """."""
+    """Test depth first transversal with a loop."""
     assert loop.depth_first_traversal(1) == [1, 2, 4, 5, 6, 3]
 
 
 def test_breadth_first_traversal(traverse):
-    """."""
+    """Test breadth first transversal."""
     assert traverse.breadth_first_traversal(1) == [1, 2, 3, 4, 5, 6]
 
 
 def test_breadth_first_transversal_more_complex(more_complex):
-    """."""
+    """Test more complex breadth first."""
     assert more_complex.breadth_first_traversal(1) == [
         1, 2, 3, 4, 5, 6, 7, 12
     ]
 
-#
+
 def test_breath_first_transversal_start_value_not_in_graph(more_complex):
-    """."""
+    """Test breadth first transversal start not in graph."""
     with pytest.raises(ValueError):
         more_complex.breadth_first_traversal(25)
 
 
 def test_breadth_first_traversal_with_loop(loop):
-    """."""
+    """Test breadth first transversal with a loop."""
     assert loop.breadth_first_traversal(1) == [1, 2, 3, 4, 5, 6]

@@ -1,6 +1,6 @@
 """Module test linked list."""
-from stack import Stack
 import pytest
+from stack import Stack
 
 
 @pytest.fixture
