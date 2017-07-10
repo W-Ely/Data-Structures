@@ -203,6 +203,33 @@ def test_remove_branch_from_root_of_trie(simple):
     assert 'd' not in simple
 
 
+def test_traverse_two_suffixes(simple):
+    """Test simple depth first."""
+    assert tuple(simple.traverse('a')) in (
+        ('ab', 'abc'),
+        ('abc', 'ab')
+    )
+
+
+def test_traverse_two_suffixes_comlete_word(simple):
+    """Test simple depth first."""
+    assert tuple(simple.traverse('ab')) in (
+        ('ab', 'abc'),
+        ('abc', 'ab')
+    )
+
+
+def test_traverse_one_suffix(simple):
+    """Test simple depth first."""
+    assert next(simple.traverse('d')) == 'def'
+
+
+def test_traverse_value_not_in_trie(simple):
+    """Test value not in trie."""
+    with pytest.raises(KeyError):
+        next(simple.traverse('test'))
+
+
 # ========== Short Test Fixture ============== @
 
 def populate_short_words():
@@ -293,33 +320,6 @@ def test_remove_random_words(large):
         assert large.size() == length
         with pytest.raises(KeyError):
             large.remove(word)
-
-
-def test_traverse_two_suffixes(simple):
-    """Test simple depth first."""
-    assert tuple(simple.traverse('a')) in (
-        ('ab', 'abc'),
-        ('abc', 'ab')
-    )
-
-
-def test_traverse_two_suffixes_comlete_word(simple):
-    """Test simple depth first."""
-    assert tuple(simple.traverse('ab')) in (
-        ('ab', 'abc'),
-        ('abc', 'ab')
-    )
-
-
-def test_traverse_one_suffix(simple):
-    """Test simple depth first."""
-    assert next(simple.traverse('d')) == 'def'
-
-
-def test_traverse_value_not_in_trie(simple):
-    """Test value not in trie."""
-    with pytest.raises(KeyError):
-        next(simple.traverse('test'))
 
 
 def test_depth_first_transversl_on_large_trie(large):
