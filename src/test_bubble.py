@@ -41,13 +41,6 @@ def test_bubble_sorts_short(short_list):
     assert result == short_list
 
 
-def test_bubble_sort_raises_exception_on_string_input(short_list):
-    """Test with some bad input."""
-    short_list.append('Not a Num')
-    with pytest.raises(ValueError):
-        bubble_sort(short_list)
-
-
 def test_bubble_sort_perfectly_backwards_list(sorted_list):
     """Test with sorted list."""
     result = bubble_sort(sorted_list)

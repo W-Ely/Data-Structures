@@ -6,16 +6,13 @@ def bubble_sort(numbers):
     idx = len(numbers) - 1
     for _ in range(idx):
         change = False
-        for i, x in enumerate(numbers[:-1]):
-            try:
-                if numbers[i] > numbers[i + 1]:
-                    temp = numbers[i]
-                    numbers[i], numbers[i + 1] = numbers[i + 1], temp
-                    if numbers[i + 1] is numbers[idx]:
-                        idx -= 1
-                    change = True
-            except TypeError:
-                raise ValueError("This doesn't bubble strings.")
+        for i, num in enumerate(numbers[:-1]):
+            if numbers[i] > numbers[i + 1]:
+                temp = numbers[i]
+                numbers[i], numbers[i + 1] = numbers[i + 1], temp
+                if numbers[i + 1] is numbers[idx]:
+                    idx -= 1
+                change = True
         if not change:
             return numbers
     return numbers
