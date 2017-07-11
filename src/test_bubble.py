@@ -69,6 +69,7 @@ def test_bubble_sorted_multiple_duplicates(short_list):
     short_list.sort()
     assert result == short_list
 
+
 def test_bubbles():
     """Another quick test."""
     sorted_list = [99, 22, 55, 4, 66, 87, 23, 11]
