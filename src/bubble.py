@@ -8,8 +8,7 @@ def bubble_sort(numbers):
         change = False
         for i, num in enumerate(numbers[:-1]):
             if numbers[i] > numbers[i + 1]:
-                temp = numbers[i]
-                numbers[i], numbers[i + 1] = numbers[i + 1], temp
+                numbers[i], numbers[i + 1] = numbers[i + 1], numbers[i]
                 if numbers[i + 1] is numbers[idx]:
                     idx -= 1
                 change = True
