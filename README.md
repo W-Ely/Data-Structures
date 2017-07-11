@@ -121,7 +121,7 @@ Bubble sort, sometimes referred to as sinking sort, is a simple sorting algorith
 
 ### Runing tests
 - single file where test_bbst.py is the file to run tests on. ```pytest src/test_bbst.py -v```
--
+
 - all files with coverage report ```py.test -v src/ --cov=src/ --cov-report term-missing```
--
+
 - to test both python 2.7 and 3.6 simply run: ```tox```
