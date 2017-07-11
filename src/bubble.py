@@ -5,15 +5,19 @@ def bubble_sort(numbers):
     """Bubble-Sort a list of numbers."""
     idx = len(numbers) - 1
     for _ in range(idx):
-        for i, x in enumerate(numbers[:idx]):
+        change = False
+        for i, x in enumerate(numbers[:-1]):
             try:
                 if numbers[i] > numbers[i + 1]:
                     temp = numbers[i]
                     numbers[i], numbers[i + 1] = numbers[i + 1], temp
                     if numbers[i + 1] is numbers[idx]:
                         idx -= 1
+                    change = True
             except TypeError:
                 raise ValueError("This doesn't bubble strings.")
+        if not change:
+            return numbers
     return numbers
 
 
@@ -31,6 +35,11 @@ if __name__ == '__main__':  # pragma: no cover
         'bubble_sort([randint(0, 1000) for x in range(100)][::-1])',
         "from __main__ import bubble_sort; from random import randint"
     )
+    print("""
+Bubble sort is a simple sorting algorithm that repeatedly steps through
+the list to be sorted, compares each pair of adjacent items and swaps
+them if they are in the wrong order.
+""")
     print("#================= best case search 10000x ==============#")
     print(best.timeit(number=1000))
     print('')

@@ -19,7 +19,7 @@ def sorted_list():
 @pytest.fixture
 def long_and_large():
     """Create long list."""
-    return [randint(-100, 100000) for _ in range(10000)]
+    return [randint(-100, 100000) for _ in range(1000)]
 
 
 def test_empty_list_returns_empty_list():
@@ -60,3 +60,17 @@ def test_bubble_sorted_perfectly_forward_list(sorted_list):
     result = bubble_sort(sorted_list[::-1])
     sorted_list.sort()
     assert result == sorted_list
+
+
+def test_bubble_sorted_multiple_duplicates(short_list):
+    """Tests best case."""
+    result = bubble_sort(short_list[::-1] + short_list)
+    short_list += short_list
+    short_list.sort()
+    assert result == short_list
+
+def test_bubbles():
+    """Another quick test."""
+    sorted_list = [99, 22, 55, 4, 66, 87, 23, 11]
+    sorted_list.sort()
+    assert bubble_sort([99, 22, 55, 4, 66, 87, 23, 11]) == sorted_list
