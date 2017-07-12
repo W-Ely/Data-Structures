@@ -94,6 +94,7 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 ## Merge Sort
 Merge sort is an efficient, general-purpose, comparison-based sorting algorithm. Most implementations produce a stable sort, which means that the implementation preserves the input order of equal elements in the sorted output. Merge sort is a divide and conquer algorithm.
 [Wikipedia](https://en.wikipedia.org/wiki/Merge_sort)
+[Inspiration from Vashishtha Jogi](https://gist.github.com/jvashishtha/2720700)
 - merge_sort(numbers) returns sorted list.
 - Timit used in if __name__ == "__main__": block comparing runtimes.
 - to run it:```python src/merge_sort.py```
