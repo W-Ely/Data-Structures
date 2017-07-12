@@ -91,6 +91,12 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - size(self): will return the total number of words contained within the trie. 0 if empty.
 - remove(self, string): will remove the given string from the trie. If the word doesn’t exist, will raise an appropriate exception.
 
+## Merge Sort
+Merge sort is an efficient, general-purpose, comparison-based sorting algorithm. Most implementations produce a stable sort, which means that the implementation preserves the input order of equal elements in the sorted output. Merge sort is a divide and conquer algorithm.
+[Wikipedia](https://en.wikipedia.org/wiki/Merge_sort)
+- merge_sort(numbers) returns sorted list.
+- Timit used in if __name__ == "__main__": block comparing runtimes.
+- to run it:```python src/merge_sort.py```
 
 # To install
 - clone repo with ssh or https
