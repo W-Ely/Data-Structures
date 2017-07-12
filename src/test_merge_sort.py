@@ -63,8 +63,14 @@ def test_merge_sorted_multiple_duplicates(short_list):
     assert result == short_list
 
 
-def test_bubbles():
+def test_merges():
     """Another quick test."""
     sorted_list = [99, 22, 55, 4, 66, 87, 23, 11]
     sorted_list.sort()
     assert merge_sort([99, 22, 55, 4, 66, 87, 23, 11]) == sorted_list
+
+
+def test_odd_list():
+    """Making sure the merge sort works with an odd list."""
+    numbers = [17, 11, 14, 99, 20]
+    assert merge_sort(numbers) == sorted(numbers)

@@ -39,18 +39,12 @@ if __name__ == '__main__':  # pragma: no cover
         'merge_sort([x for x in range(100)][::-1])',
         "from __main__ import merge_sort; from random import randint"
     )
-    random = Timer(
-        'merge_sort([randint(0, 1000) for x in range(100)][::-1])',
-        "from __main__ import merge_sort; from random import randint"
-    )
     print("""
+Merge sort is an efficient, general-purpose, comparison-based sorting algorithm. Most implementations produce a stable sort, which means that the implementation preserves the input order of equal elements in the sorted output. Merge sort is a divide and conquer algorithm.
 """)
     print("#================= best case search 10000x ==============#")
     print(best.timeit(number=1000))
     print('')
     print("#================= worse case search 10000x==============#")
-    print(worst.timeit(number=1000))
-    print('')
-    print("#================= random case search 10000x=============#")
     print(worst.timeit(number=1000))
     print('')
