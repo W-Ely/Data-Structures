@@ -26,10 +26,6 @@ if __name__ == '__main__':  # pragma: no cover
     worst = Timer(
         'bubble_sort([x for x in range(100)][::-1])',
         "from __main__ import bubble_sort; from random import randint"
-        )
-    random = Timer(
-        'bubble_sort([randint(0, 1000) for x in range(100)][::-1])',
-        "from __main__ import bubble_sort; from random import randint"
     )
     print("""
 Bubble sort is a simple sorting algorithm that repeatedly steps through
@@ -40,8 +36,5 @@ them if they are in the wrong order.
     print(best.timeit(number=1000))
     print('')
     print("#================= worse case search 10000x==============#")
-    print(worst.timeit(number=1000))
-    print('')
-    print("#================= random case search 10000x=============#")
     print(worst.timeit(number=1000))
     print('')
