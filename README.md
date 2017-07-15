@@ -99,6 +99,14 @@ Merge sort is an efficient, general-purpose, comparison-based sorting algorithm.
 - Timit used in if __name__ == "__main__": block comparing runtimes.
 - to run it:```python src/merge_sort.py```
 
+
+## Quick Sort
+Quicksort (sometimes called partition-exchange sort) is an efficient sorting algorithm, serving as a systematic method for placing the elements of an array in order.
+[Wikipedia](https://en.wikipedia.org/wiki/Quicksort)
+- quick_sort(numbers) returns sorted list.
+- Timit used in if __name__ == "__main__": block comparing runtimes.
+- to run it:```python src/quick_sort.py```
+
 # To install
 - clone repo with ssh or https
 
