@@ -70,6 +70,13 @@ def test_radixs():
     assert radix_sort([99, 22, 55, 4, 66, 87, 23, 11]) == sorted_list
 
 
+def test_radixs_0_1():
+    """Another radix test."""
+    sorted_list = [11, 1, 11, 11, 11, 11, 11]
+    sorted_list.sort()
+    assert radix_sort([11, 11, 11, 11, 11, 11, 1]) == sorted_list
+
+
 def test_odd_list():
     """Making sure the radix sort works with an odd list."""
     numbers = [17, 11, 14, 99, 20]
