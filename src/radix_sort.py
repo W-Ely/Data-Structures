@@ -11,10 +11,8 @@ def radix_sort(numbers):
             idx = int(num % modulus / divisor)
             container[idx].append(num)
         divisor, modulus = modulus, modulus * 10
-
         if len(container[0]) == len(numbers):
             return container[0]
-
         numbers = []
         for numerals in container:
             for num in numerals:

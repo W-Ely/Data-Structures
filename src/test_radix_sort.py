@@ -19,7 +19,7 @@ def sorted_list():
 @pytest.fixture
 def long_and_large():
     """Create long list."""
-    return [randint(-100, 100000) for _ in range(1000)]
+    return [randint(1, 100000) for _ in range(1000)]
 
 
 def test_empty_list_returns_empty_list():
