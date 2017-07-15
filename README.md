@@ -107,6 +107,14 @@ Quicksort (sometimes called partition-exchange sort) is an efficient sorting alg
 - Timit used in if __name__ == "__main__": block comparing runtimes.
 - to run it:```python src/quick_sort.py```
 
+
+## Radix sort
+In computer science, radix sort is a non-comparative integer sorting algorithm that sorts data with integer keys by grouping keys by the individual digits which share the same significant position and value. A positional notation is required, but because integers can represent strings of characters (e.g., names or dates) and specially formatted floating point numbers, radix sort is not limited to integers.
+[Wikipedia](https://en.wikipedia.org/wiki/Radix_sort)
+- radix_sort(numbers) returns sorted list.
+- Timit used in if __name__ == "__main__": block comparing runtimes.
+- to run it:```python src/radix_sort.py```
+
 # To install
 - clone repo with ssh or https
 
