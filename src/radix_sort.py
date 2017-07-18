@@ -6,12 +6,15 @@ def radix_sort(numbers):
     modulus = 10
     divisor = 1
     while True:
-        container = [[] for _ in range(10)]
+        keepgoing = False
+        container = [list() for _ in range(10)]
         for num in numbers:
             idx = int(num % modulus / divisor)
             container[idx].append(num)
+            if num >= modulus * 10:
+                keepgoing = True
         divisor, modulus = modulus, modulus * 10
-        if len(container[0]) == len(numbers):
+        if not keepgoing and len(container[0]) == len(numbers):
             return container[0]
         numbers = []
         for numerals in container:

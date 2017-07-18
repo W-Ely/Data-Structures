@@ -86,3 +86,8 @@ def test_odd_list():
 def test_single_item_in_list():
     """When there is only one value, what will it do."""
     assert radix_sort([1]) == [1]
+
+
+def test_all_zeros_in_ones_place():
+    """Handels zeros in ones place."""
+    assert radix_sort([110, 10, 20, 150]) == [10, 20, 110, 150]
