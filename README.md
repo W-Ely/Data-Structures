@@ -93,6 +93,9 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - word_traverse(start_string): depth-first traversal returning all of the words in the trie tree that start with start_string. Returns a generator. Big(O) - O(1)
 - treverse(start_string): depth-first traversal returning all of the characters in the trie tree that start with start_string. Returns a generator. Big(O) - O(1)
 
+
+# Sorting Examples
+
 ## Insertion Sort
 Insertion sort is a simple sorting algorithm that builds the final sorted array ist one item at a time. It is much less efficient on large lists than more advanced algorithms such as quicksort, heapsort, or merge sort.
 [Wikipedia](https://en.wikipedia.org/wiki/Insertion_sort)
@@ -108,7 +111,12 @@ Merge sort is an efficient, general-purpose, comparison-based sorting algorithm.
 - Timit used in if __name__ == "__main__": block comparing runtimes.
 - to run it:```python src/merge_sort.py```
 
-# Sorting Examples
+## Quick Sort
+Quicksort (sometimes called partition-exchange sort) is an efficient sorting algorithm, serving as a systematic method for placing the elements of an array in order.
+[Wikipedia](https://en.wikipedia.org/wiki/Quicksort)
+- quick_sort(numbers) returns sorted list.
+- Timit used in if __name__ == "__main__": block comparing runtimes.
+- to run it:```python src/quick_sort.py```
 
 ## Bubble
 
@@ -117,6 +125,7 @@ Bubble sort, sometimes referred to as sinking sort, is a simple sorting algorith
 - bubble_sort(numbers_list) returns sorted list.
 - Timit used in if __name__ == "__main__": block comparing runtimes.
 - to run it:````python src/bubble.py```
+
 
 # To install
 ### Clone repo with ssh or https
