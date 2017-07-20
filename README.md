@@ -1,4 +1,4 @@
-# Data Structures [![Build Status](https://travis-ci.org/Casey0Kane/data-structures.svg?branch=master)](https://travis-ci.org/Casey0Kane/data-structures)
+# Data Structures -# Data Structures [![Build Status](https://travis-ci.org/W-Ely/Data-Structures-Fork.svg?branch=master)](https://travis-ci.org/W-Ely/Data-Structures-Fork) [![Coverage Status](https://coveralls.io/repos/github/W-Ely/data-structures/badge.svg?branch=master)](https://coveralls.io/github/W-Ely/data-structures?branch=master)
 This will hold sample code for a number of classic data structures implemented in Python.
 
 ## Linked List
@@ -45,8 +45,8 @@ error if there is no values in the pqueue.
 - del_node(val): deletes the node containing ‘val’ from the graph; raises an error if no such node exists
 - del_edge(val1, val2): deletes the edge connecting ‘val1’ and ‘val2’ from the graph; raises an error if no such edge exists
 - has_node(val): True if node containing ‘val’ is contained in the graph, False if not.
-- neighbors(val): returns the list of all nodes connected to the node containing ‘val’ by edges; raises an error if val is not in g
-- adjacent(val1, val2): returns True if there is an edge connecting val1 and val2, False if not; raises an error if either of the supplied values are not in g
+- neighbors(val): returns the list of all nodes connected to the node containing ‘val’ by edges; raises an error if val is not in graph.
+- adjacent(val1, val2): returns True if there is an edge connecting val1 and val2, False if not; raises an error if either of the supplied values are not in graph.
 - depth_first_traversal(start_val): Perform a full depth-first traversal of the graph beginning at start_val. Return the full visited path when traversal is complete.
 - breadth_first_traversal(start_val): Perform a full breadth-first traversal of the graph, beginning at start_val. Return the full visited path when traversal is complete.
 
@@ -86,10 +86,22 @@ Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal
 - _hash(key) - should hash the key provided (note that this is an internal api)
 
 ## Trie
-- insert(self, string): will insert the input string into the trie. If character in the input string is already present, it will be ignored.
-- contains(self, string): will return True if the string is in the trie, False if not.
-- size(self): will return the total number of words contained within the trie. 0 if empty.
-- remove(self, string): will remove the given string from the trie. If the word doesn’t exist, will raise an appropriate exception.
+- insert(string): will insert the input string into the trie. If character in the input string is already present, it will be ignored. Big(O) - O(1)
+- contains(string): will return True if the string is in the trie, False if not. Big(O) - O(1)
+- size(): will return the total number of words contained within the trie. 0 if empty. Big(O) - O(1)
+- remove(string): will remove the given string from the trie. If the word doesn’t exist, will raise an appropriate exception. Big(O) - O(1)
+- word_traverse(start_string): depth-first traversal returning all of the words in the trie tree that start with start_string. Returns a generator. Big(O) - O(1)
+- treverse(start_string): depth-first traversal returning all of the characters in the trie tree that start with start_string. Returns a generator. Big(O) - O(1)
+
+
+# Sorting Examples
+
+## Insertion Sort
+Insertion sort is a simple sorting algorithm that builds the final sorted array ist one item at a time. It is much less efficient on large lists than more advanced algorithms such as quicksort, heapsort, or merge sort.
+[Wikipedia](https://en.wikipedia.org/wiki/Insertion_sort)
+- insertion_sort(numbers) returns sorted list.
+- Timit used in if __name__ == "__main__": block comparing runtimes.
+- to run it:```python src/insertion_sort.py```
 
 ## Merge Sort
 Merge sort is an efficient, general-purpose, comparison-based sorting algorithm. Most implementations produce a stable sort, which means that the implementation preserves the input order of equal elements in the sorted output. Merge sort is a divide and conquer algorithm.
@@ -99,14 +111,12 @@ Merge sort is an efficient, general-purpose, comparison-based sorting algorithm.
 - Timit used in if __name__ == "__main__": block comparing runtimes.
 - to run it:```python src/merge_sort.py```
 
-
 ## Quick Sort
 Quicksort (sometimes called partition-exchange sort) is an efficient sorting algorithm, serving as a systematic method for placing the elements of an array in order.
 [Wikipedia](https://en.wikipedia.org/wiki/Quicksort)
 - quick_sort(numbers) returns sorted list.
 - Timit used in if __name__ == "__main__": block comparing runtimes.
 - to run it:```python src/quick_sort.py```
-
 
 ## Radix sort
 In computer science, radix sort is a non-comparative integer sorting algorithm that sorts data with integer keys by grouping keys by the individual digits which share the same significant position and value. A positional notation is required, but because integers can represent strings of characters (e.g., names or dates) and specially formatted floating point numbers, radix sort is not limited to integers.
@@ -115,28 +125,32 @@ In computer science, radix sort is a non-comparative integer sorting algorithm t
 - Timit used in if __name__ == "__main__": block comparing runtimes.
 - to run it:```python src/radix_sort.py```
 
+## Bubble
+Bubble sort, sometimes referred to as sinking sort, is a simple sorting algorithm that repeatedly steps through the list to be sorted, compares each pair of adjacent items and swaps them if they are in the wrong order. The pass through the list is repeated until no swaps are needed, which indicates that the list is sorted. [Wikipedia](https://en.wikipedia.org/wiki/Bubble_sort)
+
+- bubble_sort(numbers_list) returns sorted list.
+- Timit used in if __name__ == "__main__": block comparing runtimes.
+- to run it:````python src/bubble.py```
+
+
 # To install
-- clone repo with ssh or https
+### Clone repo with ssh or https
 
-ssh:
-```git clone git@github.com:Casey0Kane/data-structures.git```
+- ssh: ```git clone git@github.com:Casey0Kane/data-structures.git```
 
-https:
-```git clone https://github.com/Casey0Kane/data-structures.git```
-- change into data-structures direrctoy
-```cd data-structures```
+- https: ```git clone https://github.com/Casey0Kane/data-structures.git```
 
-- install dependencies and/or those for testing
-without testing:
+- change into data-structures direrctoy ```cd data-structures```
 
-```pip install -e .```
-or with:
+### Install dependencies and/or those for testing
 
-```pip install -e .[testing]```
-## Runing tests
-- single file where test_bbst.py is the file to run tests on.
-```pytest src/test_bbst.py -v```
-- all files with coverage report
-```py.test -v src/ --cov=src/ --cov-report term-missing```
-- to test both python 2.7 and 3.6 simply run:
-```tox```
+- without testing: ```pip install -e .```
+
+- or with: ```pip install -e .[testing]```
+
+### Runing tests
+- single file where test_bbst.py is the file to run tests on. ```pytest src/test_bbst.py -v```
+
+- all files with coverage report ```py.test -v src/ --cov=src/ --cov-report term-missing```
+
+- to test both python 2.7 and 3.6 simply run: ```tox```
