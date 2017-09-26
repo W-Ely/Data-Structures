@@ -18,7 +18,6 @@ This will hold sample code for a number of classic data structures implemented i
 - pop() - Removes a value from the stack and returns that value. If the stack is empty, attempts to call pop should raise an appropriate Python exception with message.
 
 ## Doubly-Linked List
-
 - push(val) will insert the value val at the head of the list
 - append(val) will append the value val at the tail of the list
 - pop() will pop the first value off the head of the list and return it. Raises an exception with an appropriate message if there are no values to return.
@@ -26,7 +25,6 @@ This will hold sample code for a number of classic data structures implemented i
 - remove(val) will remove the first instance of val found in the list, starting from the head. If val is not present, it will raise an appropriate Python exception.
 
 ## Binary heap
-
 - push(val): puts a new value into the heap, maintaining the heap property.
 - pop(): removes the “top” value in the heap, maintaining the heap property.
 
@@ -37,7 +35,6 @@ error if there is no values in the pqueue.
 - peek(): Will take a look at the highest priority value in the pqueue but will not return it.
 
 ## Graph
-
 - nodes(): return a list of all nodes in the graph
 - edges(): return a list of all edges in the graph
 - add_node(val): adds a new node with value ‘n’ to the graph
@@ -54,30 +51,33 @@ error if there is no values in the pqueue.
 Should return examples of both depth and breadth transversal
 
 ## Weighted Graph
-
 - adds weights to each route of the graph.
 
 ## Binary Search Tree (BST)
+- insert(val): will insert the value val into the BST. If val is already present, it will be ignored.
+- search(val): will return the node containing that value, else None
+- size(): will return the integer size of the BST (equal to the total number of values stored in the tree). It will return 0 if the tree is empty.
+- depth(): will return an integer representing the total number of levels in the tree. If there are no values, depth is 0, if one value the depth should be 1, if two values it will be 2, if three values it may be 2 or 3, depending, etc.
+- contains(val): will return True if val is in the BST, False if not.
+- balance(): will return an integer, positive or negative that represents how well balanced the tree is. Trees which are higher on the left than the right should return a positive value, trees which are higher on the right than the left should return a negative value. An ideally-balanced tree should return 0.
+- delete(val): remove val from the tree if present, if not present this method is a no-op. Return None in all cases.
 
-- insert(self, val): will insert the value val into the BST. If val is already present, it will be ignored.
-- search(self, val): will return the node containing that value, else None
-- size(self): will return the integer size of the BST (equal to the total number of values stored in the tree). It will return 0 if the tree is empty.
-- depth(self): will return an integer representing the total number of levels in the tree. If there are no values, depth is 0, if one value the depth should be 1, if two values it will be 2, if three values it may be 2 or 3, depending, etc.
-- contains(self, val): will return True if val is in the BST, False if not.
-- balance(self): will return an integer, positive or negative that represents how well balanced the tree is. Trees which are higher on the left than the right should return a positive value, trees which are higher on the right than the left should return a negative value. An ideally-balanced tree should return 0.
-- delete(self, val): remove val from the tree if present, if not present this method is a no-op. Return None in all cases.
-
-Transversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal)
-- in_order(self): will return a generator that will return the values in the tree using in-order traversal, one at a time.
-- pre_order(self): will return a generator that will return the values in the tree using pre-order traversal, one at a time.
-- post_order(self): will return a generator that will return the values in the tree using post_order traversal, one at a time.
-- breadth_first(self): will return a generator that will return the values in the tree using breadth-first traversal, one at a time.
+Traversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal)
+- in_order(): will return a generator that will return the values in the tree using in-order traversal, one at a time.
+- pre_order(): will return a generator that will return the values in the tree using pre-order traversal, one at a time.
+- post_order(): will return a generator that will return the values in the tree using post_order traversal, one at a time.
+- breadth_first(): will return a generator that will return the values in the tree using breadth-first traversal, one at a time.
 
 ## AVL Tree (self balancing - bbst)
 - all the same properties of the bst above but added auto balancing. Search, should always be logN.
 ### Related reading and inspiration
 - [Tim Rijavec's how-to-implement-avl-tree-in-python](http://blog.coder.si/2014/02/how-to-implement-avl-tree-in-python.html)
 - [Geeks for geeks - avl-tree-set-2-deletion](http://www.geeksforgeeks.org/avl-tree-set-2-deletion/)
+
+## Binary Expression Tree (bet)
+- take a string expression written in postfix form "ab+cdf+**" as a parameter.
+- traverse(): will return the expression in string form "(a+b)*(c*(d+f))".
+- evaluate(): evaluates the expression tree returning the calculated results.
 
 ## Hash Table
 - this implementation takes a size and an optional hashing function as parameters. It uses a addative hashing function by default. Very sub optimal. The file also has a better custom hashing function included - optimus_prime_hash.
