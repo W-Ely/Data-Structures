@@ -75,7 +75,7 @@ Traversals on the BST [Wikipedia](https://en.wikipedia.org/wiki/Tree_traversal)
 - [Geeks for geeks - avl-tree-set-2-deletion](http://www.geeksforgeeks.org/avl-tree-set-2-deletion/)
 
 ## Binary Expression Tree (bet)
-- take a string expression written in postfix form "ab+cdf+**" as a parameter.
+- take a string expression written in postfix form "(a+b)*(c*(d+f))" as a parameter.
 - traverse(): will return the expression in string form "(a+b)*(c*(d+f))".
 - evaluate(): evaluates the expression tree returning the calculated results.
 
